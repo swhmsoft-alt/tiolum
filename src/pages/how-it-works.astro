@@ -1,0 +1,293 @@
+---
+/**
+ * /how-it-works/ — the closed-loop process page.
+ *
+ * Eight steps from drawing to repeat order. Every step states three things:
+ * what the customer provides, what we do, what document the customer receives.
+ * The step content lives in src/lib/workflow.ts so the page and the data can
+ * never drift apart.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CAPABILITIES } from '../lib/capabilities';
+import { PROCESS_STEPS } from '../lib/workflow';
+import { breadcrumbSchema, serviceSchema } from '../lib/schema';
+
+const title = 'How It Works';
+const description =
+  'The complete order loop for titanium CNC machining — what you provide, what we do, and what document you receive at each of the eight steps from drawing upload to repeat order.';
+
+const jsonLd = [
+  serviceSchema(),
+  breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'How It Works', path: '/how-it-works/' }]),
+];
+
+const columns = [
+  { key: 'youProvide', heading: 'You provide', accent: 'text-ink-950' },
+  { key: 'weDo', heading: 'We do', accent: 'text-ti-700' },
+  { key: 'youReceive', heading: 'You receive', accent: 'text-ink-950' },
+] as const;
+
+const loopNote =
+  'Step 8 feeds step 1. The archived drawing, material certificate and inspection record become the input of the next order, so a repeat order skips the engineering review and starts from a known-good specification.';
+---
+
+<BaseLayout title={title} description={description} path="/how-it-works/" jsonLd={jsonLd}>
+  <!-- Page header -->
+  <section class="border-b border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <p class="eyebrow">Process</p>
+      <h1 class="mt-3 max-w-3xl text-3xl md:text-4xl">{title}</h1>
+      <p class="mt-4 max-w-2xl text-base leading-relaxed text-ink-600">
+        From drawing to delivered part — what you provide, what we do, and what you receive.
+      </p>
+    </div>
+  </section>
+
+  <!-- Loop overview -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">The Complete Loop</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      Eight steps, in order. Each one ends with a document, so you always know what the next step starts from
+      and what you will have in your hands when it ends.
+    </p>
+
+    <ol class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        PROCESS_STEPS.map((step) => (
+          <li class="card relative p-5">
+            <div class="flex items-center gap-3">
+              <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-ti-50 text-sm font-bold text-ti-700">
+                {step.n}
+              </span>
+              <span class="font-semibold text-ink-950">{step.stage}</span>
+            </div>
+            <p class="mt-3 text-sm leading-relaxed text-ink-600">{step.output}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="mt-6 flex items-start gap-3 border-l-2 border-ti-600 bg-ti-50 px-4 py-4">
+      <span class="text-sm font-semibold text-ti-700">Closed loop</span>
+      <p class="text-sm leading-relaxed text-ink-700">{loopNote}</p>
+    </div>
+  </section>
+
+  <!-- Step detail -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <h2 class="text-2xl">Step by Step</h2>
+      <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+        For every step: what we need from you, what we take responsibility for, and the output you receive.
+      </p>
+
+      <div class="mt-8 flex flex-col gap-6">
+        {
+          PROCESS_STEPS.map((step) => (
+            <article class="card p-6">
+              <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-ink-950 text-sm font-bold text-white">
+                  {step.n}
+                </span>
+                <h3 class="text-xl">{step.stage}</h3>
+              </div>
+              <p class="mt-2 max-w-3xl text-sm leading-relaxed text-ink-600">{step.purpose}</p>
+
+              <div class="mt-5 grid gap-6 lg:grid-cols-3">
+                {columns.map((col) => (
+                  <div>
+                    <h4 class="text-[11px] font-bold uppercase tracking-wider text-ink-500">{col.heading}</h4>
+                    <ul class="mt-3 flex flex-col gap-2">
+                      {step[col.key].map((item) => (
+                        <li class="flex gap-2.5 text-sm leading-relaxed text-ink-700">
+                          <span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-ink-300" aria-hidden="true" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+
+              <p class="mt-5 border-t border-ink-100 pt-4 text-sm">
+                <span class="font-semibold text-ink-950">Output: </span>
+                <span class="text-ink-600">{step.output}</span>
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Timing expectations -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">What to Expect, and When</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      Two clocks, kept separate: how long we take to answer you, and how long the parts take to be made once the
+      order is confirmed. Manufacturing time depends on batch size.
+    </p>
+
+    <div class="mt-8 grid gap-8 lg:grid-cols-2">
+      <div>
+        <h3 class="text-lg">Our response</h3>
+        <div class="mt-4 overflow-x-auto">
+          <table class="data-table">
+            <caption class="sr-only">Titolum response times</caption>
+            <thead>
+              <tr>
+                <th scope="col">Step</th>
+                <th scope="col">Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                CAPABILITIES.responseTimes.map((row) => (
+                  <tr>
+                    <th scope="row">{row.step}</th>
+                    <td>{row.time}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-lg">Manufacturing time at the supplier</h3>
+        <div class="mt-4 overflow-x-auto">
+          <table class="data-table">
+            <caption class="sr-only">Supplier manufacturing lead times by batch size</caption>
+            <thead>
+              <tr>
+                <th scope="col">Batch size</th>
+                <th scope="col">Typical duration</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                CAPABILITIES.leadTimes.map((row) => (
+                  <tr>
+                    <th scope="row">{row.batch}</th>
+                    <td>{row.days}</td>
+                  </tr>
+                ))
+              }
+              <tr>
+                <th scope="row">Surface finishing</th>
+                <td>Adds {CAPABILITIES.finishingAddOn}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <p class="mt-5 text-sm leading-relaxed text-ink-600">
+      Every quotation carries a specific committed date. Repeat orders and small batches are quoted separately,
+      because the archived specification usually shortens both the review and the manufacturing time.
+    </p>
+  </section>
+
+  <!-- Confidentiality -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <h2 class="text-2xl">Drawing Confidentiality</h2>
+      <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+        We do not forward your drawing to any supplier without a mutual NDA in place. Internal review happens
+        first. If you request an NDA at RFQ stage, we send it before any supplier sees the file.
+      </p>
+      <ul class="mt-6 grid gap-4 sm:grid-cols-2">
+        <li class="card flex items-start gap-3 p-5">
+          <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ti-50 text-[11px] font-bold text-ti-700">
+            ✓
+          </span>
+          <span class="text-sm leading-relaxed text-ink-800">
+            Supplier identities are never disclosed. The customer relationship stays with us.
+          </span>
+        </li>
+        <li class="card flex items-start gap-3 p-5">
+          <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ti-50 text-[11px] font-bold text-ti-700">
+            ✓
+          </span>
+          <span class="text-sm leading-relaxed text-ink-800">
+            Your drawing, drawing record and inspection documents are archived under our reference, not theirs.
+          </span>
+        </li>
+        <li class="card flex items-start gap-3 p-5">
+          <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ti-50 text-[11px] font-bold text-ti-700">
+            ✓
+          </span>
+          <span class="text-sm leading-relaxed text-ink-800">
+            No supplier receives the file during engineering review, matching or quotation.
+          </span>
+        </li>
+        <li class="card flex items-start gap-3 p-5">
+          <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ti-50 text-[11px] font-bold text-ti-700">
+            ✓
+          </span>
+          <span class="text-sm leading-relaxed text-ink-800">
+            A mutual NDA can be issued before the drawing is released for supplier review.
+          </span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Repeat order -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">Ordering Again Is the Point</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      The first order is engineering work. The second order is a lookup. The drawing revision, the material
+      certificate and the inspection record are already on file, so the repeat quotation comes back faster and
+      the inspection plan is already known.
+    </p>
+    <div class="mt-8 grid gap-5 md:grid-cols-3">
+      <div class="card p-5">
+        <h3 class="text-base">You send the order reference</h3>
+        <p class="mt-2 text-sm leading-relaxed text-ink-600">
+          The drawing number or order number from the previous delivery, plus the new quantity.
+        </p>
+      </div>
+      <div class="card p-5">
+        <h3 class="text-base">We pull the archived record</h3>
+        <p class="mt-2 text-sm leading-relaxed text-ink-600">
+          Released drawing, material certificate, inspection plan and measured results — the exact state that was
+          shipped.
+        </p>
+      </div>
+      <div class="card p-5">
+        <h3 class="text-base">You get a fast-track quotation</h3>
+        <p class="mt-2 text-sm leading-relaxed text-ink-600">
+          Same specification, updated lead time, and a clear statement if a drawing revision requires a new
+          first article.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing CTA -->
+  <section class="border-t border-ink-200 bg-ink-950">
+    <div class="container-page py-14">
+      <h2 class="text-2xl text-white">Start at Step 1</h2>
+      <p class="mt-3 max-w-2xl leading-relaxed text-ink-300">
+        Send the drawing and we will confirm feasibility and scope before any quotation is issued.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href="/rfq/"
+          class="rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-ink-950 transition-colors hover:bg-ink-100"
+        >
+          Upload Drawing
+        </a>
+        <a
+          href="/capabilities/"
+          class="rounded-md border border-ink-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ink-800"
+        >
+          Check Machining Scope
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

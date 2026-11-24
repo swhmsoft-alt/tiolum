@@ -1,0 +1,71 @@
+---
+/**
+ * /thank-you/ — confirmation after a successful RFQ submission.
+ *
+ * Always noindex: it is a transaction endpoint, not a landing page.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CAPABILITIES } from '../lib/capabilities';
+
+const title = 'Drawing Received';
+const description =
+  'We have received your drawing submission and will reply within one business day with an engineering review and, if it fits our scope, a quotation.';
+---
+
+<BaseLayout title={title} description={description} path="/thank-you/" noindex>
+  <section class="container-page py-20">
+    <div class="mx-auto max-w-2xl">
+      <p class="eyebrow">Submission Received</p>
+      <h1 class="mt-3 text-3xl md:text-4xl">{title}</h1>
+      <p class="mt-4 text-base leading-relaxed text-ink-600">
+        Thank you. We have received your submission and will reply within one business day.
+      </p>
+
+      <h2 class="mt-12 text-xl">What happens next</h2>
+      <ol class="mt-5 flex flex-col gap-4">
+        <li class="border-l-2 border-ti-500 pl-4">
+          <span class="font-semibold text-ink-950">Internal engineering review of the drawing.</span>
+          <p class="mt-1 text-sm leading-relaxed text-ink-600">
+            We check manufacturability internally. No supplier sees your file at this stage.
+          </p>
+        </li>
+        <li class="border-l-2 border-ti-500 pl-4">
+          <span class="font-semibold text-ink-950">
+            Scope confirmation: 3-axis / 4-axis, {CAPABILITIES.tolerance}, material and finishing.
+          </span>
+          <p class="mt-1 text-sm leading-relaxed text-ink-600">
+            If you requested a mutual NDA, we send it before any supplier sees the drawing.
+          </p>
+        </li>
+        <li class="border-l-2 border-ti-500 pl-4">
+          <span class="font-semibold text-ink-950">If in scope: dual-source quotation.</span>
+          <p class="mt-1 text-sm leading-relaxed text-ink-600">
+            Two qualified suppliers quote independently; you receive one consolidated offer with a committed
+            lead time.
+          </p>
+        </li>
+        <li class="border-l-2 border-ti-500 pl-4">
+          <span class="font-semibold text-ink-950">If out of scope: a clear explanation, not a silent decline.</span>
+          <p class="mt-1 text-sm leading-relaxed text-ink-600">
+            We tell you what is outside our range and, where possible, which process category fits.
+          </p>
+        </li>
+      </ol>
+
+      <div class="mt-12 flex flex-wrap gap-3">
+        <a
+          href="/capabilities/"
+          class="rounded-md bg-ti-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ti-600"
+        >
+          Back to Capabilities
+        </a>
+        <a
+          href="/how-it-works/"
+          class="rounded-md border border-ink-300 px-5 py-2.5 text-sm font-semibold text-ink-800 transition-colors hover:bg-ink-50"
+        >
+          How It Works
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

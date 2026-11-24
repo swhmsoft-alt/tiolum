@@ -1,0 +1,129 @@
+---
+/**
+ * /about/ — positioning page.
+ *
+ * States plainly what we control and what we are not. No factory claims,
+ * no invented credentials, no client names.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { BRAND } from '../lib/brand';
+import { breadcrumbSchema, organizationSchema } from '../lib/schema';
+
+const title = 'About Us';
+const description =
+  'We coordinate a qualified network of titanium CNC machining suppliers in Baoji, China — controlling engineering review, dual-source quotation, inspection coordination and export delivery.';
+
+const jsonLd = [
+  organizationSchema(),
+  breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'About', path: '/about/' }]),
+];
+
+const controls = [
+  {
+    title: 'Demand intake',
+    detail: 'We screen incoming drawings for real fit, not volume.',
+  },
+  {
+    title: 'Technical review',
+    detail: 'We read the drawing and confirm scope before quoting.',
+  },
+  {
+    title: 'Supply chain coordination',
+    detail: 'At least two qualified suppliers per quotation.',
+  },
+  {
+    title: 'Customer and transaction ownership',
+    detail:
+      'Drawing records, inspection documents and repeat orders stay with us, not with the factory.',
+  },
+] as const;
+
+const notList = [
+  'We are not a factory.',
+  'We are not a catalog of standard titanium parts.',
+  'We are not a broker who forwards drawings and disappears.',
+  'We do not quote parts outside 3-axis / 4-axis scope.',
+] as const;
+---
+
+<BaseLayout title={title} description={description} path="/about/" jsonLd={jsonLd}>
+  <!-- Page header -->
+  <section class="border-b border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <p class="eyebrow">About</p>
+      <h1 class="mt-3 max-w-3xl text-3xl md:text-4xl">About {BRAND.name}</h1>
+      <p class="mt-4 max-w-2xl text-base leading-relaxed text-ink-600">
+        We coordinate titanium CNC machining supply — we do not own machines.
+      </p>
+    </div>
+  </section>
+
+  <!-- Positioning -->
+  <section class="container-page py-14">
+    <p class="max-w-3xl text-lg leading-relaxed text-ink-800">
+      We coordinate a qualified network of titanium CNC machining suppliers in Baoji, China. We control
+      engineering review, dual-source quotation, inspection coordination, export delivery, and the customer
+      relationship. We do not own machining equipment — we own the process between your drawing and the
+      delivered part.
+    </p>
+  </section>
+
+  <!-- What we control -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <h2 class="text-2xl">What We Control</h2>
+      <ol class="mt-8 grid gap-5 md:grid-cols-2">
+        {
+          controls.map((item, index) => (
+            <li class="card p-6">
+              <span class="grid h-8 w-8 place-items-center rounded-full bg-ti-50 text-sm font-bold text-ti-700">
+                {index + 1}
+              </span>
+              <h3 class="mt-4 text-lg">{item.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-600">{item.detail}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- What we are not -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">What We Are Not</h2>
+    <ul class="mt-6 flex flex-col gap-3">
+      {
+        notList.map((item) => (
+          <li class="flex items-start gap-3 border-l-2 border-ink-300 bg-ink-50 px-4 py-3 text-sm leading-relaxed text-ink-700">
+            <span class="font-semibold text-ink-950">—</span>
+            {item}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- Closing CTA -->
+  <section class="border-t border-ink-200 bg-ink-950">
+    <div class="container-page py-14">
+      <h2 class="text-2xl text-white">Start With a Drawing</h2>
+      <p class="mt-3 max-w-2xl leading-relaxed text-ink-300">
+        Tell us what you need machined. We will confirm scope, then quote from two qualified suppliers.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href="/rfq/"
+          class="rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-ink-950 transition-colors hover:bg-ink-100"
+        >
+          Upload Drawing
+        </a>
+        <a
+          href="/capabilities/"
+          class="rounded-md border border-ink-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ink-800"
+        >
+          Review Machining Capabilities
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

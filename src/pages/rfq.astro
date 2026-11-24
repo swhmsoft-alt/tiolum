@@ -1,0 +1,203 @@
+---
+/**
+ * /rfq/ — the conversion core of the site.
+ *
+ * Submits to Formspree (https://formspree.io/f/mqpqwypo) as a plain HTML
+ * form with multipart encoding so the drawing file travels with the
+ * submission. No AJAX, no upload progress — the MVP path.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CAPABILITIES } from '../lib/capabilities';
+import { BRAND } from '../lib/brand';
+
+const title = 'Upload Your Drawing';
+const description =
+  'Send a 2D PDF or 3D STEP file for a manufacturability review. We review it internally, confirm whether it fits 3-axis / 4-axis scope, and reply within one business day.';
+
+const FORMSPREE_ACTION = 'https://formspree.io/f/mqpqwypo';
+
+const materialOptions = [...CAPABILITIES.materials, 'Not sure'];
+const finishingOptions = [...CAPABILITIES.finishing, 'Not specified'];
+
+const inputClass =
+  'mt-2 block w-full rounded-md border border-ink-200 bg-white px-3 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 focus:border-ti-600 focus:outline-none focus:ring-2 focus:ring-ti-100';
+const labelClass = 'block text-sm font-semibold text-ink-950';
+const hintClass = 'mt-1.5 text-xs leading-relaxed text-ink-500';
+---
+
+<BaseLayout title={title} description={description} path="/rfq/">
+  <!-- Page header -->
+  <section class="border-b border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <p class="eyebrow">Request for Quotation</p>
+      <h1 class="mt-3 max-w-3xl text-3xl md:text-4xl">{title}</h1>
+      <p class="mt-4 max-w-2xl text-base leading-relaxed text-ink-600">
+        Send a 2D PDF or 3D STEP file. We review it internally before any supplier sees it, confirm whether it
+        fits 3-axis / 4-axis scope, and reply within one business day.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-page py-14">
+    <div class="grid gap-12 lg:grid-cols-[1.6fr_1fr]">
+      <!-- Form -->
+      <div>
+        <!-- Three mandatory statements, verbatim from the content document. -->
+        <ul class="flex flex-col gap-2.5 border-l-2 border-ti-500 bg-ti-50 px-5 py-4 text-sm leading-relaxed text-ink-700">
+          <li>Files are reviewed internally before any supplier sees them.</li>
+          <li>We will confirm feasibility and scope before quoting.</li>
+          <li>Complex parts outside 3/4-axis scope will be declined honestly.</li>
+        </ul>
+
+        <form
+          class="mt-8 flex flex-col gap-6"
+          action={FORMSPREE_ACTION}
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <input type="hidden" name="_next" value={`${BRAND.url}/thank-you/`} />
+          <input type="hidden" name="_subject" value="New drawing enquiry — Titolum RFQ" />
+          <!-- Honeypot: real users never see this field. -->
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+          <div class="grid gap-6 sm:grid-cols-2">
+            <div>
+              <label class={labelClass} for="name">Name <span class="text-warn-600">*</span></label>
+              <input class={inputClass} id="name" name="name" type="text" required autocomplete="name" />
+            </div>
+            <div>
+              <label class={labelClass} for="company">Company <span class="text-warn-600">*</span></label>
+              <input class={inputClass} id="company" name="company" type="text" required autocomplete="organization" />
+            </div>
+            <div>
+              <label class={labelClass} for="email">Email <span class="text-warn-600">*</span></label>
+              <input class={inputClass} id="email" name="email" type="email" required autocomplete="email" />
+            </div>
+            <div>
+              <label class={labelClass} for="country">Country <span class="text-warn-600">*</span></label>
+              <input class={inputClass} id="country" name="country" type="text" required autocomplete="country-name" />
+            </div>
+          </div>
+
+          <div>
+            <label class={labelClass} for="drawing">Upload drawing (optional at this stage)</label>
+            <input
+              class={inputClass}
+              id="drawing"
+              name="drawing"
+              type="file"
+              accept=".pdf,.step,.stp,.stl,.dwg,.dxf,.iges,.igs"
+            />
+            <p class={hintClass}>Accepted formats: PDF, STEP, DWG, IGES.</p>
+            <p class={hintClass}>
+              If the drawing exceeds the upload limit, submit the form without the file and we will reply with a
+              secure upload link.
+            </p>
+          </div>
+
+          <div class="grid gap-6 sm:grid-cols-2">
+            <div>
+              <label class={labelClass} for="material">Material grade</label>
+              <select class={inputClass} id="material" name="material">
+                {materialOptions.map((option) => <option value={option}>{option}</option>)}
+              </select>
+            </div>
+            <div>
+              <label class={labelClass} for="quantity">Quantity <span class="text-warn-600">*</span></label>
+              <input class={inputClass} id="quantity" name="quantity" type="number" min="1" step="1" required />
+            </div>
+            <div>
+              <label class={labelClass} for="tolerance">Tolerance requirement</label>
+              <input
+                class={inputClass}
+                id="tolerance"
+                name="tolerance"
+                type="text"
+                placeholder={`e.g. ${CAPABILITIES.tolerance}`}
+              />
+            </div>
+            <div>
+              <label class={labelClass} for="finishing">Surface finishing</label>
+              <select class={inputClass} id="finishing" name="finishing">
+                {finishingOptions.map((option) => <option value={option}>{option}</option>)}
+              </select>
+            </div>
+            <div>
+              <label class={labelClass} for="application">Application / industry</label>
+              <input class={inputClass} id="application" name="application" type="text" />
+            </div>
+            <div>
+              <label class={labelClass} for="delivery">Target delivery date</label>
+              <input class={inputClass} id="delivery" name="delivery" type="date" />
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <input
+              class="mt-0.5 h-4 w-4 rounded border-ink-300 text-ti-700 focus:ring-ti-500"
+              id="nda"
+              name="nda"
+              type="checkbox"
+              value="Yes"
+            />
+            <label class="text-sm leading-relaxed text-ink-700" for="nda">
+              Send me a mutual NDA before any supplier sees the drawing
+            </label>
+          </div>
+
+          <div>
+            <label class={labelClass} for="message">Message</label>
+            <textarea class={`${inputClass} min-h-32`} id="message" name="message" rows="5"></textarea>
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              class="rounded-md bg-ti-700 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-ti-600"
+            >
+              Submit Drawing for Review
+            </button>
+            <p class={hintClass}>
+              Required fields are marked *. We reply within one business day.
+            </p>
+          </div>
+        </form>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="flex flex-col gap-8">
+        <div class="card p-6">
+          <h2 class="text-lg">What happens next</h2>
+          <ol class="mt-4 flex flex-col gap-3 text-sm leading-relaxed text-ink-600">
+            <li><span class="font-semibold text-ink-950">1.</span> We review the drawing internally.</li>
+            <li>
+              <span class="font-semibold text-ink-950">2.</span> If it fits our scope, we quote from two
+              qualified suppliers.
+            </li>
+            <li><span class="font-semibold text-ink-950">3.</span> If it does not, we tell you why — clearly and quickly.</li>
+          </ol>
+        </div>
+
+        <div class="card p-6">
+          <h2 class="text-lg">Not sure it fits?</h2>
+          <p class="mt-3 text-sm leading-relaxed text-ink-600">
+            Check the scope table and the explicit "what we do not machine" list before you send the drawing.
+          </p>
+          <a
+            href="/capabilities/"
+            class="mt-4 inline-block rounded-md border border-ink-300 px-4 py-2 text-sm font-semibold text-ink-800 transition-colors hover:bg-ink-50"
+          >
+            Review Machining Capabilities
+          </a>
+        </div>
+
+        <div class="border-l-2 border-ink-200 pl-4">
+          <h2 class="text-sm font-bold uppercase tracking-wider text-ink-500">Direct contact</h2>
+          <p class="mt-2 text-sm text-ink-600">
+            <a class="text-ti-700 underline underline-offset-2" href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
+          </p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>

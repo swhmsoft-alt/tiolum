@@ -1,0 +1,326 @@
+---
+/**
+ * /parts/[slug]/ — 零件族页（6 个族共用一套结构）。
+ *
+ * 结构固定：示意图 → 典型特征 → 适用材料与公差 → 常见后处理 →
+ * 批量与交期 → 质检文件 → 重复采购场景 → CTA。
+ *
+ * 规则：
+ * - 不出现价格、库存、SKU 编号、现货交期。
+ * - 能力数字全部从 CAPABILITIES 引用，零件族文案从 src/lib/parts.ts 引用。
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PartSchematic from '../../components/PartSchematic.astro';
+import { CAPABILITIES } from '../../lib/capabilities';
+import { PART_FAMILIES } from '../../lib/parts';
+import { getCaseStudyByFamily } from '../../lib/caseStudies';
+import { breadcrumbSchema } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return PART_FAMILIES.map((family) => ({
+    params: { slug: family.slug },
+    props: { family },
+  }));
+}
+
+const { family } = Astro.props;
+
+const title = `${family.title} — Custom Machined to Drawing`;
+const description = `${family.shortDescription} Machined in titanium within 3-axis / 4-axis scope at ${CAPABILITIES.tolerance}. Materials, finishing, batch sizes, inspection documents and repeat-order scenarios.`;
+
+const path = `/parts/${family.slug}/`;
+
+const jsonLd = [
+  breadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Parts', path: '/parts/' },
+    { name: family.name, path },
+  ]),
+];
+
+const others = PART_FAMILIES.filter((item) => item.slug !== family.slug);
+const relatedCase = getCaseStudyByFamily(family.slug);
+---
+
+<BaseLayout title={title} description={description} path={path} jsonLd={jsonLd}>
+  <!-- Header -->
+  <section class="border-b border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <nav aria-label="Breadcrumb" class="text-sm text-ink-500">
+        <ol class="flex flex-wrap items-center gap-2">
+          <li><a href="/" class="hover:text-ti-700">Home</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="/parts/" class="hover:text-ti-700">Parts</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="text-ink-700" aria-current="page">{family.name}</li>
+        </ol>
+      </nav>
+      <p class="eyebrow mt-5">Part Family</p>
+      <h1 class="mt-3 max-w-3xl text-3xl md:text-4xl">{title}</h1>
+      <p class="mt-4 max-w-2xl text-base leading-relaxed text-ink-600">
+        Custom {family.name.toLowerCase()} machined from titanium within {CAPABILITIES.processes.join(' / ')} scope at {CAPABILITIES.tolerance}.
+      </p>
+    </div>
+  </section>
+
+  <!-- Schematic + typical features -->
+  <section class="container-page py-14">
+    <div class="grid gap-10 lg:grid-cols-2 lg:items-start">
+      <PartSchematic slug={family.slug} label={`Schematic of typical ${family.name.toLowerCase()} geometry`} />
+
+      <div>
+        <h2 class="text-2xl">Typical Features</h2>
+        <p class="mt-3 leading-relaxed text-ink-600">{family.shortDescription}</p>
+        <ul class="mt-5 flex flex-col gap-2.5 text-sm leading-relaxed text-ink-700">
+          {family.typicalFeatures.map((feature) => (
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ti-50 text-[11px] font-bold text-ti-700">✓</span>
+              {feature}
+            </li>
+          ))}
+        </ul>
+
+        <h3 class="mt-8 text-lg">Reference Structures</h3>
+        <p class="mt-2 text-sm leading-relaxed text-ink-600">
+          Typical geometry in this family. These describe the shape, not a stocked part — dimensions, tolerances and
+          quantities follow your drawing.
+        </p>
+        <ul class="mt-4 flex flex-col gap-2 text-sm text-ink-700">
+          {family.referenceStructure.map((item) => (
+            <li class="border-l-2 border-ink-200 pl-3">{item}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+  <!-- Material, tolerance & finishing -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <h2 class="text-2xl">Material, Tolerance &amp; Finishing</h2>
+      <div class="mt-8 overflow-x-auto">
+        <table class="data-table">
+          <caption class="sr-only">Materials, tolerance and finishing for {family.name}</caption>
+          <thead>
+            <tr>
+              <th scope="col">Item</th>
+              <th scope="col">Specification</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Materials</th>
+              <td>
+                {CAPABILITIES.materials.join(', ')}
+                <span class="mt-1 block text-sm text-ink-500">Grade is quoted against the standard you specify on the drawing.</span>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Tolerance</th>
+              <td>
+                {CAPABILITIES.tolerance}
+                <span class="mt-1 block text-sm text-ink-500">{family.toleranceNote}</span>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Finishing</th>
+              <td>
+                {CAPABILITIES.finishing.join(', ')}
+                <span class="mt-1 block text-sm text-ink-500">{family.finishingNote}</span>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Finishing lead time</th>
+              <td class="text-ink-600">Adds {CAPABILITIES.finishingAddOn}.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Batch & lead time -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">Batch &amp; Lead Time</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      Batch range: {CAPABILITIES.batchRange}. Manufacturing time below is the time at the supplier once the order is
+      confirmed; our own review and quotation time is quoted separately.
+    </p>
+
+    <div class="mt-8 overflow-x-auto">
+      <table class="data-table">
+        <caption class="sr-only">Lead time by batch size</caption>
+        <thead>
+          <tr>
+            <th scope="col">Batch size</th>
+            <th scope="col">Typical duration</th>
+            <th scope="col">Driver</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            CAPABILITIES.leadTimes.map((row) => (
+              <tr>
+                <th scope="row">{row.batch}</th>
+                <td>{row.days}</td>
+                <td class="text-ink-600">{row.note}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-4 text-sm text-ink-500">
+      Lead time is confirmed per order. Every quotation carries a committed date, and repeat orders are quoted from
+      the archived drawing record.
+    </p>
+  </section>
+  <!-- Inspection documents -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <h2 class="text-2xl">Quality Documents</h2>
+      <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+        The documents below ship with the order. The inspection plan is agreed before quotation, not after
+        production.
+      </p>
+
+      <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+        {
+          CAPABILITIES.inspection.map((doc) => (
+            <li class="flex items-start gap-3 text-sm leading-relaxed text-ink-700">
+              <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ti-50 text-[11px] font-bold text-ti-700">✓</span>
+              {doc}
+            </li>
+          ))
+        }
+      </ul>
+
+      <h3 class="mt-10 text-lg">What we report for this family</h3>
+      <ul class="mt-4 flex flex-col gap-2 text-sm leading-relaxed text-ink-700">
+        {family.inspectionFocus.map((item) => (
+          <li class="border-l-2 border-ink-200 pl-3">{item}</li>
+        ))}
+      </ul>
+
+      <a href="/quality/" class="mt-6 inline-block text-sm font-semibold text-ti-700 underline underline-offset-4">
+        How inspection is carried out →
+      </a>
+    </div>
+  </section>
+
+  <!-- Industry scenarios -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">Where These Parts Are Used</h2>
+    <ul class="mt-6 flex flex-col gap-3">
+      {family.industryScenarios.map((scenario) => (
+        <li class="flex flex-col gap-1 border-l-2 border-ti-400 bg-ti-50 px-4 py-3">
+          <span class="text-sm leading-relaxed text-ink-700">{scenario}</span>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-5 text-sm text-ink-500">
+      Application notes describe typical use. Suitability for your equipment is confirmed from the drawing and the
+      service conditions.
+    </p>
+  </section>
+
+  <!-- Repeat order scenarios -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <h2 class="text-2xl">Repeat Purchase Scenarios</h2>
+      <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+        Most orders in this family are not one-off. Once the drawing is approved and the inspection report is on
+        file, re-ordering becomes a matter of referencing an archived record.
+      </p>
+      <ul class="mt-6 flex flex-col gap-3">
+        {family.repeatScenarios.map((scenario) => (
+          <li class="flex items-start gap-3 text-sm leading-relaxed text-ink-700">
+            <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ti-50 text-[11px] font-bold text-ti-700">✓</span>
+            {scenario}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Related example -->
+  {
+    relatedCase && (
+      <section class="border-t border-ink-200 bg-ink-50">
+        <div class="container-page py-14">
+          <h2 class="text-2xl">Related Example</h2>
+          <article class="card mt-6 p-6">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="inline-block rounded bg-ti-50 px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-ti-700">
+                {relatedCase.industry}
+              </span>
+              <span class="inline-block rounded bg-warn-100 px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-warn-600">
+                Illustrative example
+              </span>
+            </div>
+            <h3 class="mt-4 text-lg">
+              <a
+                href={`/case-studies/${relatedCase.slug}/`}
+                class="text-ink-950 transition-colors hover:text-ti-700"
+              >
+                {relatedCase.title}
+              </a>
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-600">{relatedCase.summary}</p>
+            <a
+              href={`/case-studies/${relatedCase.slug}/`}
+              class="mt-4 inline-block text-sm font-semibold text-ti-700 underline underline-offset-4"
+            >
+              Read the example →
+            </a>
+          </article>
+          <p class="mt-4 text-sm text-ink-500">
+            Illustrative examples describe typical scenarios, not confirmed client work.
+          </p>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Other families -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">Other Part Families</h2>
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        others.map((item) => (
+          <a href={`/parts/${item.slug}/`} class="card p-4 transition-colors hover:border-ti-400">
+            <h3 class="text-base text-ink-950">{item.name}</h3>
+            <p class="mt-1.5 text-sm leading-relaxed text-ink-600">{item.shortDescription}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="border-t border-ink-200 bg-ink-950">
+    <div class="container-page py-14">
+      <h2 class="text-2xl text-white">Upload Drawing for This Part Family</h2>
+      <p class="mt-3 max-w-2xl leading-relaxed text-ink-300">
+        Send the drawing and we will confirm the features that drive tolerance, the batch size that fits your
+        schedule, and the inspection documents you receive.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href="/rfq/"
+          class="rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-ink-950 transition-colors hover:bg-ink-100"
+        >
+          Upload Drawing
+        </a>
+        <a
+          href="/parts/"
+          class="rounded-md border border-ink-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ink-800"
+        >
+          All Part Families
+        </a>
+      </div>
+      <p class="mt-6 text-sm leading-relaxed text-ink-400">
+        This part family is not in your drawing? Send it anyway — we will confirm fit honestly.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

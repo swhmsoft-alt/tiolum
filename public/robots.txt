@@ -1,0 +1,27 @@
+# Titolum — titanium CNC machining supply
+# Explicitly allow search engines and AI answer engines to crawl and cite.
+User-agent: Googlebot
+Allow: /
+Disallow: /thank-you/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /thank-you/
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: *
+Allow: /
+Disallow: /thank-you/
+
+Sitemap: https://titaniumcncmachining.com/sitemap-index.xml

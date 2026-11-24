@@ -1,0 +1,262 @@
+---
+/**
+ * /parts/ — 零件族 + 行业场景枢纽页。
+ *
+ * 规则：
+ * - 不做产品目录：不出现价格、库存、SKU 编号、现货交期。
+ * - "标准件"只以"参考零件结构"呈现，落到具体族页。
+ * - 所有能力数字（公差、材料、后处理、批量、交期、检验）从 CAPABILITIES 引用。
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CAPABILITIES } from '../../lib/capabilities';
+import { PART_FAMILIES } from '../../lib/parts';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const title = 'Titanium Parts — Part Families and Industry Scenarios';
+const description = `Six titanium part families machined to drawing within 3-axis / 4-axis scope at ${CAPABILITIES.tolerance}. Reference structures, materials, finishing, batch sizes, inspection documents and repeat-order scenarios.`;
+
+const jsonLd = [
+  breadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Parts', path: '/parts/' },
+  ]),
+];
+
+const industries = [
+  {
+    name: 'Chemical processing',
+    need: 'Wetted connection hardware, housings and shaft parts that survive aggressive media.',
+    families: ['titanium-flanges', 'titanium-housings', 'titanium-shafts-bushings'],
+  },
+  {
+    name: 'Electroplating equipment',
+    need: 'Immersed racks, carriers and wear parts that tolerate bath chemistry.',
+    families: ['titanium-brackets', 'titanium-shafts-bushings', 'titanium-housings'],
+  },
+  {
+    name: 'Industrial equipment',
+    need: 'Corrosion-exposed mounting, support and replacement components for machines in service.',
+    families: ['titanium-brackets', 'titanium-replacement-parts', 'titanium-oem-components'],
+  },
+  {
+    name: 'OEM equipment builders',
+    need: 'Revision-controlled components supplied against the OEM drawing and inspection record.',
+    families: ['titanium-oem-components', 'titanium-flanges', 'titanium-brackets'],
+  },
+  {
+    name: 'Maintenance and spares',
+    need: 'Obsolete or worn parts reproduced from an archived drawing or a physical sample.',
+    families: ['titanium-replacement-parts', 'titanium-shafts-bushings', 'titanium-housings'],
+  },
+] as const;
+
+const familyName = (slug: string) =>
+  PART_FAMILIES.find((family) => family.slug === slug)?.name ?? slug;
+---
+
+<BaseLayout title={title} description={description} path="/parts/" jsonLd={jsonLd}>
+  <!-- Header -->
+  <section class="border-b border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <p class="eyebrow">Parts</p>
+      <h1 class="mt-3 max-w-3xl text-3xl md:text-4xl">{title}</h1>
+      <p class="mt-4 max-w-2xl text-base leading-relaxed text-ink-600">
+        Six part families we machine to drawing, and the industry situations they usually come from. Standard
+        structures, drawing-based customisation, small to medium batches.
+      </p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <a
+          href="/rfq/"
+          class="rounded-md bg-ti-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ti-600"
+        >
+          Upload Drawing
+        </a>
+        <a
+          href="/capabilities/"
+          class="rounded-md border border-ink-300 px-5 py-2.5 text-sm font-semibold text-ink-800 transition-colors hover:bg-ink-50"
+        >
+          Check Machining Capability
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Part families -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">Part Families</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      These are machining families, not product catalogue entries. Every part in them is produced against your
+      drawing — there is no off-the-shelf stock list behind this page.
+    </p>
+
+    <div class="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {
+        PART_FAMILIES.map((family) => (
+          <a href={`/parts/${family.slug}/`} class="card group flex flex-col p-5 transition-colors hover:border-ti-400">
+            <h3 class="text-lg text-ink-950">{family.name}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-600">{family.shortDescription}</p>
+            <p class="mt-3 text-sm text-ink-500">Typical: {family.referenceStructure[0]}</p>
+            <span class="mt-4 inline-block text-sm font-semibold text-ti-700">View part family →</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+  <!-- Industry scenarios -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <h2 class="text-2xl">Industry Scenarios</h2>
+      <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+        The same geometry problem shows up across industries. This is how the part families above are usually
+        applied.
+      </p>
+
+      <div class="mt-8 overflow-x-auto">
+        <table class="data-table">
+          <caption class="sr-only">Industry scenarios and the part families typically used</caption>
+          <thead>
+            <tr>
+              <th scope="col">Industry</th>
+              <th scope="col">What the parts have to do</th>
+              <th scope="col">Typical families</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              industries.map((row) => (
+                <tr>
+                  <th scope="row">{row.name}</th>
+                  <td class="text-ink-600">{row.need}</td>
+                  <td>
+                    <ul class="flex flex-wrap gap-x-3 gap-y-1">
+                      {row.families.map((slug) => (
+                        <li>
+                          <a href={`/parts/${slug}/`} class="text-ti-700 underline underline-offset-2">
+                            {familyName(slug)}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-sm text-ink-500">
+        Scenarios describe typical applications only. Every quotation starts from your drawing and a written scope
+        confirmation.
+      </p>
+    </div>
+  </section>
+
+  <!-- How the parts are produced -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">How These Parts Are Produced</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      The same production route applies to every family, from a single prototype to a scheduled repeat order.
+    </p>
+
+    <div class="mt-8 overflow-x-auto">
+      <table class="data-table">
+        <caption class="sr-only">Production parameters for all part families</caption>
+        <thead>
+          <tr>
+            <th scope="col">Item</th>
+            <th scope="col">Specification</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Process</th>
+            <td>{CAPABILITIES.processes.join(', ')}</td>
+          </tr>
+          <tr>
+            <th scope="row">Materials</th>
+            <td>{CAPABILITIES.materials.join(', ')}</td>
+          </tr>
+          <tr>
+            <th scope="row">Tolerance</th>
+            <td>{CAPABILITIES.tolerance}</td>
+          </tr>
+          <tr>
+            <th scope="row">Batch range</th>
+            <td>{CAPABILITIES.batchRange}</td>
+          </tr>
+          <tr>
+            <th scope="row">Finishing</th>
+            <td>{CAPABILITIES.finishing.join(', ')}</td>
+          </tr>
+          <tr>
+            <th scope="row">Inspection documents</th>
+            <td>{CAPABILITIES.inspection.join(', ')}</td>
+          </tr>
+          <tr>
+            <th scope="row">Lead time</th>
+            <td>Confirmed per order after drawing review.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <a href="/capabilities/" class="mt-6 inline-block text-sm font-semibold text-ti-700 underline underline-offset-4">
+      Full capabilities and scope boundaries →
+    </a>
+  </section>
+  <!-- Reference structures, not catalogue items -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <h2 class="text-2xl">Reference Structures, Not Catalogue Items</h2>
+      <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+        Each family page shows the geometry we most often machine — a flange with a bolt circle, a bracket with a
+        hole pattern, a stepped shaft. These drawings explain what we can produce and how we approach tolerance. They
+        are not stock parts: no dimensions, no sizes, no prices, and nothing held in inventory.
+      </p>
+      <p class="mt-4 max-w-3xl leading-relaxed text-ink-600">
+        What you get is a standard structural approach combined with drawing-based customisation in small to medium
+        batches. Send a drawing and we will confirm what is feasible, what the batch size costs you in time, and what
+        documents you receive.
+      </p>
+      <ul class="mt-6 flex flex-col gap-3 text-sm text-ink-700">
+        <li class="flex items-start gap-3">
+          <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ti-50 text-[11px] font-bold text-ti-700">✓</span>
+          Standard structures — the geometry families we are set up to machine well.
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ti-50 text-[11px] font-bold text-ti-700">✓</span>
+          Drawing-based customisation — dimensions, tolerances and interfaces follow your drawing.
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ti-50 text-[11px] font-bold text-ti-700">✓</span>
+          Small to medium batches — {CAPABILITIES.batchRange}.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="border-t border-ink-200 bg-ink-950">
+    <div class="container-page py-14">
+      <h2 class="text-2xl text-white">Have a Drawing?</h2>
+      <p class="mt-3 max-w-2xl leading-relaxed text-ink-300">
+        Send it for a manufacturability review. We confirm the family it belongs to, the features that drive
+        tolerance, and the batch size that makes sense.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href="/rfq/"
+          class="rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-ink-950 transition-colors hover:bg-ink-100"
+        >
+          Upload Drawing
+        </a>
+        <a
+          href="/quality/"
+          class="rounded-md border border-ink-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ink-800"
+        >
+          See Inspection Documents
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

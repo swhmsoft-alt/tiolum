@@ -1,0 +1,122 @@
+---
+/**
+ * /contact/ — direct contact details and sourcing base.
+ *
+ * The page carries two hard facts: the sales mailbox and the sourcing base.
+ * No phone number, no street address, no map — nothing that cannot be
+ * verified. The drawing upload stays on /rfq/.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { BRAND } from '../lib/brand';
+import { breadcrumbSchema, organizationSchema } from '../lib/schema';
+
+const title = 'Contact Us';
+const description =
+  'Email the Titolum sales team directly, or upload a drawing for review. Our sourcing base is the Baoji titanium industrial cluster in Shaanxi, China.';
+
+const jsonLd = [
+  organizationSchema(),
+  breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact/' }]),
+];
+
+const details = [
+  {
+    label: 'Email Us',
+    value: BRAND.email,
+    note: 'Quotes, technical questions and repeat orders. We reply within one business day.',
+    href: `mailto:${BRAND.email}`,
+  },
+  {
+    label: 'Sourcing Base',
+    value: 'Baoji, Shaanxi, China',
+    note: 'Sourcing base in the Baoji titanium industrial cluster, China — where the qualified supplier network is located.',
+  },
+  {
+    label: 'Service Area',
+    value: BRAND.serviceArea,
+    note: 'Export documentation and delivery coordination for customers outside China.',
+  },
+] as const;
+
+const channels = [
+  {
+    title: 'Send a drawing',
+    detail:
+      'Upload a 2D PDF or 3D STEP file for manufacturability review. We confirm feasibility and scope before quoting.',
+    href: '/rfq/',
+    cta: 'Upload Drawing',
+  },
+  {
+    title: 'Check the scope first',
+    detail:
+      'Review machining capabilities, tolerances, materials and the explicit list of parts we do not machine.',
+    href: '/capabilities/',
+    cta: 'Review Capabilities',
+  },
+] as const;
+---
+
+<BaseLayout title={title} description={description} path="/contact/" jsonLd={jsonLd}>
+  <!-- Page header -->
+  <section class="border-b border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <p class="eyebrow">Contact</p>
+      <h1 class="mt-3 max-w-3xl text-3xl md:text-4xl">Contact {BRAND.name}</h1>
+      <p class="mt-4 max-w-2xl text-base leading-relaxed text-ink-600">
+        One sales mailbox, one sourcing base, one team accountable for the outcome.
+      </p>
+    </div>
+  </section>
+
+  <!-- Contact details -->
+  <section class="container-page py-14">
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        details.map((item) => (
+          <div class="card flex flex-col gap-3 p-6">
+            <h2 class="text-[13px] font-bold uppercase tracking-wider text-ink-500">{item.label}</h2>
+            {item.href ? (
+              <a
+                href={item.href}
+                class="break-all text-lg font-semibold text-ti-700 underline underline-offset-4"
+              >
+                {item.value}
+              </a>
+            ) : (
+              <p class="text-lg font-semibold text-ink-950">{item.value}</p>
+            )}
+            <p class="text-sm leading-relaxed text-ink-600">{item.note}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="mt-8 max-w-3xl text-sm leading-relaxed text-ink-500">
+      We coordinate a qualified supplier network rather than owning machining equipment. Drawings are reviewed
+      internally first; no supplier sees your files before we confirm scope, and a mutual NDA can be signed on request.
+    </p>
+  </section>
+
+  <!-- Ways to reach us -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <h2 class="text-2xl">How To Reach Us</h2>
+      <div class="mt-8 grid gap-6 md:grid-cols-2">
+        {
+          channels.map((channel) => (
+            <div class="card flex flex-col p-6">
+              <h3 class="text-lg">{channel.title}</h3>
+              <p class="mt-3 flex-1 text-sm leading-relaxed text-ink-600">{channel.detail}</p>
+              <a
+                href={channel.href}
+                class="mt-6 inline-block self-start rounded-md bg-ti-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ti-600"
+              >
+                {channel.cta}
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
