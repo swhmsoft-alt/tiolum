@@ -1,0 +1,45 @@
+
+> titolum-site@0.1.0 build
+> astro build
+
+[2m01:57:59[22m [34m[types][39m Generated [2m458ms[22m
+[2m01:57:59[22m [34m[build][39m output: [34m"static"[39m
+[2m01:57:59[22m [34m[build][39m mode: [34m"static"[39m
+[2m01:57:59[22m [34m[build][39m directory: [34mC:\Users\User\Desktop\tiolum\dist\[39m
+[2m01:57:59[22m [34m[build][39m Collecting build info...
+[2m01:57:59[22m [34m[build][39m [32m鉁?Completed in 786ms.[39m
+[2m01:57:59[22m [34m[build][39m Building static entrypoints...
+[2m01:58:04[22m [34m[vite][39m [32m鉁?built in 3.85s[39m
+[2m01:58:04[22m [34m[vite][39m [32m鉁?built in 280ms[39m
+[2m01:58:04[22m [34m[build][39m Rearranging server assets...
+
+[42m[30m generating static routes [39m[49m
+[2m01:58:04[22m   [34m鈹溾攢[39m [2m/about/index.html[22m [2m(+265ms)[22m 
+[2m01:58:05[22m   [34m鈹溾攢[39m [2m/capabilities/index.html[22m [2m(+19ms)[22m 
+[2m01:58:05[22m   [34m鈹溾攢[39m [2m/case-studies/titanium-flanges-chemical-processing/index.html[22m [2m(+17ms)[22m 
+[2m01:58:05[22m   [34m鈹溾攢[39m [2m/case-studies/titanium-brackets-electroplating/index.html[22m [2m(+13ms)[22m 
+[2m01:58:05[22m   [34m鈹溾攢[39m [2m/case-studies/titanium-housings-chemical-processing/index.html[22m [2m(+323ms)[22m 
+[2m01:58:05[22m   [34m鈹溾攢[39m [2m/case-studies/titanium-shafts-bushings-electroplating/index.html[22m [2m(+142ms)[22m 
+[2m01:58:05[22m   [34m鈹溾攢[39m [2m/case-studies/titanium-replacement-parts-plant-maintenance/index.html[22m [2m(+81ms)[22m 
+[2m01:58:05[22m   [34m鈹溾攢[39m [2m/case-studies/titanium-oem-components-equipment-builder/index.html[22m [2m(+66ms)[22m 
+[2m01:58:05[22m   [34m鈹溾攢[39m [2m/case-studies/index.html[22m [2m(+17ms)[22m 
+[2m01:58:05[22m   [34m鈹溾攢[39m [2m/contact/index.html[22m [2m(+65ms)[22m 
+[2m01:58:05[22m   [34m鈹溾攢[39m [2m/how-it-works/index.html[22m [2m(+19ms)[22m 
+[2m01:58:05[22m   [34m鈹溾攢[39m [2m/parts/titanium-flanges/index.html[22m [2m(+15ms)[22m 
+[2m01:58:06[22m   [34m鈹溾攢[39m [2m/parts/titanium-brackets/index.html[22m [2m(+5ms)[22m 
+[2m01:58:06[22m   [34m鈹溾攢[39m [2m/parts/titanium-housings/index.html[22m [2m(+35ms)[22m 
+[2m01:58:06[22m   [34m鈹溾攢[39m [2m/parts/titanium-shafts-bushings/index.html[22m [2m(+15ms)[22m 
+[2m01:58:06[22m   [34m鈹溾攢[39m [2m/parts/titanium-replacement-parts/index.html[22m [2m(+12ms)[22m 
+[2m01:58:06[22m   [34m鈹溾攢[39m [2m/parts/titanium-oem-components/index.html[22m [2m(+6ms)[22m 
+[2m01:58:06[22m   [34m鈹溾攢[39m [2m/parts/index.html[22m [2m(+25ms)[22m 
+[2m01:58:06[22m   [34m鈹溾攢[39m [2m/quality/index.html[22m [2m(+19ms)[22m 
+[2m01:58:06[22m   [34m鈹溾攢[39m [2m/rfq/index.html[22m [2m(+22ms)[22m 
+[2m01:58:06[22m   [34m鈹溾攢[39m [2m/thank-you/index.html[22m [2m(+23ms)[22m 
+[2m01:58:06[22m   [34m鈹溾攢[39m [2m/index.html[22m [2m(+71ms)[22m 
+[2m01:58:06[22m [32m鉁?Completed in 1.45s.
+[39m
+[2m01:58:06[22m [34m[build][39m [32m鉁?Completed in 6.33s.[39m
+[2m01:58:06[22m [34m[@astrojs/sitemap][39m `sitemap-index.xml` created at `dist`
+[2m01:58:06[22m [34m[build][39m 22 page(s) built in [1m7.52s[22m
+[2m01:58:06[22m [34m[build][39m [1mComplete![22m
+EXIT=0

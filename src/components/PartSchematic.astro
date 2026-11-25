@@ -1,11 +1,12 @@
 ---
 /**
- * PartSchematic.astro — 零件族的示意几何图（内联 SVG 蓝图风格）。
+ * PartSchematic.astro — 产品族的示意几何图（内联 SVG 蓝图风格）。
  *
  * 规则：
  * - 这是"典型几何示意"，不是客户零件，也不是库存件。页面上必须标注。
  * - 图中不出现尺寸数字、公差数值、价格或型号，避免被当成可下单规格。
  * - 只表达形状关系：轮廓、孔位、台阶、腔体。
+ * - slug 对应 src/lib/parts.ts 的五个产品族。
  */
 interface Props {
   slug: string;
@@ -31,9 +32,8 @@ const faint = '#8296a8';
     stroke-linecap="round"
     stroke-linejoin="round"
   >
-    {slug === 'titanium-flanges' && (
+    {slug === 'flanges-plates-interfaces' && (
       <g>
-        <!-- Front view: raised-face flange with bolt circle -->
         <circle cx="130" cy="120" r="72" stroke={stroke} stroke-width="1.6" />
         <circle cx="130" cy="120" r="52" stroke={faint} stroke-width="1" />
         <circle cx="130" cy="120" r="34" stroke={stroke} stroke-width="1.6" />
@@ -45,16 +45,14 @@ const faint = '#8296a8';
         <circle cx="67.8" cy="156" r="6" stroke={stroke} stroke-width="1.4" />
         <circle cx="67.8" cy="84" r="6" stroke={stroke} stroke-width="1.4" />
         <path d="M130 34v172M44 120h172" stroke={faint} stroke-width="0.8" stroke-dasharray="10 4 2 4" />
-        <!-- Section view: stepped bore with raised face -->
         <path d="M268 96h34v-14h60v14h14v48h-14v14h-60v-14h-34z" stroke={stroke} stroke-width="1.6" />
         <path d="M282 96v48M302 82v76M362 96v48" stroke={faint} stroke-width="1" />
         <path d="M250 120h24M250 112v16M274 112v16" stroke={accent} stroke-width="1" />
       </g>
     )}
 
-    {slug === 'titanium-brackets' && (
+    {slug === 'mounting-structural-components' && (
       <g>
-        <!-- L-bracket, isometric -->
         <path d="M96 200v-92h84v92" stroke={stroke} stroke-width="1.6" />
         <path d="M96 108l60-30 84 42-60 30z" stroke={faint} stroke-width="1.2" />
         <path d="M96 200l60-30 84 42-60 30z" stroke={faint} stroke-width="1.2" />
@@ -68,9 +66,10 @@ const faint = '#8296a8';
         <circle cx="238" cy="132" r="6" stroke={accent} stroke-width="1.3" />
       </g>
     )}
-    {slug === 'titanium-housings' && (
+
+
+    {slug === 'blocks-housings-manifolds' && (
       <g>
-        <!-- Open-face housing -->
         <path d="M80 190v-96h140v96z" stroke={stroke} stroke-width="1.6" />
         <path d="M80 190l40 26h140l-40-26" stroke={faint} stroke-width="1.2" />
         <path d="M220 190l40-26v-96l-40 26" stroke={faint} stroke-width="1.2" />
@@ -79,7 +78,6 @@ const faint = '#8296a8';
         <circle cx="192" cy="100" r="5" stroke={stroke} stroke-width="1.3" />
         <circle cx="108" cy="176" r="5" stroke={stroke} stroke-width="1.3" />
         <circle cx="192" cy="176" r="5" stroke={stroke} stroke-width="1.3" />
-        <!-- Cover plate -->
         <path d="M286 96h84v64h-84z" stroke={stroke} stroke-width="1.6" />
         <path d="M298 108h60v40h-60z" stroke={accent} stroke-width="1.1" stroke-dasharray="6 4" />
         <circle cx="294" cy="90" r="5" stroke={stroke} stroke-width="1.3" />
@@ -89,39 +87,23 @@ const faint = '#8296a8';
       </g>
     )}
 
-    {slug === 'titanium-shafts-bushings' && (
+    {slug === 'tooling-fixtures-end-effectors' && (
       <g>
-        <!-- Stepped shaft -->
-        <path d="M40 96h70v-18h96v18h70v36h-70v18h-96v-18H40z" stroke={stroke} stroke-width="1.6" />
-        <path d="M110 78v72M206 78v72M110 114h96" stroke={faint} stroke-width="1" />
-        <path d="M286 106h22v16h-22z" stroke={accent} stroke-width="1.3" />
-        <!-- Bushing sleeve -->
-        <path d="M40 170h20v-22h100v22h20v52h-20v22H60v-22H40z" stroke={stroke} stroke-width="1.6" />
-        <path d="M60 148v96M140 148v96" stroke={faint} stroke-width="1" />
-        <path d="M60 196h80" stroke={accent} stroke-width="1.1" stroke-dasharray="6 4" />
-        <!-- Centerlines -->
-        <path d="M20 114h360M50 196h300" stroke={faint} stroke-width="0.8" stroke-dasharray="10 4 2 4" />
+        <path d="M60 96h180v28h24v36h-24v28H60z" stroke={stroke} stroke-width="1.6" />
+        <path d="M60 124h180" stroke={faint} stroke-width="1" />
+        <path d="M240 110h18v64h-18z" stroke={accent} stroke-width="1.3" />
+        <circle cx="92" cy="110" r="6" stroke={accent} stroke-width="1.3" />
+        <circle cx="132" cy="110" r="6" stroke={accent} stroke-width="1.3" />
+        <circle cx="172" cy="110" r="6" stroke={accent} stroke-width="1.3" />
+        <path d="M60 172h130v54H60z" stroke={stroke} stroke-width="1.6" />
+        <path d="M78 188h64v24H78z" stroke={accent} stroke-width="1.1" stroke-dasharray="6 4" />
+        <path d="M154 188h18v24h-18z" stroke={faint} stroke-width="1" />
+        <path d="M30 138h300M40 199h180" stroke={faint} stroke-width="0.8" stroke-dasharray="10 4 2 4" />
       </g>
     )}
 
-    {slug === 'titanium-replacement-parts' && (
+    {slug === 'custom-mechanical-components' && (
       <g>
-        <!-- Worn original (dashed) vs replacement (solid) -->
-        <path d="M70 190v-90h130v90z" stroke={faint} stroke-width="1.4" stroke-dasharray="8 5" />
-        <path d="M78 190v-98h130v98" stroke={stroke} stroke-width="1.8" />
-        <path d="M78 92h130" stroke={stroke} stroke-width="1.8" />
-        <circle cx="104" cy="140" r="16" stroke={faint} stroke-width="1.4" stroke-dasharray="8 5" />
-        <circle cx="104" cy="138" r="16" stroke={accent} stroke-width="1.5" />
-        <path d="M232 74v116M232 74l118 30v116l-118 30z" stroke={faint} stroke-width="1.2" />
-        <path d="M250 118l74 20v58l-74 20z" stroke={stroke} stroke-width="1.6" />
-        <circle cx="278" cy="146" r="11" stroke={accent} stroke-width="1.4" />
-        <path d="M214 132h20M214 126v12M234 126v12" stroke={accent} stroke-width="1" />
-      </g>
-    )}
-
-    {slug === 'titanium-oem-components' && (
-      <g>
-        <!-- Interface set: three parts mating on a common datum -->
         <path d="M40 76h100v44H40z" stroke={stroke} stroke-width="1.6" />
         <path d="M40 86h100M40 110h100" stroke={faint} stroke-width="1" />
         <path d="M140 84h80v28h-80z" stroke={stroke} stroke-width="1.6" />
@@ -163,3 +145,6 @@ const faint = '#8296a8';
     color: var(--color-ink-500);
   }
 </style>
+
+      </g>
+    )}

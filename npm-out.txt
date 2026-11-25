@@ -1,0 +1,8 @@
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+npm error code 3221225794
+npm error path C:\Users\User\Desktop\tiolum\node_modules\workerd
+npm error command failed
+npm error command C:\Windows\system32\cmd.exe /d /s /c node install.js
+npm error A complete log of this run can be found in: C:\Users\User\AppData\Local\npm-cache\_logs\2026-11-24T17_50_03_479Z-debug-0.log
+ResourceUnavailable: 设置控制台窗口标题时发生 Win32 内部错误 "管道的另一端上无任何进程。" 0xE9。请与 Microsoft 客户支持服务部门联系。
+EXIT=-1073741502

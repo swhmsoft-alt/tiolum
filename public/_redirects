@@ -1,0 +1,14 @@
+# 旧六族 URL → 新五族 URL。Cloudflare Workers Static Assets 解析本文件并返回真实 301。
+# Astro 自身生成的 meta refresh 页作为兜底（不部署到 Workers 时仍可跳转）。
+/parts/titanium-flanges/ /parts/flanges-plates-interfaces/ 301
+/parts/titanium-flanges /parts/flanges-plates-interfaces/ 301
+/parts/titanium-brackets/ /parts/mounting-structural-components/ 301
+/parts/titanium-brackets /parts/mounting-structural-components/ 301
+/parts/titanium-housings/ /parts/blocks-housings-manifolds/ 301
+/parts/titanium-housings /parts/blocks-housings-manifolds/ 301
+/parts/titanium-shafts-bushings/ /parts/custom-mechanical-components/ 301
+/parts/titanium-shafts-bushings /parts/custom-mechanical-components/ 301
+/parts/titanium-replacement-parts/ /parts/custom-mechanical-components/ 301
+/parts/titanium-replacement-parts /parts/custom-mechanical-components/ 301
+/parts/titanium-oem-components/ /parts/custom-mechanical-components/ 301
+/parts/titanium-oem-components /parts/custom-mechanical-components/ 301

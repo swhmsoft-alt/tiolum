@@ -64,7 +64,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     slug: 'titanium-flanges-chemical-processing',
     title: 'Chemical Processing — Titanium Flanges & Fittings Example',
     industry: 'Chemical processing',
-    partFamily: 'titanium-flanges',
+    partFamily: 'flanges-plates-interfaces',
     summary:
       'Sealing-face flanges and stepped fittings machined for a wetted pipe connection, with bolt-circle position and face flatness reported per drawing.',
     material: 'Titanium, grade quoted against the standard specified on the drawing',
@@ -92,7 +92,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     slug: 'titanium-brackets-electroplating',
     title: 'Electroplating Equipment — Titanium Brackets & Mounts Example',
     industry: 'Electroplating equipment',
-    partFamily: 'titanium-brackets',
+    partFamily: 'mounting-structural-components',
     summary:
       'Rack and carrier support brackets machined for regular immersion, with hole-pattern position and mounting-face flatness measured against the drawing datums.',
     material: 'Titanium, grade quoted against the standard specified on the drawing',
@@ -120,7 +120,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     slug: 'titanium-housings-chemical-processing',
     title: 'Chemical Processing — Titanium Housings & Covers Example',
     industry: 'Chemical processing',
-    partFamily: 'titanium-housings',
+    partFamily: 'blocks-housings-manifolds',
     summary:
       'An open-face sensor housing and its cover, machined with a machined cavity, port bosses and sealing lands for corrosive wetted service.',
     material: 'Titanium, grade quoted against the standard specified on the drawing',
@@ -148,7 +148,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     slug: 'titanium-shafts-bushings-electroplating',
     title: 'Electroplating Equipment — Titanium Shafts & Bushings Example',
     industry: 'Electroplating equipment',
-    partFamily: 'titanium-shafts-bushings',
+    partFamily: 'custom-mechanical-components',
     summary:
       'A stepped shaft with journals and a wear sleeve bush, machined for rotating assemblies, with diameter, roundness and runout reported at the callout stations.',
     material: 'Titanium, grade quoted against the standard specified on the drawing',
@@ -176,7 +176,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     slug: 'titanium-replacement-parts-plant-maintenance',
     title: 'Plant Maintenance — Titanium Replacement Parts & Spares Example',
     industry: 'Industrial equipment maintenance',
-    partFamily: 'titanium-replacement-parts',
+    partFamily: 'custom-mechanical-components',
     summary:
       'An obsolete wetted component reproduced from a physical sample, with reconstructed features and a documented deviation list against the worn original.',
     material: 'Titanium, grade quoted against the standard specified on the drawing',
@@ -204,7 +204,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     slug: 'titanium-oem-components-equipment-builder',
     title: 'OEM Equipment Builder — Titanium OEM Components Example',
     industry: 'OEM equipment builders',
-    partFamily: 'titanium-oem-components',
+    partFamily: 'custom-mechanical-components',
     summary:
       'A revision-controlled OEM component and a two-part interface set, supplied against the released drawing revision with the dimensional report linked to it.',
     material: 'Titanium, grade quoted against the standard specified on the drawing',

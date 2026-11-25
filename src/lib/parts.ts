@@ -1,5 +1,5 @@
 /**
- * Part family data — 零件族 + 行业场景的数据源。
+ * Part family data — 产品族页面层文案（五大产品族）。
  *
  * 规则（沿用 capabilities.ts 的约定）：
  * - 这里只描述"零件族长什么样、用于什么场景"；
@@ -7,12 +7,16 @@
  *   不在本文重复数字，避免出现两套口径。
  * - 不出现价格、库存、SKU 编号、现货交期。
  * - "标准件"只作为参考结构呈现（referenceStructure），不作为目录条目。
+ * - 族清单（顺序、名称、定义）唯一来源是 src/lib/part-products.ts 的
+ *   PART_PRODUCT_FAMILIES；本文件只补充页面级文案，避免两套口径。
  *
  * 本文件不 import capabilities.ts，避免与 capabilities.ts 相互引用。
  */
 
+import { PART_PRODUCT_FAMILIES } from './part-products';
+
 export interface PartFamily {
-  /** URL slug，例如 titanium-flanges。 */
+  /** URL slug，例如 mounting-structural-components。 */
   slug: string;
   /** 卡片与导航使用的名称。 */
   name: string;
@@ -36,23 +40,105 @@ export interface PartFamily {
   finishingNote: string;
 }
 
-export const PART_FAMILIES: PartFamily[] = [
-  {
-    slug: 'titanium-flanges',
-    name: 'Titanium Flanges & Fittings',
-    shortDescription:
-      'Raised-face and flat-face flanges, stepped and threaded fittings, custom profiles machined to drawing.',
-    title: 'Titanium Flanges & Fittings',
+/** 页面级文案，按产品族 slug 索引。 */
+const FAMILY_COPY: Record<
+  string,
+  Pick<
+    PartFamily,
+    | 'title'
+    | 'typicalFeatures'
+    | 'referenceStructure'
+    | 'industryScenarios'
+    | 'repeatScenarios'
+    | 'inspectionFocus'
+    | 'toleranceNote'
+    | 'finishingNote'
+  >
+> = {
+  'mounting-structural-components': {
+    title: 'Titanium Mounting & Structural Components',
+    typicalFeatures: [
+      'L-shaped, U-shaped and cantilever brackets with filleted stress-concentration corners',
+      'Mounting plates with slots, counterbores and tapped holes',
+      'Adapter plates carrying two hole groups with different spacing on one body',
+      'Standoffs, spacers and clamping blocks with parallel machined faces',
+    ],
+    referenceStructure: [
+      'Two-hole L-bracket with a relieved inside corner',
+      'Rectangular mounting plate with a slotted adjustment row',
+      'Adapter plate with two interface hole groups and a relieved underside',
+      'Stepped standoff with a counterbored fixing hole',
+    ],
+    industryScenarios: [
+      'Industrial automation: mounting bases and retrofit adapter plates for existing equipment',
+      'Electroplating: racks, carriers and fixture supports with regular immersion',
+      'Chemical processing: support hardware on skids and platforms',
+      'Precision assemblies: low-mass mounts where inertia matters',
+    ],
+    repeatScenarios: [
+      'Repeat builds of the same machine where bracket sets are ordered per unit',
+      'Spare brackets replacing worn or corroded originals from archived drawings',
+      'Retrofit programmes where one adapter plate bridges two different interfaces',
+    ],
+    inspectionFocus: [
+      'Hole-pattern position relative to the datum features called out on the drawing',
+      'Flatness of the mounting face and parallelism of opposed faces',
+      'Tap condition check on threaded holes where specified',
+    ],
+    toleranceNote:
+      'Hole position, mounting-face flatness and corner radii are the features usually held to the tightest callouts; everything is confirmed per feature.',
+    finishingNote:
+      'Bead blasting is typical before cosmetic finishing; passivation is added where the part sees a corrosive atmosphere.',
+  },
+
+  'blocks-housings-manifolds': {
+    title: 'Titanium Blocks, Housings & Manifolds',
+    typicalFeatures: [
+      'Manifold blocks with multi-direction drilled ports, cross-drilled channels and sealing faces',
+      'Open-face enclosures and shallow cavity housings machined from solid or plate stock',
+      'Covers with bolt patterns, gasket grooves and machined sealing lands',
+      'Sensor housings with port bosses, gland threads and stepped bores',
+    ],
+    referenceStructure: [
+      'Rectangular enclosure with a machined internal cavity and a bolt-flange rim',
+      'Flat cover plate with a recessed seal groove and a bolt circle',
+      'Sensor body with a stepped bore and a side port boss',
+      'Block manifold with threaded ports on two faces',
+    ],
+    industryScenarios: [
+      'Chemical processing: wetted housings and covers in corrosive service',
+      'Electroplating: tank covers, weir parts and sensor housings',
+      'Instrumentation: enclosures protecting sensing elements',
+      'Fluid-handling equipment: manifold blocks feeding valves and actuators',
+    ],
+    repeatScenarios: [
+      'Serial equipment programmes where the same enclosure ships with every unit',
+      'Replacement covers for housings whose original supplier has ceased production',
+      'Scheduled call-off orders for manifold blocks against a released revision',
+    ],
+    inspectionFocus: [
+      'Cavity depth and floor flatness on open-face housings',
+      'Sealing-land flatness and gasket-groove width on covers',
+      'Port-bore position, thread and bore concentricity, plus leak-relevant surfaces where the drawing defines them',
+    ],
+    toleranceNote:
+      'Cavity geometry, cover flatness and port position drive the tolerance discussion; deep-cavity distortion is reviewed with you before production.',
+    finishingNote:
+      'Passivation is standard for wetted surfaces; anodizing is only proposed where a qualified supplier supports it.',
+  },
+  'flanges-plates-interfaces': {
+    title: 'Titanium Flanges, Plates & Interfaces',
     typicalFeatures: [
       'Raised-face and flat-face flange discs with customer-defined bolt-circle and bolt-hole patterns',
+      'Blind flanges with a machined sealing face and a referenced standard interface',
+      'Interface plates with positioning, mounting and threaded holes',
       'Stepped, threaded and socket-weld fittings with concentric bore steps',
-      'Wall-thickness controlled bodies for pressure or vacuum service',
-      'Non-standard OD / ID profiles machined to the drawing rather than adapted from a catalogue',
     ],
     referenceStructure: [
       'Raised-face flange with a full bolt circle',
-      'Concentric stepped fitting with an external thread stub',
       'Flat-face sealing disc for thin-wall vessels',
+      'Interface plate with a machined datum face and threaded holes',
+      'Concentric stepped fitting with an external thread stub',
     ],
     industryScenarios: [
       'Chemical processing: pipe connection hardware exposed to aggressive media',
@@ -75,187 +161,70 @@ export const PART_FAMILIES: PartFamily[] = [
     finishingNote:
       'Passivation is commonly specified for wetted parts; bead blasting is used when a uniform matte surface is required before assembly.',
   },
-  {
-    slug: 'titanium-brackets',
-    name: 'Titanium Brackets & Mounts',
-    shortDescription:
-      'Structural brackets, mounting plates, support components and fixture bases.',
-    title: 'Titanium Brackets & Mounts',
+
+  'tooling-fixtures-end-effectors': {
+    title: 'Titanium Tooling, Fixtures & End Effectors',
     typicalFeatures: [
-      'L-shaped, U-shaped and cantilever brackets with filleted stress-concentration corners',
-      'Mounting plates with slots, counterbores and tapped holes',
-      'Standoffs, spacers and clamping blocks with parallel machined faces',
-      'Fixture bases and instrument mounting plates with datum references on the drawing',
+      'Gripper fingers with a machined gripping face, threaded holes and locating holes',
+      'Locating blocks with datum faces, pockets and slots for repeatable workpiece location',
+      'Fixture plates with clamping hole systems and shallow lightening pockets',
+      'Robot mounting bases with hole patterns on multiple faces and a defined datum',
     ],
     referenceStructure: [
-      'Two-hole L-bracket with a relieved inside corner',
-      'Rectangular mounting plate with a slotted adjustment row',
-      'Stepped standoff with a counterbored fixing hole',
+      'Elongated gripper finger with a stepped gripping face',
+      'Locating block with a machined pocket and parallel datum faces',
+      'Fixture plate with a clamping hole grid and a shallow pocket',
+      'Robot base plate with a multi-face hole pattern',
     ],
     industryScenarios: [
-      'Industrial equipment: corrosion-exposed mounting of pumps, sensors and guarding',
-      'Electroplating: racks, carriers and fixture supports with regular immersion',
-      'Chemical processing: support hardware on skids and platforms',
-      'Precision assemblies: low-mass mounts where inertia matters',
+      'Industrial automation: robot bases, gripper hardware and retrofit fixtures',
+      'Fixture and jig builders: locating blocks and workpiece supports',
+      'Equipment R&D teams: prototype tooling for pre-production builds',
+      'Electroplating: carriers and racks used as handling tooling',
     ],
     repeatScenarios: [
-      'Repeat builds of the same machine where bracket sets are ordered per unit',
-      'Spare brackets replacing worn or corroded originals from archived drawings',
-      'New equipment variants using an existing bracket as the basis for a modified version',
+      'Fixture orders repeated for each production run of the same workpiece',
+      'OEM repeat orders for gripper and robot interface hardware',
+      'Consumable-style re-orders of wear-facing tooling parts on a service interval',
     ],
     inspectionFocus: [
-      'Hole-pattern position relative to the datum features called out on the drawing',
-      'Flatness of the mounting face and parallelism of opposed faces',
-      'Tap condition check on threaded holes where specified',
+      'Datum-face flatness and parallelism of opposed faces',
+      'Hole-pattern position relative to the drawing datums',
+      'Gripping-face position and edge condition on end-effectors',
     ],
     toleranceNote:
-      'Hole position, mounting-face flatness and corner radii are the features usually held to the tightest callouts; everything is confirmed per feature.',
+      'Locating and gripping features are evaluated against the drawing callouts; tolerance on the wear-facing surface is confirmed per application.',
     finishingNote:
-      'Bead blasting is typical before cosmetic finishing; passivation is added where the part sees a corrosive atmosphere.',
+      'As-machined is common for tooling parts; passivation or blasting is added when a surface specification is required.',
   },
-  {
-    slug: 'titanium-housings',
-    name: 'Titanium Housings & Covers',
-    shortDescription: 'Enclosures, covers and simple cavities within 3/4-axis scope.',
-    title: 'Titanium Housings & Covers',
-    typicalFeatures: [
-      'Open-face enclosures and shallow cavity housings machined from solid or plate stock',
-      'Covers with bolt patterns, gasket grooves and machined sealing lands',
-      'Sensor housings with port bosses, gland threads and stepped bores',
-      'Cable-entry and clearance features that stay within a simple prismatic envelope',
-    ],
-    referenceStructure: [
-      'Rectangular enclosure with a machined internal cavity and a bolt-flange rim',
-      'Flat cover plate with a recessed seal groove and a bolt circle',
-      'Sensor body with a stepped bore and a side port boss',
-    ],
-    industryScenarios: [
-      'Chemical processing: wetted housings and covers in corrosive service',
-      'Electroplating: tank covers, weir parts and sensor housings',
-      'Instrumentation: enclosures protecting sensing elements',
-      'Vacuum systems: cover plates with sealing lands',
-    ],
-    repeatScenarios: [
-      'Serial equipment programmes where the same enclosure ships with every unit',
-      'Replacement covers for housings whose original supplier has ceased production',
-      'Variants with different port or cover configurations from an archived drawing',
-    ],
-    inspectionFocus: [
-      'Cavity depth and floor flatness on open-face housings',
-      'Sealing-land flatness and gasket-groove width on covers',
-      'Thread and port-bore position, plus leak-relevant surfaces where the drawing defines them',
-    ],
-    toleranceNote:
-      'Cavity geometry, cover flatness and port position drive the tolerance discussion; deep-cavity distortion is reviewed with you before production.',
-    finishingNote:
-      'Passivation is standard for wetted surfaces; anodizing is only proposed where a qualified supplier supports it.',
-  },
-  {
-    slug: 'titanium-shafts-bushings',
-    name: 'Titanium Shafts & Bushings',
-    shortDescription: 'Shafts, bushes and sleeves with turned and milled features.',
-    title: 'Titanium Shafts & Bushings',
-    typicalFeatures: [
-      'Stepped shafts with journals, shoulders, retaining-groove and undercut features',
-      'Keyways, flats and threaded stubs combined with turned diameters',
-      'Sleeves and bushes with press-fit, flanged or grooved ends',
-      'Concentric features where turning and milling are combined in the same drawing',
-    ],
-    referenceStructure: [
-      'Stepped shaft with a central journal and a smaller drive end',
-      'Plain sleeve bush with a flanged end',
-      'Grooved bush with an anti-rotation slot',
-    ],
-    industryScenarios: [
-      'Process equipment: shafts running in corrosive media',
-      'Electroplating: rollers, mandrels and wear parts on rotating assemblies',
-      'Chemical processing: agitator and pump shaft components',
-      'High-speed motion: reduced rotating mass compared with steel equivalents',
-    ],
-    repeatScenarios: [
-      'Consumable replacement schedules — bushes and wear sleeves are re-ordered on wear intervals',
-      'OEM spare-part programmes for shaft assemblies',
-      'Match-set re-orders where parts from one assembly are produced together',
-    ],
-    inspectionFocus: [
-      'Diameter and roundness at each step, measured at the callout stations',
-      'Runout between the journal and the driven feature',
-      'Bush bore diameter and press-fit surface finish',
-    ],
-    toleranceNote:
-      'Roundness, step diameters and coaxiality are evaluated per feature; runout is confirmed against the datum scheme on your drawing.',
-    finishingNote:
-      'As-machined is common for wear parts; passivation or blasting is added when a surface specification is required.',
-  },
-  {
-    slug: 'titanium-replacement-parts',
-    name: 'Titanium Replacement Parts & Spares',
-    shortDescription:
-      'Re-machined or reverse-engineered parts made from existing drawings and samples.',
-    title: 'Titanium Replacement Parts & Spares',
-    typicalFeatures: [
-      'Parts restored to the original drawing after wear, corrosion or mechanical damage',
-      'Reverse-engineered components produced from a physical sample or a failed part',
-      'Obsolete components reproduced when the original supplier or material data is unavailable',
-      'Cross-checked against the worn sample so critical surfaces are reconstructed deliberately',
-    ],
-    referenceStructure: [
-      'Worn component re-machined to the original drawing dimensions',
-      'Sample-based reproduction with reconstructed features and callouts',
-      'Obsolete part replaced by an updated revision with a documented difference list',
-    ],
-    industryScenarios: [
-      'Plant maintenance: keeping equipment running without waiting for an original-equipment order',
-      'Chemical processing: replacement of parts exposed to corrosive service',
-      'Electroplating: submerged wear components replaced on schedule',
-      'Legacy equipment: reviving assemblies whose drawings are long out of circulation',
-    ],
-    repeatScenarios: [
-      'Scheduled spare replenishment against the archived drawing and order record',
-      'Batch replacement of identical worn parts across a fleet of machines',
-      'Ongoing re-order of a reverse-engineered part once the first article is approved',
-    ],
-    inspectionFocus: [
-      'Comparison against the original drawing or sample, with deviations listed explicitly',
-      'Dimensional report on the features that caused the original failure',
-      'Material certificate matched to the original specification where it is still available',
-    ],
-    toleranceNote:
-      'Tolerances are restored to the original drawing callouts; where the drawing is unavailable, we propose a tolerance scheme with you before quoting.',
-    finishingNote:
-      'Finishing follows the original specification. If the original process is no longer available, the closest supported alternative is confirmed in writing.',
-  },
-  {
-    slug: 'titanium-oem-components',
-    name: 'Titanium OEM Components',
-    shortDescription:
-      'Customer-specified components and small machined sub-assemblies for OEM equipment programmes.',
-    title: 'Titanium OEM Components',
+  'custom-mechanical-components': {
+    title: 'Titanium Custom & OEM Mechanical Components',
     typicalFeatures: [
       'Components defined by an OEM drawing and delivered against a drawing revision number',
       'Small machined sub-assemblies where several parts share a tolerance stack',
-      'Matched sets produced together to keep interfaces consistent',
-      'Interface features held to the values that matter to the assembled product',
+      'Reverse-engineered or obsolete parts reproduced from an archived drawing or a worn sample',
+      'Mechanical adapters and linkage blocks with lugs and pin features',
     ],
     referenceStructure: [
       'Single machined component supplied against an OEM drawing revision',
       'Two- or three-part interface set machined to a shared tolerance stack',
-      'Assembly-matched batch of identical components for one build slot',
+      'Worn component re-machined to the original drawing dimensions',
+      'Block with mounting lugs and a pin hole',
     ],
     industryScenarios: [
       'Equipment manufacturers embedding titanium components in their own products',
-      'Machine builders needing corrosion-resistant parts in a defined interface',
+      'Plant maintenance: keeping equipment running without waiting for an original-equipment order',
       'Process-equipment OEMs supplying spares under their own brand',
-      'Instrument and fixture makers with low-volume, revision-controlled programmes',
+      'Machine builders needing corrosion-resistant parts in a defined interface',
     ],
     repeatScenarios: [
       'Scheduled call-off orders against a released drawing revision',
       'Revision changes handled through a documented difference list',
-      'Repeat orders placed from the archived drawing and inspection record',
+      'Batch replacement of identical worn parts across a fleet of machines',
     ],
     inspectionFocus: [
       'Interface dimensions confirmed against the OEM drawing revision in force',
-      'Dimensional report linked to the released revision number',
+      'Comparison against the original drawing or sample, with deviations listed explicitly',
       'FAI on first production run, with the report archived for later call-offs',
     ],
     toleranceNote:
@@ -263,8 +232,26 @@ export const PART_FAMILIES: PartFamily[] = [
     finishingNote:
       'Finishing is specified per revision; passivation records are supplied where the surface treatment is part of the specification.',
   },
-] as const;
+};
+
+export const PART_FAMILIES: PartFamily[] = PART_PRODUCT_FAMILIES.map((family) => {
+  const copy = FAMILY_COPY[family.slug];
+  return {
+    slug: family.slug,
+    name: family.name,
+    shortDescription: family.description,
+    title: copy.title,
+    typicalFeatures: copy.typicalFeatures,
+    referenceStructure: copy.referenceStructure,
+    industryScenarios: copy.industryScenarios,
+    repeatScenarios: copy.repeatScenarios,
+    inspectionFocus: copy.inspectionFocus,
+    toleranceNote: copy.toleranceNote,
+    finishingNote: copy.finishingNote,
+  };
+});
 
 export function getPartFamily(slug: string): PartFamily | undefined {
   return PART_FAMILIES.find((family) => family.slug === slug);
 }
+

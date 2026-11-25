@@ -8,7 +8,19 @@
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { CAPABILITIES } from '../lib/capabilities';
+import { INQUIRY_SCREENING_RULES } from '../lib/part-products';
 import { breadcrumbSchema, serviceSchema } from '../lib/schema';
+
+/**
+ * 询盘筛选规则的展示标签。
+ * reject —— 明确拒接；refer —— 转介给车削/磨削等更合适的供应商；
+ * engineering-review —— 可以做，但必须先做工程评审。
+ */
+const ACTION_LABELS: Record<string, string> = {
+  reject: 'Not machined',
+  refer: 'Referred out',
+  'engineering-review': 'Engineering review required',
+};
 
 const title = 'Machining Capabilities and Scope';
 const description =
@@ -122,10 +134,53 @@ const jsonLd = [
   <section class="container-page py-14">
     <h2 class="text-2xl">What We Do Not Machine</h2>
     <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
-      Being explicit about scope saves both sides time. If your part falls into any category below, we will
-      decline and explain why.
+      Being explicit about scope saves both sides time. These are the inquiry screening rules we actually apply: if
+      your part falls into any category below, we decline, refer it on, or put it through an engineering review first —
+      and we tell you which one it is.
     </p>
-    <ul class="mt-6 flex flex-col gap-3">
+
+    <div class="mt-8 overflow-x-auto">
+      <table class="data-table">
+        <caption class="sr-only">Parts and features that are declined, referred out, or require engineering review</caption>
+        <thead>
+          <tr>
+            <th scope="col">Part or feature</th>
+            <th scope="col">Why</th>
+            <th scope="col">How we handle it</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            INQUIRY_SCREENING_RULES.map((rule) => (
+              <tr>
+                <th scope="row">{rule.item}</th>
+                <td class="text-ink-600">{rule.reason}</td>
+                <td>
+                  <span
+                    class={
+                      rule.action === 'reject'
+                        ? 'inline-block rounded bg-warn-100 px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-warn-600'
+                        : rule.action === 'refer'
+                          ? 'inline-block rounded bg-ink-200 px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-ink-700'
+                          : 'inline-block rounded bg-ti-50 px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-ti-700'
+                    }
+                  >
+                    {ACTION_LABELS[rule.action]}
+                  </span>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="mt-12 text-lg">Process boundaries</h3>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      These are not part-machining decisions — they are manufacturing processes outside what our qualified suppliers
+      run.
+    </p>
+    <ul class="mt-5 flex flex-col gap-3">
       {
         CAPABILITIES.notOffered.map((item) => (
           <li class="flex flex-col gap-1 border-l-2 border-warn-500 bg-warn-50 px-4 py-3">
@@ -135,6 +190,7 @@ const jsonLd = [
         ))
       }
     </ul>
+
     <p class="mt-6 text-sm leading-relaxed text-ink-600">
       If your part is not listed here but you are unsure, send the drawing — we will tell you honestly.
     </p>

@@ -10,10 +10,14 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { CAPABILITIES } from '../../lib/capabilities';
 import { PART_FAMILIES } from '../../lib/parts';
+import { getSeoCandidates, getProductsByFamily } from '../../lib/part-products';
 import { breadcrumbSchema } from '../../lib/schema';
 
 const title = 'Titanium Parts — Part Families and Industry Scenarios';
-const description = `Six titanium part families machined to drawing within 3-axis / 4-axis scope at ${CAPABILITIES.tolerance}. Reference structures, materials, finishing, batch sizes, inspection documents and repeat-order scenarios.`;
+const description = `Five titanium part families machined to drawing within 3-axis / 4-axis scope at ${CAPABILITIES.tolerance}. Reference structures, materials, finishing, batch sizes, inspection documents and repeat-order scenarios.`;
+
+/** 已独立建页的产品（建站处理方式为 product-page）。 */
+const PRODUCT_PAGES = getSeoCandidates().filter((product) => product.seoAction === 'product-page');
 
 const jsonLd = [
   breadcrumbSchema([
@@ -25,28 +29,28 @@ const jsonLd = [
 const industries = [
   {
     name: 'Chemical processing',
-    need: 'Wetted connection hardware, housings and shaft parts that survive aggressive media.',
-    families: ['titanium-flanges', 'titanium-housings', 'titanium-shafts-bushings'],
+    need: 'Wetted connection hardware, housings and manifold parts that survive aggressive media.',
+    families: ['flanges-plates-interfaces', 'blocks-housings-manifolds', 'custom-mechanical-components'],
   },
   {
     name: 'Electroplating equipment',
     need: 'Immersed racks, carriers and wear parts that tolerate bath chemistry.',
-    families: ['titanium-brackets', 'titanium-shafts-bushings', 'titanium-housings'],
+    families: ['mounting-structural-components', 'custom-mechanical-components', 'blocks-housings-manifolds'],
   },
   {
     name: 'Industrial equipment',
     need: 'Corrosion-exposed mounting, support and replacement components for machines in service.',
-    families: ['titanium-brackets', 'titanium-replacement-parts', 'titanium-oem-components'],
+    families: ['mounting-structural-components', 'custom-mechanical-components', 'tooling-fixtures-end-effectors'],
   },
   {
     name: 'OEM equipment builders',
     need: 'Revision-controlled components supplied against the OEM drawing and inspection record.',
-    families: ['titanium-oem-components', 'titanium-flanges', 'titanium-brackets'],
+    families: ['custom-mechanical-components', 'flanges-plates-interfaces', 'mounting-structural-components'],
   },
   {
     name: 'Maintenance and spares',
     need: 'Obsolete or worn parts reproduced from an archived drawing or a physical sample.',
-    families: ['titanium-replacement-parts', 'titanium-shafts-bushings', 'titanium-housings'],
+    families: ['custom-mechanical-components', 'flanges-plates-interfaces', 'blocks-housings-manifolds'],
   },
 ] as const;
 
@@ -61,8 +65,8 @@ const familyName = (slug: string) =>
       <p class="eyebrow">Parts</p>
       <h1 class="mt-3 max-w-3xl text-3xl md:text-4xl">{title}</h1>
       <p class="mt-4 max-w-2xl text-base leading-relaxed text-ink-600">
-        Six part families we machine to drawing, and the industry situations they usually come from. Standard
-        structures, drawing-based customisation, small to medium batches.
+        Five part families we machine to drawing, the individual parts inside them, and the industry situations they
+        usually come from. Standard structures, drawing-based customisation, small to medium batches.
       </p>
       <div class="mt-7 flex flex-wrap gap-3">
         <a
@@ -91,15 +95,53 @@ const familyName = (slug: string) =>
 
     <div class="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       {
-        PART_FAMILIES.map((family) => (
-          <a href={`/parts/${family.slug}/`} class="card group flex flex-col p-5 transition-colors hover:border-ti-400">
-            <h3 class="text-lg text-ink-950">{family.name}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-ink-600">{family.shortDescription}</p>
-            <p class="mt-3 text-sm text-ink-500">Typical: {family.referenceStructure[0]}</p>
-            <span class="mt-4 inline-block text-sm font-semibold text-ti-700">View part family →</span>
-          </a>
-        ))
+        PART_FAMILIES.map((family) => {
+          const familyProducts = getProductsByFamily(family.slug).filter(
+            (item) => item.reviewStatus !== 'excluded'
+          );
+          return (
+            <a href={`/parts/${family.slug}/`} class="card group flex flex-col p-5 transition-colors hover:border-ti-400">
+              <h3 class="text-lg text-ink-950">{family.name}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-600">{family.shortDescription}</p>
+              <p class="mt-3 text-sm text-ink-500">Typical: {family.referenceStructure[0]}</p>
+              {familyProducts.length > 0 && (
+                <p class="mt-3 text-sm text-ink-500">
+                  {familyProducts.length} part{familyProducts.length === 1 ? '' : 's'} in this family
+                </p>
+              )}
+              <span class="mt-4 inline-block text-sm font-semibold text-ti-700">View part family →</span>
+            </a>
+          );
+        })
       }
+    </div>
+  </section>
+
+  <!-- Product pages -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <h2 class="text-2xl">Product Pages</h2>
+      <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+        The parts below have their own page because their geometry and purchase scenario are specific enough to be
+        worth describing on their own. Each one is still machined to your drawing — none of them is a stocked item,
+        and each page states what is confirmed before quotation.
+      </p>
+
+      <div class="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {
+          PRODUCT_PAGES.map((product) => (
+            <a
+              href={`/parts/products/${product.slug}/`}
+              class="card group flex flex-col p-5 transition-colors hover:border-ti-400"
+            >
+              <h3 class="text-lg text-ink-950">{product.nameEn}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-600">{product.geometryFeatures[0]}</p>
+              <p class="mt-3 text-sm text-ink-500">{product.buyers.join(' · ')}</p>
+              <span class="mt-4 inline-block text-sm font-semibold text-ti-700">View product →</span>
+            </a>
+          ))
+        }
+      </div>
     </div>
   </section>
   <!-- Industry scenarios -->
