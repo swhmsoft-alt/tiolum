@@ -12,3 +12,15 @@
 /parts/titanium-replacement-parts /parts/custom-mechanical-components/ 301
 /parts/titanium-oem-components/ /parts/custom-mechanical-components/ 301
 /parts/titanium-oem-components /parts/custom-mechanical-components/ 301
+
+# 旧扁平产品 URL → 新层级产品 URL /parts/<产品族>/<产品>/
+/parts/products/titanium-mounting-brackets/ /parts/mounting-structural-components/titanium-mounting-brackets/ 301
+/parts/products/titanium-mounting-brackets /parts/mounting-structural-components/titanium-mounting-brackets/ 301
+/parts/products/titanium-adapter-plates/ /parts/mounting-structural-components/titanium-adapter-plates/ 301
+/parts/products/titanium-adapter-plates /parts/mounting-structural-components/titanium-adapter-plates/ 301
+/parts/products/titanium-sensor-housings/ /parts/blocks-housings-manifolds/titanium-sensor-housings/ 301
+/parts/products/titanium-sensor-housings /parts/blocks-housings-manifolds/titanium-sensor-housings/ 301
+/parts/products/titanium-manifold-blocks/ /parts/blocks-housings-manifolds/titanium-manifold-blocks/ 301
+/parts/products/titanium-manifold-blocks /parts/blocks-housings-manifolds/titanium-manifold-blocks/ 301
+/parts/products/titanium-blind-flanges/ /parts/flanges-plates-interfaces/titanium-blind-flanges/ 301
+/parts/products/titanium-blind-flanges /parts/flanges-plates-interfaces/titanium-blind-flanges/ 301

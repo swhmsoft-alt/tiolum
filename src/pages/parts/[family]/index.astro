@@ -1,24 +1,32 @@
 ---
 /**
- * /parts/[slug]/ — 零件族页（五个产品族共用一套结构）。
+ * /parts/[family]/ — 零件族页（五个产品族共用一套结构）。
  *
  * 结构固定：示意图 → 典型特征 → 适用材料与公差 → 常见后处理 →
- * 批量与交期 → 质检文件 → 重复采购场景 → CTA。
+ * 批量与交期 → 质检文件 → 族内产品 → 重复采购场景 → CTA。
  *
  * 规则：
  * - 不出现价格、库存、SKU 编号、现货交期。
  * - 能力数字全部从 CAPABILITIES 引用，零件族文案从 src/lib/parts.ts 引用。
+ * - 族页必须链接到本族已建页的产品（见「Products in This Family」），
+ *   族页与产品页互为父子关系，权重垂直下沉。
  */
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PartSchematic from '../../components/PartSchematic.astro';
-import { CAPABILITIES } from '../../lib/capabilities';
-import { PART_FAMILIES } from '../../lib/parts';
-import { getCaseStudyByFamily } from '../../lib/caseStudies';
-import { breadcrumbSchema } from '../../lib/schema';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PartSchematic from '../../../components/PartSchematic.astro';
+import { CAPABILITIES } from '../../../lib/capabilities';
+import { PART_FAMILIES } from '../../../lib/parts';
+import { getCaseStudyByFamily } from '../../../lib/caseStudies';
+import {
+  getProductsByFamily,
+  getProductPagesByFamily,
+  getProductUrl,
+  isProductPage,
+} from '../../../lib/part-products';
+import { breadcrumbSchema } from '../../../lib/schema';
 
 export function getStaticPaths() {
   return PART_FAMILIES.map((family) => ({
-    params: { slug: family.slug },
+    params: { family: family.slug },
     props: { family },
   }));
 }
@@ -40,6 +48,14 @@ const jsonLd = [
 
 const others = PART_FAMILIES.filter((item) => item.slug !== family.slug);
 const relatedCase = getCaseStudyByFamily(family.slug);
+
+/** 本族已独立建页的产品 —— 族页链接到产品页，权重垂直下沉。 */
+const familyProductPages = getProductPagesByFamily(family.slug);
+
+/** 本族未独立建页的产品 —— 合并在本族页面内承接，不单独建页。 */
+const familyOtherProducts = getProductsByFamily(family.slug).filter(
+  (item) => !isProductPage(item) && item.reviewStatus !== 'excluded'
+);
 ---
 
 <BaseLayout title={title} description={description} path={path} jsonLd={jsonLd}>
@@ -205,6 +221,49 @@ const relatedCase = getCaseStudyByFamily(family.slug);
         How inspection is carried out →
       </a>
     </div>
+  </section>
+
+  <!-- Products in this family -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">Products in This Family</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      The parts below are the individual product types we machine inside this family. Each one has its own page
+      describing the geometry, the buyer and the review points. Every part is still produced against your drawing.
+    </p>
+
+    {
+      familyProductPages.length > 0 && (
+        <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {familyProductPages.map((item) => (
+            <a href={getProductUrl(item)} class="card flex flex-col p-5 transition-colors hover:border-ti-400">
+              <h3 class="text-base text-ink-950">{item.nameEn}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-600">{item.geometryFeatures[0]}</p>
+              <span class="mt-4 inline-block text-sm font-semibold text-ti-700">View product →</span>
+            </a>
+          ))}
+        </div>
+      )
+    }
+
+    {
+      familyOtherProducts.length > 0 && (
+        <>
+          <h3 class="mt-10 text-lg">Also Machined in This Family</h3>
+          <p class="mt-2 text-sm leading-relaxed text-ink-600">
+            These part types are machined in the same family and covered by this page rather than by a separate product
+            page. Send the drawing and we will confirm the geometry against this family.
+          </p>
+          <ul class="mt-4 grid gap-2 sm:grid-cols-2">
+            {familyOtherProducts.map((item) => (
+              <li class="border-l-2 border-ink-200 pl-3 text-sm leading-relaxed text-ink-700">
+                {item.nameEn}
+                <span class="block text-xs text-ink-500">{item.geometryFeatures[0]}</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
   </section>
 
   <!-- Industry scenarios -->

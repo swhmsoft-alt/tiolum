@@ -88,6 +88,20 @@ export interface PartProduct {
   purchasePath: PurchasePath;
   /** 长尾关键词。 */
   longTailKeywords: string[];
+  /**
+   * 以下 5 个字段为产品级差异化内容，仅 seoAction === 'product-page' 的条目必须填写。
+   * 未建页的条目留空即可，族页与产品页模板会在缺省时回落到族级文案。
+   */
+  /** 典型图纸要素 —— 图纸上会标出的几何信息。 */
+  typicalDrawings?: string[];
+  /** 典型应用场景 —— 该产品实际被用在什么设备或工序上。 */
+  applications?: string[];
+  /** 公差关注点 —— 该产品上真正决定难度的特征。 */
+  toleranceFocus?: string[];
+  /** 检验重点 —— 该产品上需要重点测量的项目。 */
+  inspectionFocus?: string[];
+  /** 材料形态 —— 该产品适合的坯料形式与供货状态。 */
+  materialForms?: string[];
   /** 工艺说明：是否涉及车削、钻孔、攻丝或其他外协工序。 */
   processNote: string;
   /** 风险说明：需要在报价前评审的工程或商业风险。 */
@@ -176,6 +190,31 @@ export const PART_PRODUCTS: PartProduct[] = [
       'Custom Titanium Brackets to Drawing',
       'CNC Milled Titanium Mounting Brackets',
     ],
+    typicalDrawings: [
+      'Bent or welded bracket blank with a milled mounting face and a multi-face hole pattern',
+      'Relief cut-outs at stress-concentration corners and a machined flat reference face',
+      'Lug with a machined bore, counterbore or tapped hole rather than a drilled-only hole',
+    ],
+    applications: [
+      'Sensor and instrument mounting on process equipment in chemical and pharmaceutical service',
+      'Electroplating line immersion racks and structural supports exposed to bath chemistry',
+      'Robot and automation equipment mounting where mass reduction matters',
+    ],
+    toleranceFocus: [
+      'Flatness and parallelism of the mounting face relative to the hole pattern',
+      'Position of the hole pattern against the datum face, not against the machine axes',
+      'Edge distance and corner relief where a sharp internal corner would otherwise crack',
+    ],
+    inspectionFocus: [
+      'Hole position and diameter across the pattern, reported as a per-feature table',
+      'Flatness of the mounting face and its parallelism to the secondary datum',
+      'Surface condition at cut edges and corner reliefs',
+    ],
+    materialForms: [
+      'Plate or block blank cut to the finished outline before milling',
+      'Sheet or welded fabrication supplied as a near-net blank',
+      'Bar stock for small bracket bodies where the outline fits the section',
+    ],
     processNote:
       'Flat and prismatic geometry suits 3-axis milling; multi-face patterns are handled by 4-axis indexing or repeat fixturing. Hole tapping and counterboring are in-house operations.',
     riskNote:
@@ -201,6 +240,31 @@ export const PART_PRODUCTS: PartProduct[] = [
       'CNC Milled Titanium Adapter Plates',
       'Custom Titanium Adapter Plate to Drawing',
       'Titanium Equipment Retrofit Adapter Plate',
+    ],
+    typicalDrawings: [
+      'Plate carrying two hole groups with different spacing, one from the existing equipment and one from the new build',
+      'Locating spigot, dowel or pilot hole that fixes the plate to the machine interface',
+      'Stepped or relieved underside providing clearance over the equipment it adapts',
+    ],
+    applications: [
+      'Retrofitting an instrument or drive onto an existing machine frame without redrawing the frame',
+      'Mounting a replacement module onto a third-party actuator or rotary unit',
+      'Bridging a hole-pattern difference between an OEM base plate and a customer sub-assembly',
+    ],
+    toleranceFocus: [
+      'Position of the new hole group relative to the copied interface group',
+      'Flatness of the plate over the span between the two hole groups',
+      'Coaxiality or alignment of the locating feature with the machine interface it mates into',
+    ],
+    inspectionFocus: [
+      'Hole-pattern position reported for both groups in one datum frame',
+      'Flatness and parallelism of the two machined faces',
+      'Fit check against the mating interface, recorded on the inspection report',
+    ],
+    materialForms: [
+      'Plate cut from bar or sheet to the finished outline',
+      'Block blank when the adapter needs more thickness than a plate can give',
+      'Pre-machined plate with the copied interface already present',
     ],
     processNote:
       'Plate geometry with two hole groups is 3-axis work; 4-axis indexing covers the opposite side where required.',
@@ -254,6 +318,31 @@ export const PART_PRODUCTS: PartProduct[] = [
       'Custom Titanium Sensor Housings to Drawing',
       'Grade 5 Titanium Instrument Housing',
     ],
+    typicalDrawings: [
+      'Prismatic body with a shallow milled cavity and a cover land around the opening',
+      'Cover interface carrying a bolt pattern and a gasket groove or sealing land',
+      'Port boss with a stepped bore and a threaded entry, plus a mounting foot with tapped holes',
+    ],
+    applications: [
+      'Instrument enclosures for pressure, temperature and flow sensors in process plants',
+      'Laboratory and analytical equipment housings where moisture or chemical exposure matters',
+      'Rigid mounting of a sensing element where the housing itself sets the measurement accuracy',
+    ],
+    toleranceFocus: [
+      'Flatness of the cover land and its parallelism to the mounting face',
+      'Position of the port boss axis relative to the sensor axis',
+      'Cavity depth and cavity-to-cover interference, which controls the sealing and thermal path',
+    ],
+    inspectionFocus: [
+      'Cover-land flatness and seal-groove geometry, measured before assembly',
+      'Port thread gauge check and bore diameter at the entry',
+      'Cavity depth and the assembled gap between housing and cover',
+    ],
+    materialForms: [
+      'Block blank machined on all faces, cavity milled from one side',
+      'Bar or plate for shallow housings where thickness allows a single setup',
+      'Near-net casting or forging where the customer already has a blank in the right grade',
+    ],
     processNote:
       'Shallow cavities and regular outer faces are within 3/4-axis scope. Deep thin-walled cavities are not the same case.',
     riskNote:
@@ -280,6 +369,31 @@ export const PART_PRODUCTS: PartProduct[] = [
       'CNC Milled Titanium Hydraulic Manifold',
       'Titanium Manifold Block to Drawing',
     ],
+    typicalDrawings: [
+      'Block with ports drilled from more than two faces, with port axes intersecting inside the body',
+      'Sealing face on each port shoulder and a threaded or spot-faced port entry',
+      'Mounting feet with through holes and a marked parting line or weld-boss reference',
+    ],
+    applications: [
+      'Hydraulic and pneumatic distribution blocks in equipment exposed to corrosive media',
+      'Instrument manifolds consolidating several pressure or fluid connections into one body',
+      'Chemical processing skids where wetted parts face aggressive media at low volume',
+    ],
+    toleranceFocus: [
+      'Position and true position of intersecting port axes relative to the sealing faces',
+      'Intersection geometry where two drilled passages meet, including burr and chip clearance',
+      'Flatness of the port sealing faces and of the mounting face that carries the block',
+    ],
+    inspectionFocus: [
+      'Port-axis position and diameter measured per port, reported against the mounting datum',
+      'Sealing-face flatness and surface finish on each port shoulder',
+      'Deburring and cleanliness verification of the internal passages before assembly',
+    ],
+    materialForms: [
+      'Solid block blank machined on all six faces',
+      'Bar stock where the block section fits the bar profile',
+      'Near-net blank supplied by the customer when a weldment is involved',
+    ],
     processNote:
       'Regular blocks are machinable, but crossed deep holes and internal sealing surfaces drive the real difficulty. Drilling, tapping and sealing-face finishing are separate operations.',
     riskNote:
@@ -293,7 +407,7 @@ export const PART_PRODUCTS: PartProduct[] = [
     attribute: 'standard-interface-custom',
     reviewStatus: 'review_required',
     priority: 'P2',
-    seoAction: 'defer',
+    seoAction: 'product-page',
     geometryFeatures: [
       'Flat plate with positioning and mounting holes',
       'Threaded holes and datum faces',
@@ -302,6 +416,31 @@ export const PART_PRODUCTS: PartProduct[] = [
     buyers: ['Automation integrators', 'Instrument equipment makers', 'OEM equipment programmes'],
     purchasePath: 'oem-repeat',
     longTailKeywords: ['Titanium Interface Plates', 'CNC Milled Titanium Interface Plate'],
+    typicalDrawings: [
+      'Flat plate whose hole pattern is copied from an existing assembly so the replacement drops straight in',
+      'One or more threaded holes and a machined datum face used as the locating reference',
+      'A second, sparser hole group for the mating half of the interface',
+    ],
+    applications: [
+      'Replacing a worn or damaged interface plate without redrawing the equipment around it',
+      'Joining two sub-assemblies in an OEM programme where the interface pattern is fixed across a batch',
+      'Mounting a sub-assembly onto a machine frame where only the interface, not the whole frame, is replaceable',
+    ],
+    toleranceFocus: [
+      'Position of the copied hole pattern against the original interface, since fit depends on reproducing it',
+      'Flatness of the interface face and its parallelism to the datum',
+      'Thread pitch, thread depth and the condition of the tapped hole after machining',
+    ],
+    inspectionFocus: [
+      'Hole-pattern position and diameter measured against the drawing datum',
+      'Flatness of the interface face',
+      'Thread gauge check on every tapped hole, recorded on the inspection report',
+    ],
+    materialForms: [
+      'Plate cut from bar or sheet to the finished outline',
+      'Block blank where the interface face needs more material for stiffness',
+      'Customer-supplied blank where the interface face is already partly finished',
+    ],
     processNote:
       'Plate geometry with hole systems — straightforward within 3/4-axis scope.',
     riskNote:
@@ -340,7 +479,7 @@ export const PART_PRODUCTS: PartProduct[] = [
     attribute: 'custom-to-drawing',
     reviewStatus: 'review_required',
     priority: 'P2',
-    seoAction: 'defer',
+    seoAction: 'product-page',
     geometryFeatures: [
       'Block with locating holes and datum faces',
       'Parallel machined reference faces',
@@ -349,6 +488,31 @@ export const PART_PRODUCTS: PartProduct[] = [
     buyers: ['Fixture and jig builders', 'Equipment manufacturers'],
     purchasePath: 'oem-repeat',
     longTailKeywords: ['Titanium Fixture Locating Blocks', 'CNC Milled Titanium Locating Block'],
+    typicalDrawings: [
+      'Rectangular block with two or more locating holes on a stated pitch, one of them a diamond or tapered hole for orientation',
+      'A pair of parallel machined reference faces that define the workpiece datum',
+      'Relief slot, pocket or step that locates the workpiece without covering it',
+    ],
+    applications: [
+      'Workholding blocks that locate a part in a machining fixture before a cut',
+      'Repeat-positioning blocks on assembly jigs where the same part must sit the same way every time',
+      'Indexing blocks on inspection fixtures where a workpiece is referenced from two faces',
+    ],
+    toleranceFocus: [
+      'Position of the locating holes relative to the reference faces — the whole function of the block depends on it',
+      'Parallelism and flatness of the two reference faces',
+      'Roundness and diameter of the locating holes, because they take the wear over time',
+    ],
+    inspectionFocus: [
+      'Hole position and diameter measured against the reference-face datum',
+      'Parallelism and flatness of the reference faces',
+      'Position of the relief slot or pocket relative to the locating pattern',
+    ],
+    materialForms: [
+      'Block blank machined on all faces',
+      'Bar stock where the block section fits the bar profile',
+      'Customer-supplied blank when the locating holes are drilled into an existing fixture plate',
+    ],
     processNote:
       'Regular blocks and datum faces are standard 3-axis milling work.',
     riskNote:
@@ -362,7 +526,7 @@ export const PART_PRODUCTS: PartProduct[] = [
     attribute: 'custom-to-drawing',
     reviewStatus: 'review_required',
     priority: 'P2',
-    seoAction: 'defer',
+    seoAction: 'product-page',
     geometryFeatures: [
       'Regular block body with a mounting face and hole system',
       'Shallow cavity or cover interface',
@@ -373,6 +537,31 @@ export const PART_PRODUCTS: PartProduct[] = [
     longTailKeywords: [
       'Titanium Connector Housings',
       'Custom Titanium Connector Housing to Drawing',
+    ],
+    typicalDrawings: [
+      'Block body with a mounting face carrying a fixed hole pattern for the equipment it bolts to',
+      'Shallow milled cavity with a perimeter cover interface, retaining ledge or press-fit step',
+      'Connector-specific features: shell cavity, polarising cut-outs, and a shell or knurl mounting band',
+    ],
+    applications: [
+      'Field connector housings on instrumentation exposed to washdown, chemicals or outdoor duty',
+      'High-vibration electronic enclosures where the housing also carries the shielding',
+      'OEM connector programmes where the housing is a separate line item from the connector insert',
+    ],
+    toleranceFocus: [
+      'Position of the connector cavity relative to the mounting-face hole pattern',
+      'Flatness of the cover interface and the retaining ledge that holds the seal',
+      'Fit of the connector-specific features, since these are matched to a supplier series rather than free design',
+    ],
+    inspectionFocus: [
+      'Cavity dimensions and their position against the mounting datum',
+      'Cover-interface flatness and perimeter gap',
+      'Gauge check of the connector-specific features against the series drawing',
+    ],
+    materialForms: [
+      'Block blank machined on all faces with the cavity milled from one side',
+      'Bar stock for small housings where the section allows it',
+      'Near-net blank where the housing is a weldment with a machined interface only',
     ],
     processNote:
       'Housings are available from titanium machining suppliers; thin walls and precision interfaces need review.',
@@ -400,6 +589,31 @@ export const PART_PRODUCTS: PartProduct[] = [
       'Custom Titanium Flanges to ASME B16.5 Interface',
       'Grade 5 Titanium Blind Flanges',
     ],
+    typicalDrawings: [
+      'Flat disc with a full-face machined sealing surface and a raised or recessed face detail',
+      'Bolt circle with a specified number of holes, referenced to the flange outside diameter',
+      'Overall thickness, hub or face height, and the edge radius called out separately',
+    ],
+    applications: [
+      'Closing the end of a pipe or vessel run where a full bore is not required',
+      'Blank-off points on process lines during commissioning and maintenance shutdowns',
+      'Test and isolation points on equipment handling corrosive or high-purity media',
+    ],
+    toleranceFocus: [
+      'Flatness of the sealing face, which is the surface that actually seals',
+      'True position of the bolt circle relative to the sealing face and to the bore axis',
+      'Thickness at the face and at the rim, because a flange face that is not flat will not seal',
+    ],
+    inspectionFocus: [
+      'Sealing-face flatness measured across the full face, reported separately from the rest of the part',
+      'Bolt-hole position, diameter and concentricity to the bore',
+      'Thickness check and edge condition on the sealing face',
+    ],
+    materialForms: [
+      'Disc cut from bar or plate, then faced and drilled',
+      'Near-net disc blank where the customer supplies the outline',
+      'Forged or cast blank when the referenced interface form requires it',
+    ],
     processNote:
       'A disc with a hole system is machinable, but standard compliance also constrains material form, manufacturing route and inspection — not only the drilled features.',
     riskNote:
@@ -413,7 +627,7 @@ export const PART_PRODUCTS: PartProduct[] = [
     attribute: 'standard-interface-custom',
     reviewStatus: 'review_required',
     priority: 'P2',
-    seoAction: 'defer',
+    seoAction: 'product-page',
     geometryFeatures: [
       'Circular or square mounting face with a bolt pattern',
       'Locating features and a stepped back face',
@@ -424,6 +638,31 @@ export const PART_PRODUCTS: PartProduct[] = [
     longTailKeywords: [
       'Titanium Mounting Flanges',
       'Custom Grade 5 Titanium Mounting Flange',
+    ],
+    typicalDrawings: [
+      'Circular or square face carrying a bolt pattern taken from the assembly it mounts to',
+      'Stepped back face with a locating boss or pilot diameter that indexes the flange on the machine',
+      'Machined mounting face, with a separate note of which side is the reference face',
+    ],
+    applications: [
+      'Mounting a sub-assembly onto an OEM frame where the bolt pattern is fixed across the programme',
+      'Instrument and sensor mounting on process equipment where the flange profile must match the housing',
+      'Retrofit work replacing a worn flange on an existing machine without changing the frame',
+    ],
+    toleranceFocus: [
+      'Concentricity of the locating boss to the bolt circle',
+      'Flatness and perpendicularity of the mounting face relative to the locating feature',
+      'Position of the bolt pattern, which has to reproduce the interface it bolts into',
+    ],
+    inspectionFocus: [
+      'Bolt-circle position and diameter, reported against the locating boss',
+      'Runout of the mounting face relative to the locating boss',
+      'Flatness of the back face and the machined step',
+    ],
+    materialForms: [
+      'Disc or square blank cut from bar or plate',
+      'Forged or cast blank when the flange profile requires a near-net form',
+      'Customer-supplied blank where only the face features are machined',
     ],
     processNote:
       'May involve turning steps or concentric features; the turning share must be confirmed per drawing.',
@@ -438,7 +677,7 @@ export const PART_PRODUCTS: PartProduct[] = [
     attribute: 'custom-to-drawing',
     reviewStatus: 'review_required',
     priority: 'P2',
-    seoAction: 'defer',
+    seoAction: 'product-page',
     geometryFeatures: [
       'Two different interfaces on one body',
       'Steps between the interfaces and a combined bolt system',
@@ -449,6 +688,31 @@ export const PART_PRODUCTS: PartProduct[] = [
     longTailKeywords: [
       'Titanium Adapter Flanges',
       'Custom Titanium Adapter Flange to Drawing',
+    ],
+    typicalDrawings: [
+      'Body carrying two bolt patterns that differ in diameter, hole count or pitch',
+      'Step or shoulder between the two interfaces, with a separate note of which face seals',
+      'Sealing face at each end, and a bore or passage that has to line up through the step',
+    ],
+    applications: [
+      'Connecting two flanged items that share no common standard, without replacing either line',
+      'Retrofits where an existing pipeline has to meet a new equipment flange',
+      'Repair and maintenance work where the original adapter has been lost and the drawing has to be reconstructed',
+    ],
+    toleranceFocus: [
+      'Coaxiality of the two interfaces — an adapter that is not coaxial leaks or binds',
+      'Flatness of the sealing face at each end, and its perpendicularity to the bore',
+      'Position of the second bolt pattern relative to the first, which is the part that makes it an adapter',
+    ],
+    inspectionFocus: [
+      'Coaxiality and runout between the two interfaces, measured as one assembly',
+      'Bolt-pattern position and diameter on each end',
+      'Sealing-face flatness and bore condition on both ends',
+    ],
+    materialForms: [
+      'Disc or stepped blank cut from bar, machined on both ends',
+      'Forged or cast blank where a two-step profile is easier to make near-net',
+      'Customer-supplied blank where only the faces and the bolt patterns are machined',
     ],
     processNote:
       'Two interfaces on one body increase the turning share; this has to be checked against the 3/4-axis route before quoting.',
@@ -463,7 +727,7 @@ export const PART_PRODUCTS: PartProduct[] = [
     attribute: 'custom-to-drawing',
     reviewStatus: 'review_required',
     priority: 'P2',
-    seoAction: 'defer',
+    seoAction: 'product-page',
     geometryFeatures: [
       'Plate or block form with mounting holes on multiple faces',
       'Locating features and datum reference',
@@ -474,6 +738,31 @@ export const PART_PRODUCTS: PartProduct[] = [
     longTailKeywords: [
       'Titanium Robot Mounting Bases',
       'Custom Titanium Robot Base Plate',
+    ],
+    typicalDrawings: [
+      'Plate or block with a mounting hole pattern on the top face matching the robot base interface',
+      'Second hole group on the side or underside for bolting the base onto the machine structure',
+      'Locating pin hole or dowel boss, plus a marked datum face used to set the robot zero',
+    ],
+    applications: [
+      'Mounting a robot or linear axis onto a machine frame where added mass loads the structure',
+      'Building a repeatable end-of-line fixture base where the robot must return to the same position',
+      'Automation cells installed in corrosive or washdown areas where the base is in the splash zone',
+    ],
+    toleranceFocus: [
+      'Position of the robot interface hole pattern against the locating feature — this sets repeatability',
+      'Flatness and perpendicularity of the robot interface face',
+      'Position of the secondary hole group relative to the robot interface, which controls how the base sits on the frame',
+    ],
+    inspectionFocus: [
+      'Robot-interface hole pattern position and diameter, reported against the locating feature',
+      'Flatness and perpendicularity of the interface face',
+      'Position of the secondary hole group and the condition of the locating pin hole',
+    ],
+    materialForms: [
+      'Plate blank cut from bar or sheet',
+      'Block blank when the base has to carry a cantilevered load',
+      'Customer-supplied plate where only the interface faces are machined',
     ],
     processNote:
       'Plate and block geometry with a hole system — comfortably within 3/4-axis scope.',
@@ -1067,6 +1356,26 @@ export function getPartProductFamily(slug: string): PartProductFamily | undefine
 /** 取某产品族下的全部产品。 */
 export function getProductsByFamily(familySlug: string): PartProduct[] {
   return PART_PRODUCTS.filter((product) => product.familySlug === familySlug);
+}
+
+/** 该产品是否拥有独立页面（仅 product-page 建页）。 */
+export function isProductPage(product: PartProduct): boolean {
+  return product.seoAction === 'product-page';
+}
+
+/**
+ * 产品页 URL。
+ *
+ * 结构为 /parts/<产品族>/<产品>/ —— 族关键词与产品关键词同在一条 URL 内，
+ * 且与面包屑、站点目录结构三者同构。
+ */
+export function getProductUrl(product: PartProduct): string {
+  return `/parts/${product.familySlug}/${product.slug}/`;
+}
+
+/** 取某产品族下已独立建页的产品。 */
+export function getProductPagesByFamily(familySlug: string): PartProduct[] {
+  return getProductsByFamily(familySlug).filter(isProductPage);
 }
 
 /** 按评审状态取产品。 */

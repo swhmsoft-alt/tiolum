@@ -10,14 +10,19 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { CAPABILITIES } from '../../lib/capabilities';
 import { PART_FAMILIES } from '../../lib/parts';
-import { getSeoCandidates, getProductsByFamily } from '../../lib/part-products';
+import {
+  getSeoCandidates,
+  getProductsByFamily,
+  getProductUrl,
+  isProductPage,
+} from '../../lib/part-products';
 import { breadcrumbSchema } from '../../lib/schema';
 
 const title = 'Titanium Parts — Part Families and Industry Scenarios';
 const description = `Five titanium part families machined to drawing within 3-axis / 4-axis scope at ${CAPABILITIES.tolerance}. Reference structures, materials, finishing, batch sizes, inspection documents and repeat-order scenarios.`;
 
 /** 已独立建页的产品（建站处理方式为 product-page）。 */
-const PRODUCT_PAGES = getSeoCandidates().filter((product) => product.seoAction === 'product-page');
+const PRODUCT_PAGES = getSeoCandidates().filter(isProductPage);
 
 const jsonLd = [
   breadcrumbSchema([
@@ -99,18 +104,41 @@ const familyName = (slug: string) =>
           const familyProducts = getProductsByFamily(family.slug).filter(
             (item) => item.reviewStatus !== 'excluded'
           );
+          const familyProductPages = familyProducts.filter(isProductPage);
           return (
-            <a href={`/parts/${family.slug}/`} class="card group flex flex-col p-5 transition-colors hover:border-ti-400">
-              <h3 class="text-lg text-ink-950">{family.name}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-ink-600">{family.shortDescription}</p>
-              <p class="mt-3 text-sm text-ink-500">Typical: {family.referenceStructure[0]}</p>
-              {familyProducts.length > 0 && (
-                <p class="mt-3 text-sm text-ink-500">
-                  {familyProducts.length} part{familyProducts.length === 1 ? '' : 's'} in this family
-                </p>
+            <div class="card flex flex-col p-5">
+              <a href={`/parts/${family.slug}/`} class="group">
+                <h3 class="text-lg text-ink-950 transition-colors group-hover:text-ti-700">
+                  {family.name}
+                </h3>
+                <p class="mt-2 text-sm leading-relaxed text-ink-600">{family.shortDescription}</p>
+                <p class="mt-3 text-sm text-ink-500">Typical: {family.referenceStructure[0]}</p>
+                {familyProducts.length > 0 && (
+                  <p class="mt-3 text-sm text-ink-500">
+                    {familyProducts.length} part{familyProducts.length === 1 ? '' : 's'} in this family
+                  </p>
+                )}
+                <span class="mt-4 inline-block text-sm font-semibold text-ti-700">View part family →</span>
+              </a>
+
+              {familyProductPages.length > 0 && (
+                <div class="mt-5 border-t border-ink-200 pt-4">
+                  <p class="text-xs font-semibold uppercase tracking-wider text-ink-500">Product pages</p>
+                  <ul class="mt-2 flex flex-col gap-1.5">
+                    {familyProductPages.map((product) => (
+                      <li>
+                        <a
+                          href={getProductUrl(product)}
+                          class="text-sm text-ti-700 underline underline-offset-2 hover:text-ti-600"
+                        >
+                          {product.nameEn}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
-              <span class="mt-4 inline-block text-sm font-semibold text-ti-700">View part family →</span>
-            </a>
+            </div>
           );
         })
       }
@@ -127,19 +155,39 @@ const familyName = (slug: string) =>
         and each page states what is confirmed before quotation.
       </p>
 
-      <div class="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <div class="mt-8 flex flex-col gap-10">
         {
-          PRODUCT_PAGES.map((product) => (
-            <a
-              href={`/parts/products/${product.slug}/`}
-              class="card group flex flex-col p-5 transition-colors hover:border-ti-400"
-            >
-              <h3 class="text-lg text-ink-950">{product.nameEn}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-ink-600">{product.geometryFeatures[0]}</p>
-              <p class="mt-3 text-sm text-ink-500">{product.buyers.join(' · ')}</p>
-              <span class="mt-4 inline-block text-sm font-semibold text-ti-700">View product →</span>
-            </a>
-          ))
+          PART_FAMILIES.map((family) => {
+            const familyProductPages = PRODUCT_PAGES.filter(
+              (product) => product.familySlug === family.slug
+            );
+            if (familyProductPages.length === 0) return null;
+            return (
+              <div>
+                <h3 class="text-xl text-ink-950">
+                  <a
+                    href={`/parts/${family.slug}/`}
+                    class="transition-colors hover:text-ti-700"
+                  >
+                    {family.name}
+                  </a>
+                </h3>
+                <div class="mt-4 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                  {familyProductPages.map((product) => (
+                    <a
+                      href={getProductUrl(product)}
+                      class="card group flex flex-col p-5 transition-colors hover:border-ti-400"
+                    >
+                      <h4 class="text-lg text-ink-950">{product.nameEn}</h4>
+                      <p class="mt-2 text-sm leading-relaxed text-ink-600">{product.geometryFeatures[0]}</p>
+                      <p class="mt-3 text-sm text-ink-500">{product.buyers.join(' · ')}</p>
+                      <span class="mt-4 inline-block text-sm font-semibold text-ti-700">View product →</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            );
+          })
         }
       </div>
     </div>
