@@ -7,9 +7,14 @@
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { CAPABILITIES } from '../../lib/capabilities';
+import { BRAND } from '../../lib/brand';
 import { CASE_STUDIES, getPartFamilyName } from '../../lib/caseStudies';
 import { getProductPagesByFamily, getProductUrl } from '../../lib/part-products';
-import { breadcrumbSchema } from '../../lib/schema';
+import {
+  articleSchema,
+  breadcrumbSchema,
+  CONTENT_PUBLISHED_DATE,
+} from '../../lib/schema';
 
 export function getStaticPaths() {
   return CASE_STUDIES.map((study) => ({
@@ -22,7 +27,36 @@ const { study } = Astro.props;
 
 const path = `/case-studies/${study.slug}/`;
 const title = study.title;
-const description = study.summary;
+/**
+ * meta title 需控制在 60 字符内（含 " | Titolum" 后缀）。
+ * study.title 是 H1 与卡片标题，属已验证的可见文案，不在此改动 ——
+ * 这里只派生一个精简的 meta title：零件族关键词 + 行业关键词。
+ */
+const INDUSTRY_LABEL: Record<string, string> = {
+  'Electroplating equipment': 'Electroplating',
+  'Chemical processing': 'Chemical Processing',
+  'Industrial equipment maintenance': 'Plant Maintenance',
+  'OEM equipment builders': 'Equipment Builders',
+};
+const partLabel = study.title.replace(/ Example$/, '').replace(/^.*—\s*/, '');
+const industryLabel = INDUSTRY_LABEL[study.industry] ?? study.industry;
+let metaTitle = `${partLabel} — ${industryLabel}`;
+if ((`${metaTitle} | Titolum`).length > 60) {
+  metaTitle = `${partLabel.replace(/ & [^&]+$/, '')} — ${industryLabel}`;
+}
+
+/** meta description 超过 155 字符时，在句边界截断（不改可见文案）。 */
+const rawDescription = study.summary;
+const sentences = rawDescription.match(/[^.]+\./g) ?? [rawDescription];
+let metaDescription = rawDescription;
+if (metaDescription.length > 155) {
+  let acc = '';
+  for (const s of sentences) {
+    if ((acc + s).length > 155) break;
+    acc += s;
+  }
+  metaDescription = acc.trim() || rawDescription.slice(0, 152).replace(/\s+\S*$/, '') + '…';
+}
 
 const jsonLd = [
   breadcrumbSchema([
@@ -30,6 +64,13 @@ const jsonLd = [
     { name: 'Case Studies', path: '/case-studies/' },
     { name: study.title, path },
   ]),
+  articleSchema({
+    headline: study.title,
+    description: metaDescription,
+    datePublished: CONTENT_PUBLISHED_DATE,
+    url: new URL(path, `${BRAND.url}/`).toString(),
+    about: getPartFamilyName(study.partFamily),
+  }),
 ];
 
 const others = CASE_STUDIES.filter((item) => item.slug !== study.slug);
@@ -50,7 +91,7 @@ const metaRows = [
 ] as const;
 ---
 
-<BaseLayout title={title} description={description} path={path} jsonLd={jsonLd}>
+<BaseLayout title={metaTitle} description={metaDescription} path={path} jsonLd={jsonLd}>
   <!-- Header -->
   <section class="border-b border-ink-200 bg-ink-50">
     <div class="container-page py-14">

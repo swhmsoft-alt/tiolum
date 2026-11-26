@@ -18,8 +18,8 @@ import {
 } from '../../lib/part-products';
 import { breadcrumbSchema } from '../../lib/schema';
 
-const title = 'Titanium Parts — Part Families and Industry Scenarios';
-const description = `Five titanium part families machined to drawing within 3-axis / 4-axis scope at ${CAPABILITIES.tolerance}. Reference structures, materials, finishing, batch sizes, inspection documents and repeat-order scenarios.`;
+const title = 'Titanium Parts: Machining Scope and Use Cases';
+const description = `Five titanium part families machined to drawing within 3-axis / 4-axis scope. Materials, finishing, batch sizes and inspection documents.`;
 
 /** 已独立建页的产品（建站处理方式为 product-page）。 */
 const PRODUCT_PAGES = getSeoCandidates().filter(isProductPage);
@@ -301,11 +301,11 @@ const familyName = (slug: string) =>
       <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
         Each family page shows the geometry we most often machine — a flange with a bolt circle, a bracket with a
         hole pattern, a stepped shaft. These drawings explain what we can produce and how we approach tolerance. They
-        are not stock parts: no dimensions, no sizes, no prices, and nothing held in inventory.
+        are not stock parts: no dimensions, no sizes, nothing sold from a catalogue, and nothing held in inventory.
       </p>
       <p class="mt-4 max-w-3xl leading-relaxed text-ink-600">
         What you get is a standard structural approach combined with drawing-based customisation in small to medium
-        batches. Send a drawing and we will confirm what is feasible, what the batch size costs you in time, and what
+        batches. Send a drawing and we will confirm what is feasible, what the batch size takes you in time, and what
         documents you receive.
       </p>
       <ul class="mt-6 flex flex-col gap-3 text-sm text-ink-700">

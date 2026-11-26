@@ -9,10 +9,23 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { CAPABILITIES } from '../lib/capabilities';
 import { BRAND } from '../lib/brand';
+import { breadcrumbSchema, serviceSchema } from '../lib/schema';
 
-const title = 'Upload Your Drawing';
+const title = 'Titanium RFQ: Upload Drawing for Quotation';
 const description =
-  'Send a 2D PDF or 3D STEP file for a manufacturability review. We review it internally, confirm whether it fits 3-axis / 4-axis scope, and reply within one business day.';
+  'Send a 2D PDF or 3D STEP file for a manufacturability review. We confirm whether it fits 3-axis / 4-axis scope and reply within one business day.';
+
+const jsonLd = [
+  serviceSchema({
+    name: 'Titanium CNC machining quotation request',
+    description:
+      'Upload a 2D or 3D drawing for a manufacturability review and a per-drawing quotation from a qualified titanium machining network.',
+  }),
+  breadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Request a Quotation', path: '/rfq/' },
+  ]),
+];
 
 const FORMSPREE_ACTION = 'https://formspree.io/f/mqpqwypo';
 
@@ -25,7 +38,7 @@ const labelClass = 'block text-sm font-semibold text-ink-950';
 const hintClass = 'mt-1.5 text-xs leading-relaxed text-ink-500';
 ---
 
-<BaseLayout title={title} description={description} path="/rfq/">
+<BaseLayout title={title} description={description} path="/rfq/" jsonLd={jsonLd}>
   <!-- Page header -->
   <section class="border-b border-ink-200 bg-ink-50">
     <div class="container-page py-14">

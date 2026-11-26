@@ -46,8 +46,8 @@ const familyCopy = family ? getPartFamily(family.slug) : undefined;
 
 const path = getProductUrl(product);
 
-const title = `${product.nameEn} — Custom Machined Titanium to Drawing`;
-const description = `${product.nameEn} machined from titanium to your drawing within ${CAPABILITIES.processes.join(' / ')} scope. ${family?.description ?? ''} Materials, finishing, batch size and inspection documents confirmed before quotation.`;
+const title = `${product.nameEn} — Custom Machined`;
+const description = `${product.nameEn} machined to drawing in 3-axis / 4-axis scope. Materials, finishing, batch sizes and inspection documents.`;
 
 const jsonLd = [
   breadcrumbSchema([
@@ -315,6 +315,24 @@ const otherCandidates = PRODUCT_PAGE_PRODUCTS.filter(
       Lead time is confirmed per order. Every quotation carries a committed date, and repeat orders are quoted from
       the archived drawing record.
     </p>
+
+    <!-- 我方评审与报价时效（CAPABILITIES.responseTimes），与上方供应商制造工期严格区分 -->
+    <h3 class="mt-10 text-lg">Review &amp; Quotation Response Times</h3>
+    <p class="mt-2 max-w-3xl text-sm leading-relaxed text-ink-600">
+      These are our own review and quotation times, separate from the manufacturing lead time above.
+    </p>
+    <ul class="mt-4 grid gap-2 sm:grid-cols-2">
+      {
+        CAPABILITIES.responseTimes.map((row) => (
+          <li class="border-l-2 border-ink-200 pl-3 text-sm leading-relaxed text-ink-700">
+            <span class="font-semibold text-ink-950">{row.step}</span> — {row.time}
+          </li>
+        ))
+      }
+    </ul>
+    <a href="/capabilities/" class="mt-6 inline-block text-sm font-semibold text-ti-700 underline underline-offset-4">
+      Full response time table →
+    </a>
   </section>
 
   <!-- Inspection -->

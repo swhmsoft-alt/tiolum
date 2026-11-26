@@ -30,6 +30,8 @@ export function organizationSchema(): Record<string, unknown> {
     },
     areaServed: BRAND.serviceArea,
     knowsAbout: [...CAPABILITIES.keywords],
+    logo: new URL('/favicon.svg', `${BRAND.url}/`).toString(),
+    image: new URL('/og-default.png', `${BRAND.url}/`).toString(),
     ...(BRAND.legalName ? { legalName: BRAND.legalName } : {}),
     ...(ORG_URLS_HAS_LINKEDIN ? { sameAs: [ORG_URLS_HAS_LINKEDIN] } : {}),
     contactPoint: {
@@ -53,12 +55,14 @@ export function webSiteSchema(): Record<string, unknown> {
   };
 }
 
-export function serviceSchema(): Record<string, unknown> {
+export function serviceSchema(
+  overrides: { name?: string; description?: string } = {},
+): Record<string, unknown> {
   return {
     '@type': 'Service',
-    name: 'Titanium CNC machining',
+    name: overrides.name ?? 'Titanium CNC machining',
     serviceType: 'Titanium CNC machining',
-    description: CAPABILITIES.supplyChain,
+    description: overrides.description ?? CAPABILITIES.supplyChain,
     provider: { '@id': ORGANIZATION_ID },
     areaServed: BRAND.serviceArea,
     audience: {
@@ -102,3 +106,9 @@ export function articleSchema(input: {
     ...(input.about ? { about: input.about } : {}),
   };
 }
+
+/**
+ * 站点内容发布日期 —— 案例示例页的 Article datePublished。
+ * 所有案例示例在同一批次发布，故共用同一日期；不虚构逐页时间线。
+ */
+export const CONTENT_PUBLISHED_DATE = '2026-11-01';

@@ -27,7 +27,13 @@ export default defineConfig({
     '/parts/products/titanium-blind-flanges/':
       '/parts/flanges-plates-interfaces/titanium-blind-flanges/',
   },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // noindex 页面不得进入 sitemap：与 noindex 冲突会削弱索引信号。
+      // /thank-you/ 是表单提交后的落地页，noindex；/404/ 由静态托管单独处理。
+      filter: (page) => !page.includes('/thank-you/'),
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

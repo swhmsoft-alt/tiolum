@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "audit:geo": "node scripts/audit-geo.mjs",
     "astro": "astro",
     "deploy": "wrangler deploy"
   },

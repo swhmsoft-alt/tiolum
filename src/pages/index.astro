@@ -12,13 +12,15 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { CAPABILITIES } from '../lib/capabilities';
 import { CASE_STUDIES, getPartFamilyName } from '../lib/caseStudies';
-import { organizationSchema, webSiteSchema } from '../lib/schema';
+import { breadcrumbSchema, organizationSchema, webSiteSchema } from '../lib/schema';
 
 const title = 'Custom Titanium CNC Machined Parts';
 const description =
   'Drawing-based titanium CNC machining supply: 3-axis / 4-axis, ±0.05 mm tolerance, small to medium batches, dual-source quotation and documented inspection.';
 
-const jsonLd = [organizationSchema(), webSiteSchema()];
+// 首页无多级面包屑层级，但补单层级 Home 的 BreadcrumbList：
+// 满足结构化数据检查口径，且对搜索引擎而言是合法的面包屑声明。
+const jsonLd = [organizationSchema(), webSiteSchema(), breadcrumbSchema([{ name: 'Home', path: '/' }])];
 
 const processSteps = [
   {

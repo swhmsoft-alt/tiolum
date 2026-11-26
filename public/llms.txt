@@ -1,0 +1,24 @@
+# Titolum
+
+> Titolum coordinates a qualified network of titanium CNC machining suppliers in Baoji, China, and manages engineering review, dual-source quotation, quality inspection, export delivery and customer relationships. Parts are machined to your drawing within 3-axis / 4-axis scope; nothing is stocked and nothing is sold from a catalogue. No commercial terms are published on this site — every quotation is built per drawing and confirmed in writing.
+
+## Capabilities
+
+- [Machining Capabilities](https://titaniumcncmachining.com/capabilities/): Materials, tolerance, finishing, batch sizes, lead times, inspection documents, and the explicit list of what is not machined.
+- [Quality Documents](https://titaniumcncmachining.com/quality/): How inspection is carried out and which documents ship with an order.
+- [How We Work](https://titaniumcncmachining.com/how-it-works/): The quotation and production workflow from drawing review to export delivery.
+
+## Part Families
+
+- [Flanges, Plates & Interfaces](https://titaniumcncmachining.com/parts/flanges-plates-interfaces/): Machined titanium flanges, plates and interface parts produced to drawing.
+- [Mounting & Structural Components](https://titaniumcncmachining.com/parts/mounting-structural-components/): Titanium mounting brackets, adapter plates and structural parts made to drawing.
+- [Blocks, Housings & Manifolds](https://titaniumcncmachining.com/parts/blocks-housings-manifolds/): Machined titanium blocks, sensor housings and manifold bodies.
+- [Tooling, Fixtures & End Effectors](https://titaniumcncmachining.com/parts/tooling-fixtures-end-effectors/): Titanium locating blocks and robot mounting bases for tooling and automation.
+- [Custom Mechanical Components](https://titaniumcncmachining.com/parts/custom-mechanical-components/): Remaining custom-machined titanium parts, each reviewed against its drawing.
+- [All Parts](https://titaniumcncmachining.com/parts/): Index of every part family and product page.
+
+## Company
+
+- [About Titolum](https://titaniumcncmachining.com/about/): What the coordinating model is, and what it means for the customer.
+- [Request a Quotation](https://titaniumcncmachining.com/rfq/): Upload a 2D PDF or 3D STEP drawing for a manufacturability review.
+- [Contact](https://titaniumcncmachining.com/contact/): Direct contact details.

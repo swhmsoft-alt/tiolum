@@ -83,7 +83,7 @@ export const PROCESS_STEPS: ProcessStep[] = [
     weDo: [
       'Match the drawing to qualified suppliers with titanium milling experience on comparable parts',
       'Check each supplier\'s inspection capability, material stock and current load against the requirement',
-      'Confirm which inspection documents are available for this part before any price is discussed',
+      'Confirm which inspection documents are available for this part before any commercial terms are discussed',
     ],
     youReceive: [
       'Confirmation of the released drawing revision that will be produced',
@@ -96,17 +96,17 @@ export const PROCESS_STEPS: ProcessStep[] = [
     stage: 'Dual-source quotation',
     purpose: 'Two independent quotes become one quotation you can compare against the market.',
     youProvide: [
-      'Target delivery date and, if you have one, a target price',
+      'Target delivery date and any commercial context you already have',
       'Any commercial constraint: packaging, marking, delivery location',
     ],
     weDo: [
       'Request quotes independently from two qualified suppliers for the same drawing revision',
-      'Compare process plan, tooling setup, material source, inspection capability and lead time — not price alone',
+      'Compare process plan, tooling setup, material source, inspection capability and lead time — not commercial terms alone',
       'Flag any supplier that cannot meet the inspection requirement instead of quietly dropping it',
       'Merge the two quotes into a single commercial offer',
     ],
     youReceive: [
-      'One consolidated quotation with unit price, quantity break and lead time',
+      'One consolidated quotation with quantity break, lead time and commercial terms',
       'The exact document list that will be delivered with the parts',
       'The manufacturing duration, separated from our own response time',
     ],
