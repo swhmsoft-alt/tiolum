@@ -1,0 +1,294 @@
+---
+/**
+ * /materials/ — 驱动轴 B2 枢纽页：钛材牌号选型。
+ *
+ * 定位：承接 "titanium grade / material selection" 意图，向下连接 4 个牌号页
+ * （/materials/<grade>/），向上回接零件族与服务轴。
+ *
+ * 规则：
+ * - 力学性能为 ASTM B348 室温最小值（材料标准常数），不是能力承诺。
+ * - 能力数字（公差/批量/检验/后处理）从 CAPABILITIES 引用。
+ * - 不出现价格、库存、SKU、现货交期。
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CAPABILITIES } from '../../lib/capabilities';
+import { PART_FAMILIES } from '../../lib/parts';
+import { GRADE_SELECTION_MATRIX, TITANIUM_GRADES } from '../../lib/materials';
+import { breadcrumbSchema, itemListSchema, materialSchema } from '../../lib/schema';
+
+const title = 'Titanium Materials for CNC Machining: Grades 2–9';
+const description = 'Grade 2, 5, 7 and 9 titanium for CNC machined parts: properties, corrosion behaviour, machining notes and how to pick a grade.';
+
+const path = '/materials/';
+
+const jsonLd = [
+  materialSchema({
+    name: 'Titanium grades for CNC machining',
+    description:
+      'The titanium grades available for drawing-based machining, with their mechanical, corrosion and machining characteristics.',
+    path,
+  }),
+  itemListSchema({
+    name: 'Titanium grades',
+    path,
+    items: TITANIUM_GRADES.map((grade) => ({
+      name: `${grade.name} (${grade.designation})`,
+      path: `/materials/${grade.slug}/`,
+    })),
+  }),
+  breadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Materials', path },
+  ]),
+];
+
+/** 牌号 → 零件族反查表：哪个牌号常用于哪个族。 */
+const gradeFamilyMap = TITANIUM_GRADES.map((grade) => ({
+  grade,
+  families: grade.relatedFamilySlugs
+    .map((slug) => PART_FAMILIES.find((family) => family.slug === slug))
+    .filter((family) => family !== undefined),
+}));
+---
+
+<BaseLayout title={title} description={description} path={path} jsonLd={jsonLd}>
+  <!-- Header -->
+  <section class="border-b border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <p class="eyebrow">Materials</p>
+      <h1 class="mt-3 max-w-3xl text-3xl md:text-4xl">{title}</h1>
+      <p class="mt-4 max-w-2xl text-base leading-relaxed text-ink-600">
+        The grade decides how a titanium part behaves in service and how it behaves on the machine. Four grades are
+        available. Here is what each one is good at, and where it fits.
+      </p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <a
+          href="/rfq/"
+          class="rounded-md bg-ti-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ti-600"
+        >
+          Upload Drawing
+        </a>
+        <a
+          href="/titanium-cnc-machining-services/"
+          class="rounded-md border border-ink-300 px-5 py-2.5 text-sm font-semibold text-ink-800 transition-colors hover:bg-ink-50"
+        >
+          Machining Services
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Grade cards -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">The Four Available Grades</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      All four are supplied with a material certificate 3.1 (EN 10204) for the delivered batch, and all four are
+      machined within {CAPABILITIES.processes.join(' and ')} at {CAPABILITIES.tolerance}. Batch sizes are{' '}
+      {CAPABILITIES.batchRange} and manufacturing time at the supplier is confirmed per order after drawing review.
+      Parts outside our scope are declined at review stage, before any quotation.
+    </p>
+
+    <div class="mt-8 grid gap-5 md:grid-cols-2">
+      {
+        TITANIUM_GRADES.map((grade) => (
+          <div class="card flex flex-col p-6">
+            <p class="text-xs font-semibold uppercase tracking-wider text-ink-500">{grade.designation}</p>
+            <h3 class="mt-2 text-xl text-ink-950">
+              <a href={`/materials/${grade.slug}/`} class="transition-colors hover:text-ti-700">
+                {grade.name}
+              </a>
+            </h3>
+            <p class="mt-3 text-sm leading-relaxed text-ink-600">{grade.shortDescription}</p>
+
+            <dl class="mt-4 flex flex-col gap-2 text-sm">
+              <div class="flex gap-3">
+                <dt class="w-28 shrink-0 font-semibold text-ink-500">Tensile</dt>
+                <dd class="text-ink-700">{grade.mechanical.tensile}</dd>
+              </div>
+              <div class="flex gap-3">
+                <dt class="w-28 shrink-0 font-semibold text-ink-500">Yield</dt>
+                <dd class="text-ink-700">{grade.mechanical.yield}</dd>
+              </div>
+              <div class="flex gap-3">
+                <dt class="w-28 shrink-0 font-semibold text-ink-500">Density</dt>
+                <dd class="text-ink-700">{grade.mechanical.density}</dd>
+              </div>
+            </dl>
+
+            <ul class="mt-4 flex flex-col gap-2 text-sm leading-relaxed text-ink-700">
+              {grade.bestFor.slice(0, 3).map((item) => (
+                <li class="flex items-start gap-3">
+                  <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ti-50 text-[11px] font-bold text-ti-700">
+                    ✓
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={`/materials/${grade.slug}/`}
+              class="mt-5 inline-block text-sm font-semibold text-ti-700 underline underline-offset-4"
+            >
+              {grade.name} details →
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Selection matrix -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <h2 class="text-2xl">Grade Selection Matrix</h2>
+      <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+        A side-by-side view of the four grades. Tensile values are the ASTM B348 room-temperature minimums — the
+        material standard, not a Titolum production promise.
+      </p>
+
+      <div class="mt-8 overflow-x-auto">
+        <table class="data-table">
+          <caption class="sr-only">Titanium grade selection matrix</caption>
+          <thead>
+            <tr>
+              <th scope="col">Grade</th>
+              <th scope="col">Tensile strength</th>
+              <th scope="col">Corrosion profile</th>
+              <th scope="col">Machining character</th>
+              <th scope="col">Typical use</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              GRADE_SELECTION_MATRIX.rows.map((row) => (
+                <tr>
+                  <th scope="row">
+                    <a href={`/materials/${row.slug}/`} class="text-ti-700 underline underline-offset-2">
+                      {row.name}
+                    </a>
+                  </th>
+                  <td>{row.tensile}</td>
+                  <td>{row.corrosion}</td>
+                  <td>{row.machining}</td>
+                  <td class="text-ink-600">{row.use}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Grade to family mapping -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">Which Grade for Which Part</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      The part geometry and the grade are chosen together. This is the short version of the mapping — open a grade
+      for the full machining and finishing notes, or open a part family for its tolerance and inspection drivers.
+    </p>
+
+    <div class="mt-8 flex flex-col gap-5">
+      {
+        gradeFamilyMap.map(({ grade, families }) => (
+          <div class="card p-6">
+            <div class="flex flex-wrap items-baseline justify-between gap-3">
+              <h3 class="text-lg text-ink-950">
+                <a href={`/materials/${grade.slug}/`} class="transition-colors hover:text-ti-700">
+                  {grade.name}
+                </a>
+              </h3>
+              <span class="text-xs text-ink-500">{grade.designation}</span>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-2">
+              {families.map((family) => (
+                <a
+                  href={`/parts/${family.slug}/`}
+                  class="rounded border border-ink-200 px-3 py-1.5 text-sm text-ink-700 transition-colors hover:border-ti-400 hover:text-ti-700"
+                >
+                  {family.name} →
+                </a>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Service axis return -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <h2 class="text-2xl">How the Grade Is Confirmed</h2>
+      <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+        We do not substitute a grade to simplify the order. The grade on your drawing is the grade that gets
+        ordered, and the certificate that travels with the parts is the certificate for that batch.
+      </p>
+
+      <div class="mt-8 grid gap-5 md:grid-cols-3">
+        <div class="card p-5">
+          <h3 class="text-lg text-ink-950">At Engineering Review</h3>
+          <p class="mt-2 text-sm leading-relaxed text-ink-600">
+            The grade on the drawing is checked against the service environment. If a cheaper grade would not survive
+            the stated medium, we say so before quotation instead of quietly changing the order.
+          </p>
+        </div>
+        <div class="card p-5">
+          <h3 class="text-lg text-ink-950">At Machining</h3>
+          <p class="mt-2 text-sm leading-relaxed text-ink-600">
+            Grade changes the cutting strategy: {CAPABILITIES.processes.join(' and ')} at {CAPABILITIES.tolerance},
+            with the coolant and tool discipline the alloy needs. Different grades are not run the same way.
+          </p>
+        </div>
+        <div class="card p-5">
+          <h3 class="text-lg text-ink-950">At Delivery</h3>
+          <p class="mt-2 text-sm leading-relaxed text-ink-600">
+            A material certificate 3.1 (EN 10204) accompanies the shipment, plus the dimensional inspection report
+            and the first article inspection report. Finishing is recorded where a surface treatment was applied.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm">
+        <a href="/parts/" class="font-semibold text-ti-700 underline underline-offset-4">
+          All part families →
+        </a>
+        <a href="/titanium-cnc-machining-services/" class="font-semibold text-ti-700 underline underline-offset-4">
+          Machining services →
+        </a>
+        <a href="/industries/" class="font-semibold text-ti-700 underline underline-offset-4">
+          Parts by industry →
+        </a>
+        <a href="/case-studies/" class="font-semibold text-ti-700 underline underline-offset-4">
+          Worked examples →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="border-t border-ink-200 bg-ink-950">
+    <div class="container-page py-14">
+      <h2 class="text-2xl text-white">Send the Drawing and the Grade</h2>
+      <p class="mt-3 max-w-2xl leading-relaxed text-ink-300">
+        If the drawing already names a grade, we machine it as drawn. If it does not, the engineering review
+        proposes one against your service environment and you confirm it before quotation.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href="/rfq/"
+          class="rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-ink-950 transition-colors hover:bg-ink-100"
+        >
+          Upload Drawing
+        </a>
+        <a
+          href="/contact/"
+          class="rounded-md border border-ink-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ink-800"
+        >
+          Talk to an Engineer
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

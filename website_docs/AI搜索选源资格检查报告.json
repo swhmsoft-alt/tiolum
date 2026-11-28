@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-26T17:11:23.998Z",
+  "generatedAt": "2026-11-28T17:44:00.475Z",
   "site": "https://titaniumcncmachining.com",
-  "pagesChecked": 31,
+  "pagesChecked": 41,
   "nonIndexPages": [
     "/404.html",
     "/thank-you/"
@@ -36,13 +36,13 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 291,
+      "words": 317,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
         "toleranceNum": true,
         "materialName": true,
-        "materialGrade": false,
+        "materialGrade": true,
         "batch": false,
         "leadTime": false,
         "inspection": false,
@@ -84,7 +84,7 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 998,
+      "words": 1074,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -131,13 +131,13 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 636,
+      "words": 675,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
         "toleranceNum": true,
         "materialName": true,
-        "materialGrade": false,
+        "materialGrade": true,
         "batch": true,
         "leadTime": false,
         "inspection": true,
@@ -179,13 +179,13 @@
         "Article"
       ],
       "rfqLinks": 3,
-      "words": 783,
+      "words": 809,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
         "toleranceNum": true,
         "materialName": true,
-        "materialGrade": false,
+        "materialGrade": true,
         "batch": true,
         "leadTime": true,
         "inspection": true,
@@ -227,13 +227,13 @@
         "Article"
       ],
       "rfqLinks": 3,
-      "words": 821,
+      "words": 847,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
         "toleranceNum": true,
         "materialName": true,
-        "materialGrade": false,
+        "materialGrade": true,
         "batch": true,
         "leadTime": true,
         "inspection": true,
@@ -275,13 +275,13 @@
         "Article"
       ],
       "rfqLinks": 3,
-      "words": 793,
+      "words": 819,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
         "toleranceNum": true,
         "materialName": true,
-        "materialGrade": false,
+        "materialGrade": true,
         "batch": true,
         "leadTime": true,
         "inspection": true,
@@ -323,13 +323,13 @@
         "Article"
       ],
       "rfqLinks": 3,
-      "words": 798,
+      "words": 824,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
         "toleranceNum": true,
         "materialName": true,
-        "materialGrade": false,
+        "materialGrade": true,
         "batch": true,
         "leadTime": true,
         "inspection": true,
@@ -371,13 +371,13 @@
         "Article"
       ],
       "rfqLinks": 3,
-      "words": 777,
+      "words": 803,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
         "toleranceNum": true,
         "materialName": true,
-        "materialGrade": false,
+        "materialGrade": true,
         "batch": true,
         "leadTime": true,
         "inspection": true,
@@ -419,13 +419,13 @@
         "Article"
       ],
       "rfqLinks": 3,
-      "words": 786,
+      "words": 812,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
         "toleranceNum": true,
         "materialName": true,
-        "materialGrade": false,
+        "materialGrade": true,
         "batch": true,
         "leadTime": true,
         "inspection": true,
@@ -468,13 +468,13 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 250,
+      "words": 276,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
         "toleranceNum": true,
         "materialName": true,
-        "materialGrade": false,
+        "materialGrade": true,
         "batch": false,
         "leadTime": false,
         "inspection": false,
@@ -516,13 +516,13 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 1588,
+      "words": 1630,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
         "toleranceNum": true,
         "materialName": true,
-        "materialGrade": false,
+        "materialGrade": true,
         "batch": true,
         "leadTime": true,
         "inspection": true,
@@ -551,9 +551,9 @@
       "redirect": false,
       "nonIndex": false,
       "role": "home",
-      "title": "Custom Titanium CNC Machined Parts | Titolum",
-      "titleLen": 44,
-      "descLen": 155,
+      "title": "Titanium CNC Machining and Custom Parts | Titolum",
+      "titleLen": 49,
+      "descLen": 150,
       "canonical": "https://titaniumcncmachining.com/",
       "canonicalOk": true,
       "inSitemap": true,
@@ -563,10 +563,257 @@
         "Organization",
         "ProfessionalService",
         "WebSite",
+        "BreadcrumbList",
+        "Service",
+        "FAQPage"
+      ],
+      "rfqLinks": 4,
+      "words": 1334,
+      "ogImage": "https://titaniumcncmachining.com/og-default.png",
+      "ogImageExists": true,
+      "facts": {
+        "toleranceNum": true,
+        "materialName": true,
+        "materialGrade": true,
+        "batch": true,
+        "leadTime": true,
+        "inspection": true,
+        "responseTime": true,
+        "supplierNetwork": true,
+        "sizeLimit": true,
+        "scopeBoundary": true
+      },
+      "forbiddenHits": [],
+      "forbiddenSoft": [],
+      "missingFacts": [],
+      "hardFailures": [],
+      "scores": {
+        "index": 20,
+        "relevance": 20,
+        "facts": 20,
+        "completeness": 15,
+        "trust": 15,
+        "conversion": 10
+      },
+      "score": 100,
+      "issues": []
+    },
+    {
+      "url": "/industries/chemical-processing/",
+      "redirect": false,
+      "nonIndex": false,
+      "role": "industry",
+      "title": "Titanium Parts for Chemical Processing Equipment | Titolum",
+      "titleLen": 58,
+      "descLen": 113,
+      "canonical": "https://titaniumcncmachining.com/industries/chemical-processing/",
+      "canonicalOk": true,
+      "inSitemap": true,
+      "noindex": false,
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "CollectionPage",
+        "Service",
         "BreadcrumbList"
       ],
       "rfqLinks": 4,
-      "words": 785,
+      "words": 916,
+      "ogImage": "https://titaniumcncmachining.com/og-default.png",
+      "ogImageExists": true,
+      "facts": {
+        "toleranceNum": true,
+        "materialName": true,
+        "materialGrade": true,
+        "batch": true,
+        "leadTime": true,
+        "inspection": true,
+        "responseTime": true,
+        "supplierNetwork": true,
+        "sizeLimit": true,
+        "scopeBoundary": true
+      },
+      "forbiddenHits": [],
+      "forbiddenSoft": [],
+      "missingFacts": [],
+      "hardFailures": [],
+      "scores": {
+        "index": 20,
+        "relevance": 20,
+        "facts": 20,
+        "completeness": 15,
+        "trust": 15,
+        "conversion": 10
+      },
+      "score": 100,
+      "issues": []
+    },
+    {
+      "url": "/industries/electroplating/",
+      "redirect": false,
+      "nonIndex": false,
+      "role": "industry",
+      "title": "Titanium Parts for Electroplating Equipment | Titolum",
+      "titleLen": 53,
+      "descLen": 104,
+      "canonical": "https://titaniumcncmachining.com/industries/electroplating/",
+      "canonicalOk": true,
+      "inSitemap": true,
+      "noindex": false,
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "CollectionPage",
+        "Service",
+        "BreadcrumbList"
+      ],
+      "rfqLinks": 4,
+      "words": 949,
+      "ogImage": "https://titaniumcncmachining.com/og-default.png",
+      "ogImageExists": true,
+      "facts": {
+        "toleranceNum": true,
+        "materialName": true,
+        "materialGrade": true,
+        "batch": true,
+        "leadTime": true,
+        "inspection": true,
+        "responseTime": true,
+        "supplierNetwork": true,
+        "sizeLimit": true,
+        "scopeBoundary": true
+      },
+      "forbiddenHits": [],
+      "forbiddenSoft": [],
+      "missingFacts": [],
+      "hardFailures": [],
+      "scores": {
+        "index": 20,
+        "relevance": 20,
+        "facts": 20,
+        "completeness": 15,
+        "trust": 15,
+        "conversion": 10
+      },
+      "score": 100,
+      "issues": []
+    },
+    {
+      "url": "/industries/",
+      "redirect": false,
+      "nonIndex": false,
+      "role": "industries-hub",
+      "title": "Titanium Parts by Industry: Machined to Drawing | Titolum",
+      "titleLen": 57,
+      "descLen": 134,
+      "canonical": "https://titaniumcncmachining.com/industries/",
+      "canonicalOk": true,
+      "inSitemap": true,
+      "noindex": false,
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "CollectionPage",
+        "ItemList",
+        "BreadcrumbList"
+      ],
+      "rfqLinks": 4,
+      "words": 985,
+      "ogImage": "https://titaniumcncmachining.com/og-default.png",
+      "ogImageExists": true,
+      "facts": {
+        "toleranceNum": true,
+        "materialName": true,
+        "materialGrade": true,
+        "batch": true,
+        "leadTime": true,
+        "inspection": true,
+        "responseTime": true,
+        "supplierNetwork": true,
+        "sizeLimit": true,
+        "scopeBoundary": true
+      },
+      "forbiddenHits": [],
+      "forbiddenSoft": [],
+      "missingFacts": [],
+      "hardFailures": [],
+      "scores": {
+        "index": 20,
+        "relevance": 20,
+        "facts": 20,
+        "completeness": 15,
+        "trust": 15,
+        "conversion": 10
+      },
+      "score": 100,
+      "issues": []
+    },
+    {
+      "url": "/industries/industrial-automation/",
+      "redirect": false,
+      "nonIndex": false,
+      "role": "industry",
+      "title": "Titanium Parts for Industrial Automation | Titolum",
+      "titleLen": 50,
+      "descLen": 134,
+      "canonical": "https://titaniumcncmachining.com/industries/industrial-automation/",
+      "canonicalOk": true,
+      "inSitemap": true,
+      "noindex": false,
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "CollectionPage",
+        "Service",
+        "BreadcrumbList"
+      ],
+      "rfqLinks": 4,
+      "words": 906,
+      "ogImage": "https://titaniumcncmachining.com/og-default.png",
+      "ogImageExists": true,
+      "facts": {
+        "toleranceNum": true,
+        "materialName": true,
+        "materialGrade": true,
+        "batch": true,
+        "leadTime": true,
+        "inspection": true,
+        "responseTime": true,
+        "supplierNetwork": true,
+        "sizeLimit": true,
+        "scopeBoundary": true
+      },
+      "forbiddenHits": [],
+      "forbiddenSoft": [],
+      "missingFacts": [],
+      "hardFailures": [],
+      "scores": {
+        "index": 20,
+        "relevance": 20,
+        "facts": 20,
+        "completeness": 15,
+        "trust": 15,
+        "conversion": 10
+      },
+      "score": 100,
+      "issues": []
+    },
+    {
+      "url": "/materials/grade-2/",
+      "redirect": false,
+      "nonIndex": false,
+      "role": "material",
+      "title": "Grade 2 Titanium CNC Machined Parts | Titolum",
+      "titleLen": 45,
+      "descLen": 123,
+      "canonical": "https://titaniumcncmachining.com/materials/grade-2/",
+      "canonicalOk": true,
+      "inSitemap": true,
+      "noindex": false,
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "DefinedTerm",
+        "Service",
+        "BreadcrumbList"
+      ],
+      "rfqLinks": 4,
+      "words": 737,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -575,6 +822,202 @@
         "materialGrade": true,
         "batch": true,
         "leadTime": false,
+        "inspection": true,
+        "responseTime": true,
+        "supplierNetwork": true,
+        "sizeLimit": true,
+        "scopeBoundary": false
+      },
+      "forbiddenHits": [],
+      "forbiddenSoft": [],
+      "missingFacts": [],
+      "hardFailures": [],
+      "scores": {
+        "index": 20,
+        "relevance": 20,
+        "facts": 20,
+        "completeness": 15,
+        "trust": 15,
+        "conversion": 10
+      },
+      "score": 100,
+      "issues": []
+    },
+    {
+      "url": "/materials/grade-5-ti-6al-4v/",
+      "redirect": false,
+      "nonIndex": false,
+      "role": "material",
+      "title": "Grade 5 / Ti-6Al-4V Titanium CNC Machined Parts | Titolum",
+      "titleLen": 57,
+      "descLen": 135,
+      "canonical": "https://titaniumcncmachining.com/materials/grade-5-ti-6al-4v/",
+      "canonicalOk": true,
+      "inSitemap": true,
+      "noindex": false,
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "DefinedTerm",
+        "Service",
+        "BreadcrumbList"
+      ],
+      "rfqLinks": 4,
+      "words": 797,
+      "ogImage": "https://titaniumcncmachining.com/og-default.png",
+      "ogImageExists": true,
+      "facts": {
+        "toleranceNum": true,
+        "materialName": true,
+        "materialGrade": true,
+        "batch": true,
+        "leadTime": false,
+        "inspection": true,
+        "responseTime": true,
+        "supplierNetwork": true,
+        "sizeLimit": true,
+        "scopeBoundary": false
+      },
+      "forbiddenHits": [],
+      "forbiddenSoft": [],
+      "missingFacts": [],
+      "hardFailures": [],
+      "scores": {
+        "index": 20,
+        "relevance": 20,
+        "facts": 20,
+        "completeness": 15,
+        "trust": 15,
+        "conversion": 10
+      },
+      "score": 100,
+      "issues": []
+    },
+    {
+      "url": "/materials/grade-7/",
+      "redirect": false,
+      "nonIndex": false,
+      "role": "material",
+      "title": "Grade 7 Titanium CNC Machined Parts | Titolum",
+      "titleLen": 45,
+      "descLen": 123,
+      "canonical": "https://titaniumcncmachining.com/materials/grade-7/",
+      "canonicalOk": true,
+      "inSitemap": true,
+      "noindex": false,
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "DefinedTerm",
+        "Service",
+        "BreadcrumbList"
+      ],
+      "rfqLinks": 4,
+      "words": 718,
+      "ogImage": "https://titaniumcncmachining.com/og-default.png",
+      "ogImageExists": true,
+      "facts": {
+        "toleranceNum": true,
+        "materialName": true,
+        "materialGrade": true,
+        "batch": true,
+        "leadTime": false,
+        "inspection": true,
+        "responseTime": true,
+        "supplierNetwork": true,
+        "sizeLimit": true,
+        "scopeBoundary": false
+      },
+      "forbiddenHits": [],
+      "forbiddenSoft": [],
+      "missingFacts": [],
+      "hardFailures": [],
+      "scores": {
+        "index": 20,
+        "relevance": 20,
+        "facts": 20,
+        "completeness": 15,
+        "trust": 15,
+        "conversion": 10
+      },
+      "score": 100,
+      "issues": []
+    },
+    {
+      "url": "/materials/grade-9/",
+      "redirect": false,
+      "nonIndex": false,
+      "role": "material",
+      "title": "Grade 9 / Ti-3Al-2.5V Titanium CNC Machined Parts | Titolum",
+      "titleLen": 59,
+      "descLen": 123,
+      "canonical": "https://titaniumcncmachining.com/materials/grade-9/",
+      "canonicalOk": true,
+      "inSitemap": true,
+      "noindex": false,
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "DefinedTerm",
+        "Service",
+        "BreadcrumbList"
+      ],
+      "rfqLinks": 4,
+      "words": 728,
+      "ogImage": "https://titaniumcncmachining.com/og-default.png",
+      "ogImageExists": true,
+      "facts": {
+        "toleranceNum": true,
+        "materialName": true,
+        "materialGrade": true,
+        "batch": true,
+        "leadTime": false,
+        "inspection": true,
+        "responseTime": true,
+        "supplierNetwork": true,
+        "sizeLimit": true,
+        "scopeBoundary": false
+      },
+      "forbiddenHits": [],
+      "forbiddenSoft": [],
+      "missingFacts": [],
+      "hardFailures": [],
+      "scores": {
+        "index": 20,
+        "relevance": 20,
+        "facts": 20,
+        "completeness": 15,
+        "trust": 15,
+        "conversion": 10
+      },
+      "score": 100,
+      "issues": []
+    },
+    {
+      "url": "/materials/",
+      "redirect": false,
+      "nonIndex": false,
+      "role": "materials-hub",
+      "title": "Titanium Materials for CNC Machining: Grades 2–9 | Titolum",
+      "titleLen": 58,
+      "descLen": 126,
+      "canonical": "https://titaniumcncmachining.com/materials/",
+      "canonicalOk": true,
+      "inSitemap": true,
+      "noindex": false,
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "DefinedTerm",
+        "ItemList",
+        "BreadcrumbList"
+      ],
+      "rfqLinks": 4,
+      "words": 1010,
+      "ogImage": "https://titaniumcncmachining.com/og-default.png",
+      "ogImageExists": true,
+      "facts": {
+        "toleranceNum": true,
+        "materialName": true,
+        "materialGrade": true,
+        "batch": true,
+        "leadTime": true,
         "inspection": true,
         "responseTime": true,
         "supplierNetwork": true,
@@ -614,7 +1057,7 @@
         "Service"
       ],
       "rfqLinks": 3,
-      "words": 1079,
+      "words": 1164,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -661,7 +1104,7 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 1102,
+      "words": 1183,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -708,7 +1151,7 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 1105,
+      "words": 1186,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -756,7 +1199,7 @@
         "Service"
       ],
       "rfqLinks": 3,
-      "words": 1070,
+      "words": 1163,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -803,7 +1246,7 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 1109,
+      "words": 1195,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -851,7 +1294,7 @@
         "Service"
       ],
       "rfqLinks": 3,
-      "words": 1082,
+      "words": 1168,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -898,7 +1341,7 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 1122,
+      "words": 1203,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -945,7 +1388,7 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 1126,
+      "words": 1207,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -992,7 +1435,7 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 1097,
+      "words": 1175,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -1039,7 +1482,7 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 1106,
+      "words": 1182,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -1086,7 +1529,7 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 4,
-      "words": 1192,
+      "words": 1335,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -1134,7 +1577,7 @@
         "Service"
       ],
       "rfqLinks": 3,
-      "words": 1092,
+      "words": 1182,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -1181,7 +1624,7 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 1108,
+      "words": 1191,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -1228,7 +1671,7 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 1113,
+      "words": 1199,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -1276,7 +1719,7 @@
         "Service"
       ],
       "rfqLinks": 3,
-      "words": 1048,
+      "words": 1135,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -1323,7 +1766,7 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 1095,
+      "words": 1181,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -1370,7 +1813,7 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 1108,
+      "words": 1191,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -1418,13 +1861,13 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 3,
-      "words": 418,
+      "words": 456,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
         "toleranceNum": true,
         "materialName": true,
-        "materialGrade": false,
+        "materialGrade": true,
         "batch": true,
         "leadTime": true,
         "inspection": true,
@@ -1466,7 +1909,7 @@
         "BreadcrumbList"
       ],
       "rfqLinks": 2,
-      "words": 340,
+      "words": 366,
       "ogImage": "https://titaniumcncmachining.com/og-default.png",
       "ogImageExists": true,
       "facts": {
@@ -1476,6 +1919,55 @@
         "batch": false,
         "leadTime": false,
         "inspection": false,
+        "responseTime": true,
+        "supplierNetwork": true,
+        "sizeLimit": true,
+        "scopeBoundary": true
+      },
+      "forbiddenHits": [],
+      "forbiddenSoft": [],
+      "missingFacts": [],
+      "hardFailures": [],
+      "scores": {
+        "index": 20,
+        "relevance": 20,
+        "facts": 20,
+        "completeness": 15,
+        "trust": 15,
+        "conversion": 10
+      },
+      "score": 100,
+      "issues": []
+    },
+    {
+      "url": "/titanium-cnc-machining-services/",
+      "redirect": false,
+      "nonIndex": false,
+      "role": "service",
+      "title": "Titanium CNC Machining Services | Titolum",
+      "titleLen": 41,
+      "descLen": 140,
+      "canonical": "https://titaniumcncmachining.com/titanium-cnc-machining-services/",
+      "canonicalOk": true,
+      "inSitemap": true,
+      "noindex": false,
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Service",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "rfqLinks": 4,
+      "words": 1577,
+      "ogImage": "https://titaniumcncmachining.com/og-default.png",
+      "ogImageExists": true,
+      "facts": {
+        "toleranceNum": true,
+        "materialName": true,
+        "materialGrade": true,
+        "batch": true,
+        "leadTime": true,
+        "inspection": true,
         "responseTime": true,
         "supplierNetwork": true,
         "sizeLimit": true,

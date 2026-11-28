@@ -10,6 +10,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { CAPABILITIES } from '../../lib/capabilities';
 import { PART_FAMILIES } from '../../lib/parts';
+import { TITANIUM_GRADES } from '../../lib/materials';
+import { INDUSTRY_PROFILES } from '../../lib/industries';
 import {
   getSeoCandidates,
   getProductsByFamily,
@@ -238,7 +240,51 @@ const familyName = (slug: string) =>
         Scenarios describe typical applications only. Every quotation starts from your drawing and a written scope
         confirmation.
       </p>
+
+      <div class="mt-8">
+        <p class="text-xs font-semibold uppercase tracking-wider text-ink-500">
+          Industry detail pages
+        </p>
+        <div class="mt-3 flex flex-wrap gap-2">
+          {
+            INDUSTRY_PROFILES.map((industry) => (
+              <a
+                href={`/industries/${industry.slug}/`}
+                class="rounded border border-ink-200 px-3 py-1.5 text-sm text-ink-700 transition-colors hover:border-ti-400 hover:text-ti-700"
+              >
+                {industry.name} →
+              </a>
+            ))
+          }
+        </div>
+      </div>
     </div>
+  </section>
+
+  <!-- Materials -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">Materials These Families Are Made In</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      The same families are made in different grades depending on the service environment. Each grade has its own
+      selection logic — strength, corrosion behaviour and how it machines.
+    </p>
+
+    <div class="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+      {
+        TITANIUM_GRADES.map((grade) => (
+          <a href={`/materials/${grade.slug}/`} class="card group p-5 transition-colors hover:border-ti-400">
+            <p class="text-xs font-semibold uppercase tracking-wider text-ink-500">{grade.designation}</p>
+            <h3 class="mt-2 text-lg text-ink-950 transition-colors group-hover:text-ti-700">{grade.name}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-600">{grade.mechanical.tensile} tensile</p>
+            <span class="mt-4 inline-block text-sm font-semibold text-ti-700">Grade details →</span>
+          </a>
+        ))
+      }
+    </div>
+
+    <a href="/materials/" class="mt-6 inline-block text-sm font-semibold text-ti-700 underline underline-offset-4">
+      Full grade comparison matrix →
+    </a>
   </section>
 
   <!-- How the parts are produced -->

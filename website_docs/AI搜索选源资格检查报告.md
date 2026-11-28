@@ -1,7 +1,7 @@
 # AI 搜索选源资格检查报告
 
-- 生成时间：2026-11-26T17:11:23.998Z
-- 检查范围：dist/ 共 31 个可索引页面
+- 生成时间：2026-11-28T17:44:00.475Z
+- 检查范围：dist/ 共 41 个可索引页面
 - 非索引页（noindex，不计分）：/404.html、/thank-you/
 - 跳转占位页：11 个
 - 依据：website_docs/工业 B2B 商业页面 AI 搜索选源资格检查标准.md
@@ -35,6 +35,15 @@
 | /contact/ | trust | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
 | /how-it-works/ | service | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
 | / | home | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
+| /industries/chemical-processing/ | industry | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
+| /industries/electroplating/ | industry | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
+| /industries/ | industries-hub | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
+| /industries/industrial-automation/ | industry | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
+| /materials/grade-2/ | material | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
+| /materials/grade-5-ti-6al-4v/ | material | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
+| /materials/grade-7/ | material | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
+| /materials/grade-9/ | material | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
+| /materials/ | materials-hub | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
 | /parts/blocks-housings-manifolds/ | family | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
 | /parts/blocks-housings-manifolds/titanium-manifold-blocks/ | product | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
 | /parts/blocks-housings-manifolds/titanium-sensor-housings/ | product | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
@@ -54,5 +63,6 @@
 | /parts/tooling-fixtures-end-effectors/titanium-robot-mounting-bases/ | product | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
 | /quality/ | service | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
 | /rfq/ | rfq | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
+| /titanium-cnc-machining-services/ | service | 20 | 20 | 20 | 15 | 15 | 10 | 100 | 通过 |
 
 ## 问题明细

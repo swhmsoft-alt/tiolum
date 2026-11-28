@@ -1,0 +1,264 @@
+---
+/**
+ * /industries/ — 驱动轴 B3 枢纽页：行业应用。
+ *
+ * 定位：承接"titanium parts for <industry>"意图，向下连接 3 个行业页
+ * （/industries/<industry>/），向上回接零件族、材料与服务轴。
+ *
+ * 规则：
+ * - 能力数字（公差/批量/检验/后处理）从 CAPABILITIES 引用。
+ * - 不出现价格、库存、SKU、现货交期、客户名称。
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CAPABILITIES } from '../../lib/capabilities';
+import { PART_FAMILIES } from '../../lib/parts';
+import { INDUSTRY_PROFILES } from '../../lib/industries';
+import {
+  breadcrumbSchema,
+  collectionPageSchema,
+  itemListSchema,
+} from '../../lib/schema';
+
+const title = 'Titanium Parts by Industry: Machined to Drawing';
+const description = 'Titanium machined parts for chemical processing, electroplating and industrial automation: failure modes, grades and inspection focus.';
+
+const path = '/industries/';
+
+const jsonLd = [
+  collectionPageSchema({
+    name: 'Industry applications for titanium CNC machined parts',
+    description,
+    path,
+  }),
+  itemListSchema({
+    name: 'Industries',
+    path,
+    items: INDUSTRY_PROFILES.map((industry) => ({
+      name: industry.name,
+      path: `/industries/${industry.slug}/`,
+    })),
+  }),
+  breadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Industries', path },
+  ]),
+];
+---
+
+<BaseLayout title={title} description={description} path={path} jsonLd={jsonLd}>
+  <!-- Header -->
+  <section class="border-b border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <p class="eyebrow">Industries</p>
+      <h1 class="mt-3 max-w-3xl text-3xl md:text-4xl">{title}</h1>
+      <p class="mt-4 max-w-2xl text-base leading-relaxed text-ink-600">
+        Same process scope, same tolerance discipline, same inspection plan. What changes between industries is the
+        failure mode you are defending against — and that is what decides the grade, the geometry and the
+        inspection focus.
+      </p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <a
+          href="/rfq/"
+          class="rounded-md bg-ti-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ti-600"
+        >
+          Upload Drawing
+        </a>
+        <a
+          href="/parts/"
+          class="rounded-md border border-ink-300 px-5 py-2.5 text-sm font-semibold text-ink-800 transition-colors hover:bg-ink-50"
+        >
+          All Part Families
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industry cards -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">Three Service Environments</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      All three run on {CAPABILITIES.processes.join(' and ')} at {CAPABILITIES.tolerance}, with batch sizes{' '}
+      {CAPABILITIES.batchRange} and a material certificate 3.1 (EN 10204) for the delivered batch. Manufacturing time
+      at the supplier depends on the batch size and is confirmed per order after drawing review. Parts outside our
+      scope are declined at review stage, before any quotation.
+    </p>
+
+    <div class="mt-8 flex flex-col gap-5">
+      {
+        INDUSTRY_PROFILES.map((industry) => (
+          <div class="card p-6">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+              <div class="max-w-2xl">
+                <h3 class="text-xl text-ink-950">
+                  <a href={`/industries/${industry.slug}/`} class="transition-colors hover:text-ti-700">
+                    {industry.name}
+                  </a>
+                </h3>
+                <p class="mt-2 text-sm leading-relaxed text-ink-600">{industry.shortDescription}</p>
+              </div>
+              <a
+                href={`/industries/${industry.slug}/`}
+                class="rounded-md border border-ink-300 px-4 py-2 text-sm font-semibold text-ink-800 transition-colors hover:border-ti-400 hover:text-ti-700"
+              >
+                Industry details →
+              </a>
+            </div>
+
+            <p class="mt-5 border-l-2 border-ti-400 pl-4 text-sm leading-relaxed text-ink-700">
+              {industry.serviceContext}
+            </p>
+
+            <div class="mt-6 grid gap-6 md:grid-cols-2">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-ink-500">
+                  What actually fails
+                </p>
+                <ul class="mt-3 flex flex-col gap-2 text-sm leading-relaxed text-ink-700">
+                  {industry.failureModes.map((mode) => (
+                    <li class="flex items-start gap-3">
+                      <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ti-50 text-[11px] font-bold text-ti-700">
+                        ✓
+                      </span>
+                      {mode}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-ink-500">
+                  Inspection focus
+                </p>
+                <ul class="mt-3 flex flex-col gap-2 text-sm leading-relaxed text-ink-700">
+                  {industry.inspectionFocus.map((focus) => (
+                    <li class="flex items-start gap-3">
+                      <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ti-50 text-[11px] font-bold text-ti-700">
+                        ✓
+                      </span>
+                      {focus}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Selection by industry -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <h2 class="text-2xl">Grade and Family by Industry</h2>
+      <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+        A starting point, not a prescription. The engineering review checks the grade and the geometry against your
+        drawing and your stated medium before anything is quoted.
+      </p>
+
+      <div class="mt-8 overflow-x-auto">
+        <table class="data-table">
+          <caption class="sr-only">Titanium grade and part family selection by industry</caption>
+          <thead>
+            <tr>
+              <th scope="col">Industry</th>
+              <th scope="col">Priority grades</th>
+              <th scope="col">Part families</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              INDUSTRY_PROFILES.map((industry) => (
+                <tr>
+                  <th scope="row">
+                    <a href={`/industries/${industry.slug}/`} class="text-ti-700 underline underline-offset-2">
+                      {industry.name}
+                    </a>
+                  </th>
+                  <td class="text-ink-600">
+                    {industry.priorityGradeSlugs
+                      .map((slug) => slug.replace(/^grade-/, 'Grade ').replace(/-ti-6al-4v/, ' / Ti-6Al-4V'))
+                      .join(', ')}
+                  </td>
+                  <td class="text-ink-600">
+                    {industry.relatedFamilySlugs
+                      .map(
+                        (slug) =>
+                          PART_FAMILIES.find((family) => family.slug === slug)?.name ?? slug
+                      )
+                      .join(', ')}
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cross links -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">Continue the Selection</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      Industry tells you the environment. The part family tells you the geometry, and the grade tells you the
+      material. All three run through the same machining service.
+    </p>
+
+    <div class="mt-8 grid gap-5 md:grid-cols-3">
+      <a href="/parts/" class="card group p-6 transition-colors hover:border-ti-400">
+        <h3 class="text-lg text-ink-950 transition-colors group-hover:text-ti-700">Part Families</h3>
+        <p class="mt-2 text-sm leading-relaxed text-ink-600">
+          Five machining families with their reference structures, tolerance drivers and inspection focus.
+        </p>
+        <span class="mt-4 inline-block text-sm font-semibold text-ti-700">Browse part families →</span>
+      </a>
+      <a href="/materials/" class="card group p-6 transition-colors hover:border-ti-400">
+        <h3 class="text-lg text-ink-950 transition-colors group-hover:text-ti-700">Titanium Grades</h3>
+        <p class="mt-2 text-sm leading-relaxed text-ink-600">
+          Grade 2, Grade 5, Grade 7 and Grade 9 compared on strength, corrosion and machining behaviour.
+        </p>
+        <span class="mt-4 inline-block text-sm font-semibold text-ti-700">Compare grades →</span>
+      </a>
+      <a href="/titanium-cnc-machining-services/" class="card group p-6 transition-colors hover:border-ti-400">
+        <h3 class="text-lg text-ink-950 transition-colors group-hover:text-ti-700">Machining Services</h3>
+        <p class="mt-2 text-sm leading-relaxed text-ink-600">
+          Process scope, DFM review, dual-source quotation, inspection coordination and export delivery.
+        </p>
+        <span class="mt-4 inline-block text-sm font-semibold text-ti-700">See the service →</span>
+      </a>
+    </div>
+
+    <a
+      href="/case-studies/"
+      class="mt-8 inline-block text-sm font-semibold text-ti-700 underline underline-offset-4"
+    >
+      Worked examples →
+    </a>
+  </section>
+
+  <!-- CTA -->
+  <section class="border-t border-ink-200 bg-ink-950">
+    <div class="container-page py-14">
+      <h2 class="text-2xl text-white">Send the Drawing and the Environment</h2>
+      <p class="mt-3 max-w-2xl leading-relaxed text-ink-300">
+        Tell us the medium, the temperature and the failure you are trying to prevent. We will tell you whether the
+        part fits our scope and which grade and geometry belong in it.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href="/rfq/"
+          class="rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-ink-950 transition-colors hover:bg-ink-100"
+        >
+          Upload Drawing
+        </a>
+        <a
+          href="/contact/"
+          class="rounded-md border border-ink-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ink-800"
+        >
+          Talk to an Engineer
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

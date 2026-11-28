@@ -55,13 +55,31 @@ export function webSiteSchema(): Record<string, unknown> {
   };
 }
 
+/**
+ * Service schema — 加工服务。
+ *
+ * `serviceType` 与 `hasOfferCatalog` 是"服务轴"的语义核心：
+ * 只声明我们真实提供的服务（3/4 轴钛合金铣削、工程评审、双源报价、
+ * 质检协调、出口交付），不声明任何自有工厂或 5 轴能力。
+ */
 export function serviceSchema(
-  overrides: { name?: string; description?: string } = {},
+  overrides: {
+    name?: string;
+    description?: string;
+    serviceType?: string;
+    offerCatalog?: {
+      name: string;
+      description: string;
+      items: { name: string; description: string }[];
+    };
+  } = {},
 ): Record<string, unknown> {
+  const catalog = overrides.offerCatalog;
   return {
     '@type': 'Service',
+    '@id': `${BRAND.url}/#service`,
     name: overrides.name ?? 'Titanium CNC machining',
-    serviceType: 'Titanium CNC machining',
+    serviceType: overrides.serviceType ?? 'Titanium CNC machining services',
     description: overrides.description ?? CAPABILITIES.supplyChain,
     provider: { '@id': ORGANIZATION_ID },
     areaServed: BRAND.serviceArea,
@@ -69,6 +87,143 @@ export function serviceSchema(
       '@type': 'BusinessAudience',
       name: 'Overseas OEM, equipment builders and distributors',
     },
+    ...(catalog
+      ? {
+          hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: catalog.name,
+            description: catalog.description,
+            itemListElement: catalog.items.map((item) => ({
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: item.name,
+                description: item.description,
+              },
+            })),
+          },
+        }
+      : {}),
+  };
+}
+
+/**
+ * Product schema — 加工零部件。
+ *
+ * 规则：不写价格、不写库存、不写 SKU。
+ * 材料牌号、公差、批量等数字从 capabilities.ts 传入，页面层引用。
+ */
+export function productSchema(input: {
+  name: string;
+  description: string;
+  path: string;
+  category?: string;
+  material?: string;
+  additionalProperties?: { name: string; value: string }[];
+}): Record<string, unknown> {
+  return {
+    '@type': 'Product',
+    '@id': `${BRAND.url}${input.path}#product`,
+    name: input.name,
+    description: input.description,
+    url: new URL(input.path, `${BRAND.url}/`).toString(),
+    category: input.category ?? 'Titanium CNC Machined Part',
+    brand: { '@type': 'Brand', name: BRAND.name },
+    manufacturer: { '@id': ORGANIZATION_ID },
+    ...(input.material ? { material: input.material } : {}),
+    ...(input.additionalProperties && input.additionalProperties.length > 0
+      ? {
+          additionalProperty: input.additionalProperties.map((item) => ({
+            '@type': 'PropertyValue',
+            name: item.name,
+            value: item.value,
+          })),
+        }
+      : {}),
+  };
+}
+
+/**
+ * Material schema — 钛材牌号（DefinedTerm）。
+ */
+export function materialSchema(input: {
+  name: string;
+  description: string;
+  path: string;
+  designation?: string;
+}): Record<string, unknown> {
+  return {
+    '@type': 'DefinedTerm',
+    '@id': `${BRAND.url}${input.path}#material`,
+    name: input.name,
+    description: input.description,
+    url: new URL(input.path, `${BRAND.url}/`).toString(),
+    inDefinedTermSet: {
+      '@type': 'DefinedTermSet',
+      '@id': `${BRAND.url}/materials/#grade-set`,
+      name: 'Titanium grades',
+      url: new URL('/materials/', `${BRAND.url}/`).toString(),
+    },
+    ...(input.designation ? { alternateName: input.designation } : {}),
+  };
+}
+
+/**
+ * FAQ schema — 首页常见问题。
+ */
+export function faqSchema(items: { q: string; a: string }[]): Record<string, unknown> {
+  return {
+    '@type': 'FAQPage',
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.a,
+      },
+    })),
+  };
+}
+
+/**
+ * ItemList schema —— 列表型页面（牌号、行业、零件族）的条目清单。
+ */
+export function itemListSchema(input: {
+  name: string;
+  path: string;
+  items: { name: string; path: string }[];
+}): Record<string, unknown> {
+  return {
+    '@type': 'ItemList',
+    '@id': `${BRAND.url}${input.path}#itemlist`,
+    name: input.name,
+    url: new URL(input.path, `${BRAND.url}/`).toString(),
+    numberOfItems: input.items.length,
+    itemListElement: input.items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      url: new URL(item.path, `${BRAND.url}/`).toString(),
+    })),
+  };
+}
+
+/**
+ * CollectionPage schema —— 集合型页面（行业、零件族）。
+ */
+export function collectionPageSchema(input: {
+  name: string;
+  description: string;
+  path: string;
+}): Record<string, unknown> {
+  return {
+    '@type': 'CollectionPage',
+    '@id': `${BRAND.url}${input.path}#collectionpage`,
+    name: input.name,
+    description: input.description,
+    url: new URL(input.path, `${BRAND.url}/`).toString(),
+    isPartOf: { '@id': `${BRAND.url}/#website` },
+    inLanguage: 'en',
   };
 }
 

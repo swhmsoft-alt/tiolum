@@ -10,13 +10,13 @@ import { BRAND } from '../lib/brand';
 const path = Astro.url.pathname;
 
 const links = [
-  { label: 'Capabilities', href: '/capabilities/' },
+  { label: 'Services', href: '/titanium-cnc-machining-services/' },
   { label: 'Parts', href: '/parts/' },
+  { label: 'Materials', href: '/materials/' },
+  { label: 'Industries', href: '/industries/' },
   { label: 'Quality', href: '/quality/' },
-  { label: 'How It Works', href: '/how-it-works/' },
   { label: 'Case Studies', href: '/case-studies/' },
   { label: 'About', href: '/about/' },
-  { label: 'Contact', href: '/contact/' },
 ];
 
 const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(href));

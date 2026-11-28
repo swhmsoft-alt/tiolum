@@ -12,15 +12,70 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { CAPABILITIES } from '../lib/capabilities';
 import { CASE_STUDIES, getPartFamilyName } from '../lib/caseStudies';
-import { breadcrumbSchema, organizationSchema, webSiteSchema } from '../lib/schema';
+import { PART_FAMILIES } from '../lib/parts';
+import { TITANIUM_GRADES } from '../lib/materials';
+import { INDUSTRY_PROFILES } from '../lib/industries';
+import {
+  breadcrumbSchema,
+  faqSchema,
+  organizationSchema,
+  serviceSchema,
+  webSiteSchema,
+} from '../lib/schema';
 
-const title = 'Custom Titanium CNC Machined Parts';
+const title = 'Titanium CNC Machining and Custom Parts';
 const description =
-  'Drawing-based titanium CNC machining supply: 3-axis / 4-axis, ±0.05 mm tolerance, small to medium batches, dual-source quotation and documented inspection.';
+  'Titanium CNC machining from Baoji: 3-axis / 4-axis services, ±0.05 mm tolerance, small to medium batches, plus custom machined parts in five families.';
 
 // 首页无多级面包屑层级，但补单层级 Home 的 BreadcrumbList：
 // 满足结构化数据检查口径，且对搜索引擎而言是合法的面包屑声明。
-const jsonLd = [organizationSchema(), webSiteSchema(), breadcrumbSchema([{ name: 'Home', path: '/' }])];
+// 注意：jsonLd 必须定义在 faqs 之后（TDZ），故放在文件末尾的 faqs 段落之后。
+
+/**
+ * 双驱动枢纽 —— 首页并列两条主线：
+ * A 驱动轴 = 加工服务（工艺与供应链），B 驱动轴 = 加工零部件（选型与行业）。
+ */
+const dualPillars = [
+  {
+    key: 'services',
+    eyebrow: 'Pillar A — Machining Services',
+    heading: 'Titanium CNC Machining Services',
+    lead: `Everything that has to happen around the cut, run as one coordinated service.`,
+    points: [
+      `${CAPABILITIES.processes.join(' and ')}, confirmed against your geometry`,
+      `Tolerance ${CAPABILITIES.tolerance}, evaluated per feature with a DFM review`,
+      `Batch range ${CAPABILITIES.batchRange}`,
+      `Dual-source quotation, FAI and material certificate 3.1 (EN 10204)`,
+      'Mutual NDA before any supplier sees your drawing',
+    ],
+    links: [
+      { label: 'Service details', href: '/titanium-cnc-machining-services/' },
+      { label: 'Capabilities and scope', href: '/capabilities/' },
+      { label: 'Quality and inspection', href: '/quality/' },
+      { label: 'How the order runs', href: '/how-it-works/' },
+    ],
+  },
+  {
+    key: 'parts',
+    eyebrow: 'Pillar B — Machined Parts',
+    heading: 'Custom Titanium CNC Machined Parts',
+    lead: `Five part families, four titanium grades, three industries — all produced to your drawing.`,
+    points: [
+      'Mounting and structural components',
+      'Blocks, housings and manifolds',
+      'Flanges, plates and interfaces',
+      'Tooling, fixtures and end effectors',
+      'Custom and OEM mechanical components',
+    ],
+    links: [
+      { label: 'All part families', href: '/parts/' },
+      { label: 'Choose a titanium grade', href: '/materials/' },
+      { label: 'Parts by industry', href: '/industries/' },
+      { label: 'Worked examples', href: '/case-studies/' },
+    ],
+  },
+] as const;
+
 
 const processSteps = [
   {
@@ -75,7 +130,48 @@ const faqs = [
     q: 'What if my part is outside your scope?',
     a: 'We will decline honestly and, where possible, point you to the right process category.',
   },
+  {
+    q: 'Do you offer machining services without parts?',
+    a: 'Yes. The machining service — 3-axis and 4-axis milling, DFM review, dual-source quotation, inspection coordination and export delivery — is available on its own for buyers who already have their own supply chain. Send the drawing and state that you need the process quoted separately.',
+  },
+  {
+    q: 'Which titanium grade should I use?',
+    a: 'That depends on the service environment rather than on the part. Grade 2 for general corrosion resistance, Grade 5 for structural strength, Grade 7 where reducing acids are involved, Grade 9 for pressure and cold-formed applications. The grade is settled during the engineering review against your drawing and your medium.',
+  },
 ] as const;
+
+/**
+ * 结构化数据 —— 定义在 faqs 之后，避免 const 暂时性死区。
+ * 首页承担双驱动总枢纽角色：Service 的 offerCatalog 同时声明
+ * 「加工服务」与「加工零部件」两条主线。
+ */
+const jsonLd = [
+  organizationSchema(),
+  webSiteSchema(),
+  breadcrumbSchema([{ name: 'Home', path: '/' }]),
+  serviceSchema({
+    name: 'Titanium CNC machining services and custom titanium machined parts',
+    serviceType: 'Titanium CNC machining services',
+    description: `${CAPABILITIES.processes.join(' / ')} titanium machining coordinated from Baoji, China, with drawing-based custom titanium parts across five part families.`,
+    offerCatalog: {
+      name: 'Titanium CNC machining catalogue',
+      description:
+        'Machining services and part families available from one coordinated titanium supply chain.',
+      items: [
+        {
+          name: 'Titanium CNC machining services',
+          description: `3-axis and 4-axis titanium milling within ${CAPABILITIES.tolerance}, batch sizes ${CAPABILITIES.batchRange}, with DFM review, dual-source quotation and documented inspection.`,
+        },
+        {
+          name: 'Custom titanium machined parts',
+          description:
+            'Drawing-based titanium parts in five families: mounting and structural components, blocks, housings and manifolds, flanges, plates and interfaces, tooling and end effectors, and custom OEM mechanical components.',
+        },
+      ],
+    },
+  }),
+  faqSchema(faqs.map((item) => ({ q: item.q, a: item.a }))),
+];
 ---
 
 <BaseLayout title={title} description={description} path="/" jsonLd={jsonLd}>
@@ -85,8 +181,12 @@ const faqs = [
       <p class="eyebrow">Titanium CNC Machining</p>
       <h1 class="mt-4 max-w-4xl text-4xl md:text-5xl">{title}</h1>
       <p class="mt-5 max-w-3xl text-lg leading-relaxed text-ink-600">
-        3-axis / 4-axis machining · {CAPABILITIES.tolerance} · Drawing-based custom parts · Small to medium
-        batches.
+        Two ways to work with us: buy the machining service, or buy the part the service produces. Both run through
+        the same Baoji supplier network, the same dual-source quotation and the same inspection plan.
+      </p>
+      <p class="mt-4 max-w-3xl leading-relaxed text-ink-600">
+        {CAPABILITIES.processes.join(' / ')} · {CAPABILITIES.tolerance} · {CAPABILITIES.batchRange} ·
+        {CAPABILITIES.materials.join(', ')}.
       </p>
       <p class="mt-4 max-w-2xl leading-relaxed text-ink-600">
         Upload your drawing for a manufacturability review and quotation. We will tell you honestly if it is
@@ -100,10 +200,16 @@ const faqs = [
           Upload Drawing / Request Quote
         </a>
         <a
-          href="/capabilities/"
+          href="/titanium-cnc-machining-services/"
           class="rounded-md border border-ink-300 px-6 py-3 text-sm font-semibold text-ink-800 transition-colors hover:bg-ink-50"
         >
-          Check Machining Capability
+          Machining Services
+        </a>
+        <a
+          href="/parts/"
+          class="rounded-md border border-ink-300 px-6 py-3 text-sm font-semibold text-ink-800 transition-colors hover:bg-ink-50"
+        >
+          Machined Parts
         </a>
       </div>
     </div>
@@ -115,6 +221,44 @@ const faqs = [
       <ul class="flex flex-wrap items-center gap-x-8 gap-y-3 text-sm font-medium text-ink-600">
         {CAPABILITIES.trustBar.map((item) => <li>{item}</li>)}
       </ul>
+    </div>
+  </section>
+
+  <!-- 3. Dual-drive hub -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">Two Ways In</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      Most buyers arrive with one of two questions: can you machine this, and can you make this part. Both answers
+      are below, and both lead to the same drawing upload.
+    </p>
+
+    <div class="mt-8 grid gap-5 lg:grid-cols-2">
+      {
+        dualPillars.map((pillar) => (
+          <div class="card flex flex-col p-6">
+            <p class="eyebrow">{pillar.eyebrow}</p>
+            <h3 class="mt-3 text-xl text-ink-950">{pillar.heading}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-ink-600">{pillar.lead}</p>
+            <ul class="mt-4 flex flex-col gap-2 text-sm leading-relaxed text-ink-700">
+              {pillar.points.map((point) => (
+                <li class="flex items-start gap-3">
+                  <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ti-50 text-[11px] font-bold text-ti-700">
+                    ✓
+                  </span>
+                  {point}
+                </li>
+              ))}
+            </ul>
+            <div class="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-ink-200 pt-4 text-sm">
+              {pillar.links.map((link) => (
+                <a href={link.href} class="font-semibold text-ti-700 underline underline-offset-4">
+                  {link.label} →
+                </a>
+              ))}
+            </div>
+          </div>
+        ))
+      }
     </div>
   </section>
 
@@ -159,6 +303,13 @@ const faqs = [
             <th scope="row">Inspection</th>
             <td>{CAPABILITIES.inspection.join(', ')}</td>
           </tr>
+          <tr>
+            <th scope="row">Lead time</th>
+            <td>
+              Confirmed per order after drawing review. Manufacturing time at the supplier depends on the batch
+              size.
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -177,7 +328,7 @@ const faqs = [
       <h2 class="text-2xl">Part Families We Focus On</h2>
       <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {
-          CAPABILITIES.partFamilies.map((family) => (
+          PART_FAMILIES.map((family) => (
             <a href={`/parts/${family.slug}/`} class="card group p-5 transition-colors hover:border-ti-400">
               <h3 class="text-lg text-ink-950">{family.name}</h3>
               <p class="mt-2 text-sm leading-relaxed text-ink-600">{family.description}</p>
@@ -186,6 +337,71 @@ const faqs = [
           ))
         }
       </div>
+    </div>
+  </section>
+
+  <!-- 4b. Materials axis -->
+  <section class="container-page py-14">
+    <h2 class="text-2xl">Choose the Titanium Grade</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      {CAPABILITIES.materials.join(', ')} are all available, and the grade changes how the part is machined and
+      finished. Compare the options, or send the drawing and let the engineering review settle it.
+    </p>
+
+    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        TITANIUM_GRADES.map((grade) => (
+          <a
+            href={`/materials/${grade.slug}/`}
+            class="card group flex flex-col p-5 transition-colors hover:border-ti-400"
+          >
+            <h3 class="text-lg text-ink-950 transition-colors group-hover:text-ti-700">{grade.name}</h3>
+            <p class="mt-1 text-xs text-ink-500">{grade.designation}</p>
+            <p class="mt-3 text-sm leading-relaxed text-ink-600">{grade.shortDescription}</p>
+            <span class="mt-4 inline-block text-sm font-semibold text-ti-700">Grade details →</span>
+          </a>
+        ))
+      }
+    </div>
+
+    <a
+      href="/materials/"
+      class="mt-6 inline-block text-sm font-semibold text-ti-700 underline underline-offset-4"
+    >
+      Full grade selection guide →
+    </a>
+  </section>
+
+  <!-- 4c. Industries axis -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-14">
+      <h2 class="text-2xl">Parts by Industry</h2>
+      <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+        The same process scope, applied to three service environments. Each one has its own failure modes, and they
+        decide which grade and which part family belong in the drawing.
+      </p>
+
+      <div class="mt-8 grid gap-5 md:grid-cols-3">
+        {
+          INDUSTRY_PROFILES.map((industry) => (
+            <a
+              href={`/industries/${industry.slug}/`}
+              class="card group flex flex-col p-5 transition-colors hover:border-ti-400"
+            >
+              <h3 class="text-lg text-ink-950 transition-colors group-hover:text-ti-700">{industry.name}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-600">{industry.shortDescription}</p>
+              <span class="mt-4 inline-block text-sm font-semibold text-ti-700">Industry details →</span>
+            </a>
+          ))
+        }
+      </div>
+
+      <a
+        href="/industries/"
+        class="mt-6 inline-block text-sm font-semibold text-ti-700 underline underline-offset-4"
+      >
+        All industry applications →
+      </a>
     </div>
   </section>
 

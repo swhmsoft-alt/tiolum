@@ -1,0 +1,472 @@
+---
+/**
+ * /titanium-cnc-machining-services/ — 驱动轴 A 的顶层服务支柱页。
+ *
+ * 定位：承接"Titanium CNC Machining Services"主域名意图，与
+ * /parts/（驱动轴 B）构成双驱动主题集群。首页是总枢纽，本页是服务轴的深度承接。
+ *
+ * 规则：
+ * - 所有能力数字（公差 / 批量 / 交期 / 材料 / 后处理 / 检验）从 CAPABILITIES 引用。
+ * - 不出现价格、库存、SKU 编号、现货交期。
+ * - 不声明自有工厂，不声明 5 轴能力（notOffered 拒接项照常呈现）。
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CAPABILITIES } from '../../lib/capabilities';
+import { PART_FAMILIES } from '../../lib/parts';
+import { TITANIUM_GRADES } from '../../lib/materials';
+import { breadcrumbSchema, faqSchema, serviceSchema } from '../../lib/schema';
+
+const title = 'Titanium CNC Machining Services';
+const description = 'Titanium CNC machining services coordinated from Baoji: 3-axis / 4-axis, ±0.05 mm, dual-source quotation, FAI and EN 10204 3.1 certificates.';
+
+const path = '/titanium-cnc-machining-services/';
+
+/** 服务目录：hasOfferCatalog 的数据源，同时渲染为页面上的服务模块。 */
+const serviceModules = [
+  {
+    id: 'process',
+    heading: '3-Axis and 4-Axis Titanium Milling',
+    body: `Every part is machined within ${CAPABILITIES.processes.join(' and ')}. Before anything is quoted we check that the geometry, the tool reach and the fixturing actually work in that envelope — if a drawing needs simultaneous multi-axis control, we say so and decline rather than quote it optimistically.`,
+    points: [
+      `Process scope: ${CAPABILITIES.processes.join(', ')}`,
+      `Maximum envelope: ${CAPABILITIES.maxPartSize.milling}`,
+      CAPABILITIES.maxPartSize.note,
+    ],
+  },
+  {
+    id: 'tolerance',
+    heading: `Tolerance and DFM Review at ${CAPABILITIES.tolerance}`,
+    body: 'Tolerance is not a blanket number we paste into every quotation. It is evaluated feature by feature against your drawing — hole position, flatness, bore concentricity, seal-face flatness — and the features that cannot hold the callout are named during the engineering review, before you commit.',
+    points: [
+      `Standard tolerance: ${CAPABILITIES.tolerance}`,
+      'DFM review: datum scheme, feature accessibility, tool reach, distortion risk in thin sections',
+      'A go / no-go decision with the reason attached',
+    ],
+  },
+  {
+    id: 'batch',
+    heading: `Production Batches from ${CAPABILITIES.batchRange}`,
+    body: `We quote prototype and medium batches on the same inspection footing as larger runs. The batch size changes the scheduling and the setup approach; it does not change the document set you receive.`,
+    points: [
+      `Batch range: ${CAPABILITIES.batchRange}`,
+      ...CAPABILITIES.leadTimes.map((item) => `${item.batch}: ${item.days}`),
+      `Finishing add-on: ${CAPABILITIES.finishingAddOn}`,
+    ],
+  },
+  {
+    id: 'finishing',
+    heading: 'Surface Finishing',
+    body: 'Finishing is a separate processing step with its own supplier and its own record. It is quoted as a separate line so you can see exactly what is included in the machining scope and what is not.',
+    points: [...CAPABILITIES.finishing],
+  },
+] as const;
+
+const faqs = [
+  {
+    q: 'Do you own a factory?',
+    a: 'No. We coordinate a qualified network of titanium CNC machining suppliers in Baoji, China, and manage engineering review, dual-source quotation, inspection coordination and export delivery.',
+  },
+  {
+    q: 'What tolerance can you hold?',
+    a: `Typically ${CAPABILITIES.tolerance}. Tolerance is confirmed per feature against your drawing before quoting.`,
+  },
+  {
+    q: 'Will my drawing be shared with suppliers?',
+    a: 'Not before a mutual NDA is in place. Drawings are reviewed internally first; supplier contact happens only after scope is confirmed.',
+  },
+  {
+    q: 'Do you accept small batches?',
+    a: `Yes. ${CAPABILITIES.batchRange}. Small batches are quoted with the same inspection process as larger orders.`,
+  },
+  {
+    q: 'Can you do 5-axis machining?',
+    a: 'No. 5-axis complex surfaces sit outside the 3/4-axis scope of our qualified suppliers, so we decline them at review stage rather than quote them optimistically.',
+  },
+] as const;
+
+const jsonLd = [
+  serviceSchema({
+    name: 'Titanium CNC machining services',
+    serviceType: 'Titanium CNC machining services',
+    description: `${CAPABILITIES.processes.join(' / ')} titanium machining coordinated from Baoji, China.`,
+    offerCatalog: {
+      name: 'Titanium CNC machining service catalogue',
+      description:
+        'The titanium machining services we coordinate: 3/4-axis milling, engineering review, prototype to medium batch production, surface finishing, dual-source quotation and inspection coordination.',
+      items: serviceModules.map((module) => ({
+        name: module.heading,
+        description: module.body,
+      })),
+    },
+  }),
+  breadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Titanium CNC Machining Services', path },
+  ]),
+  faqSchema(faqs.map((item) => ({ q: item.q, a: item.a }))),
+];
+---
+
+<BaseLayout title={title} description={description} path={path} jsonLd={jsonLd}>
+  <!-- Hero -->
+  <section class="border-b border-ink-200 bg-white">
+    <div class="container-page py-20 md:py-28">
+      <p class="eyebrow">Machining Services</p>
+      <h1 class="mt-4 max-w-4xl text-4xl md:text-5xl">{title}</h1>
+      <p class="mt-5 max-w-3xl text-lg leading-relaxed text-ink-600">
+        {CAPABILITIES.processes.join(' / ')} · {CAPABILITIES.tolerance} · {CAPABILITIES.batchRange} ·
+        {CAPABILITIES.supplyChain}.
+      </p>
+      <p class="mt-4 max-w-2xl leading-relaxed text-ink-600">
+        Upload your drawing for a manufacturability review and quotation. We will tell you honestly if it is
+        outside our scope.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a
+          href="/rfq/"
+          class="rounded-md bg-ti-700 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-ti-600"
+        >
+          Upload Drawing / Request Quote
+        </a>
+        <a
+          href="/parts/"
+          class="rounded-md border border-ink-300 px-6 py-3 text-sm font-semibold text-ink-800 transition-colors hover:bg-ink-50"
+        >
+          See the Parts We Machine →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust bar -->
+  <section class="border-b border-ink-200 bg-ink-50">
+    <div class="container-page py-6">
+      <ul class="flex flex-wrap items-center gap-x-8 gap-y-3 text-sm font-medium text-ink-600">
+        {CAPABILITIES.trustBar.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Capability snapshot -->
+  <section class="border-b border-ink-200 bg-ink-50">
+    <div class="container-page py-16">
+      <h2 class="text-2xl">Capability Snapshot</h2>
+      <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+        The parameters below are confirmed before quotation. Anything outside this table goes through an engineering
+        review first.
+      </p>
+
+      <div class="mt-8 overflow-x-auto">
+        <table class="data-table">
+          <caption class="sr-only">Titanium CNC machining service capability snapshot</caption>
+          <thead>
+            <tr>
+              <th scope="col">Item</th>
+              <th scope="col">Specification</th>
+              <th scope="col">Boundary</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Process</th>
+              <td>{CAPABILITIES.processes.join(', ')}</td>
+              <td class="text-ink-500">5-axis is not in scope.</td>
+            </tr>
+            <tr>
+              <th scope="row">Tolerance</th>
+              <td>{CAPABILITIES.tolerance}</td>
+              <td class="text-ink-500">Evaluated by feature and drawing; not a blanket guarantee.</td>
+            </tr>
+            <tr>
+              <th scope="row">Materials</th>
+              <td>{CAPABILITIES.materials.join(', ')}</td>
+              <td class="text-ink-500">Grades outside this list may be reviewed case by case.</td>
+            </tr>
+            <tr>
+              <th scope="row">Batch range</th>
+              <td>{CAPABILITIES.batchRange}</td>
+              <td class="text-ink-500">Repeat orders are quoted from the archived drawing record.</td>
+            </tr>
+            <tr>
+              <th scope="row">Finishing</th>
+              <td>{CAPABILITIES.finishing.join(', ')}</td>
+              <td class="text-ink-500">Only processes our qualified suppliers actually support are listed.</td>
+            </tr>
+            <tr>
+              <th scope="row">Max part size</th>
+              <td>
+                Milling: {CAPABILITIES.maxPartSize.milling}<br />
+                Turning: {CAPABILITIES.maxPartSize.turning}
+              </td>
+              <td class="text-ink-500">{CAPABILITIES.maxPartSize.note}</td>
+            </tr>
+            <tr>
+              <th scope="row">Inspection</th>
+              <td>{CAPABILITIES.inspection.join(', ')}</td>
+              <td class="text-ink-500">Inspection plan is agreed before quotation, not after production.</td>
+            </tr>
+            <tr>
+              <th scope="row">Supply chain</th>
+              <td>{CAPABILITIES.supplyChain}</td>
+              <td class="text-ink-500">Supplier identities are never disclosed.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <a
+        href="/capabilities/"
+        class="mt-6 inline-block text-sm font-semibold text-ti-700 underline underline-offset-4"
+      >
+        Full capabilities and scope boundaries →
+      </a>
+    </div>
+  </section>
+
+  <!-- A1: Service modules -->
+  <section class="container-page py-16">
+    <h2 class="text-2xl">What the Service Covers</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      Four service elements decide whether your part can be made and whether it can be documented. Each one is
+      confirmed before you place an order.
+    </p>
+
+    <div class="mt-8 grid gap-5 md:grid-cols-2">
+      {
+        serviceModules.map((module) => (
+          <div class="card p-6">
+            <h3 class="text-lg text-ink-950">{module.heading}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-ink-600">{module.body}</p>
+            <ul class="mt-4 flex flex-col gap-2 text-sm text-ink-700">
+              {module.points.map((point) => (
+                <li class="flex items-start gap-3">
+                  <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ti-50 text-[11px] font-bold text-ti-700">
+                    ✓
+                  </span>
+                  {point}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- A2: Supply chain & inspection -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-16">
+      <h2 class="text-2xl">Supply Chain and Inspection Services</h2>
+      <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+        The service is not only the cutting. It is the sourcing, the traceability and the paperwork that make a
+        delivered part usable in your own assembly.
+      </p>
+
+      <div class="mt-8 grid gap-5 lg:grid-cols-3">
+        <div class="card p-6">
+          <h3 class="text-lg text-ink-950">Dual-Source Quotation</h3>
+          <p class="mt-3 text-sm leading-relaxed text-ink-600">
+            The same drawing revision is quoted independently by two qualified suppliers in Baoji. We compare the
+            process plan, the material source, the inspection capability and the lead time — not only the
+            commercial terms — and merge the two into one offer you can compare against the market.
+          </p>
+          <a
+            href="/quality/"
+            class="mt-4 inline-block text-sm font-semibold text-ti-700 underline underline-offset-4"
+          >
+            How dual sourcing protects you →
+          </a>
+        </div>
+
+        <div class="card p-6">
+          <h3 class="text-lg text-ink-950">Inspection and Material Traceability</h3>
+          <p class="mt-3 text-sm leading-relaxed text-ink-600">
+            The inspection plan is agreed before quotation, so the document set is known before you order. You
+            receive:
+          </p>
+          <ul class="mt-4 flex flex-col gap-2 text-sm text-ink-700">
+            {CAPABILITIES.inspection.map((doc) => (
+              <li class="flex items-start gap-3">
+                <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ti-50 text-[11px] font-bold text-ti-700">
+                  ✓
+                </span>
+                {doc}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="card p-6">
+          <h3 class="text-lg text-ink-950">IP Protection and Export Delivery</h3>
+          <p class="mt-3 text-sm leading-relaxed text-ink-600">
+            Your drawing is reviewed internally first. No supplier sees it before a mutual NDA is in place. After
+            production, the parts leave Baoji with export documents — commercial invoice, packing list, bill of
+            lading, certificate of origin where it applies — and the drawing record is archived so a repeat order
+            starts from a known-good specification.
+          </p>
+          <a
+            href="/how-it-works/"
+            class="mt-4 inline-block text-sm font-semibold text-ti-700 underline underline-offset-4"
+          >
+            See the eight-step process →
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-10 overflow-x-auto">
+        <table class="data-table">
+          <caption class="sr-only">Quotation and review steps with confirmed response timing</caption>
+          <thead>
+            <tr>
+              <th scope="col">Step</th>
+              <th scope="col">Time</th>
+              <th scope="col">What you receive</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              CAPABILITIES.responseTimes.map((row, index) => (
+                <tr>
+                  <th scope="row">{row.step}</th>
+                  <td>{row.time}</td>
+                  <td class="text-ink-600">
+                    {index === 0
+                      ? 'Acknowledgement and drawing review started'
+                      : index === 1
+                        ? 'Feasibility, tolerance and DFM notes'
+                        : index === 2
+                          ? 'Consolidated dual-source offer with confirmed lead time'
+                          : 'Order confirmation, inspection plan and archived drawing record'}
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cross-link: parts axis -->
+  <section class="container-page py-16">
+    <h2 class="text-2xl">Parts We Machine With This Service</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      The same process, tolerance and inspection rules apply to every part family below. Pick the geometry that
+      matches your drawing, or send us the drawing directly.
+    </p>
+
+    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        PART_FAMILIES.map((family) => (
+          <a
+            href={`/parts/${family.slug}/`}
+            class="card group p-5 transition-colors hover:border-ti-400"
+          >
+            <h3 class="text-lg text-ink-950 transition-colors group-hover:text-ti-700">{family.name}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-600">{family.shortDescription}</p>
+            <span class="mt-4 inline-block text-sm font-semibold text-ti-700">View part family →</span>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm">
+      <a href="/materials/" class="font-semibold text-ti-700 underline underline-offset-4">
+        Choose a titanium grade →
+      </a>
+      <a href="/industries/" class="font-semibold text-ti-700 underline underline-offset-4">
+        Parts by industry →
+      </a>
+      <a href="/case-studies/" class="font-semibold text-ti-700 underline underline-offset-4">
+        Worked examples →
+      </a>
+    </div>
+  </section>
+
+  <!-- Materials axis link -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-16">
+      <h2 class="text-2xl">Grades Available Under This Service</h2>
+      <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+        {CAPABILITIES.materials.join(', ')} are all available. The grade you choose changes how the part is
+        machined and finished, so it is settled during the engineering review rather than assumed.
+      </p>
+
+      <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          TITANIUM_GRADES.map((grade) => (
+            <a
+              href={`/materials/${grade.slug}/`}
+              class="card group p-5 transition-colors hover:border-ti-400"
+            >
+              <h3 class="text-lg text-ink-950 transition-colors group-hover:text-ti-700">{grade.name}</h3>
+              <p class="mt-1 text-xs text-ink-500">{grade.designation}</p>
+              <p class="mt-3 text-sm leading-relaxed text-ink-600">{grade.shortDescription}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Scope boundary -->
+  <section class="container-page py-16">
+    <h2 class="text-2xl">What We Do Not Machine</h2>
+    <p class="mt-3 max-w-3xl leading-relaxed text-ink-600">
+      Declining honestly is part of the service. These requests are outside the 3/4-axis scope of our qualified
+      suppliers, and we say so at review stage rather than after you have committed.
+    </p>
+    <ul class="mt-6 flex flex-col gap-3">
+      {
+        CAPABILITIES.notOffered.map((item) => (
+          <li class="flex flex-col gap-1 border-l-2 border-warn-500 bg-warn-50 px-4 py-3">
+            <span class="font-semibold text-ink-950">{item.item}</span>
+            <span class="text-sm text-ink-600">— {item.reason}.</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- FAQ -->
+  <section class="border-t border-ink-200 bg-ink-50">
+    <div class="container-page py-16">
+      <h2 class="text-2xl">Frequently Asked Questions</h2>
+      <div class="mt-8 flex flex-col gap-8">
+        {
+          faqs.map((item) => (
+            <div>
+              <h3 class="text-lg">{item.q}</h3>
+              <p class="mt-2 max-w-3xl leading-relaxed text-ink-600">{item.a}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="border-t border-ink-200 bg-ink-950">
+    <div class="container-page py-16">
+      <h2 class="text-2xl text-white">Have a Drawing?</h2>
+      <p class="mt-3 max-w-2xl leading-relaxed text-ink-300">
+        Send the drawing and we will confirm whether it fits the 3/4-axis scope, what tolerance is realistic per
+        feature, and which documents apply — before quotation.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href="/rfq/"
+          class="rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-ink-950 transition-colors hover:bg-ink-100"
+        >
+          Upload Drawing
+        </a>
+        <a
+          href="/contact/"
+          class="rounded-md border border-ink-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ink-800"
+        >
+          Talk to an Engineer
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

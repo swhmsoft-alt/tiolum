@@ -4,6 +4,7 @@
 
 ## Capabilities
 
+- [Titanium CNC Machining Services](https://titaniumcncmachining.com/titanium-cnc-machining-services/): The full service offer — 3/4-axis milling, tolerance and DFM review, batch supply, surface finishing, dual-source quotation, inspection and NDA handling.
 - [Machining Capabilities](https://titaniumcncmachining.com/capabilities/): Materials, tolerance, finishing, batch sizes, lead times, inspection documents, and the explicit list of what is not machined.
 - [Quality Documents](https://titaniumcncmachining.com/quality/): How inspection is carried out and which documents ship with an order.
 - [How We Work](https://titaniumcncmachining.com/how-it-works/): The quotation and production workflow from drawing review to export delivery.
@@ -16,6 +17,21 @@
 - [Tooling, Fixtures & End Effectors](https://titaniumcncmachining.com/parts/tooling-fixtures-end-effectors/): Titanium locating blocks and robot mounting bases for tooling and automation.
 - [Custom Mechanical Components](https://titaniumcncmachining.com/parts/custom-mechanical-components/): Remaining custom-machined titanium parts, each reviewed against its drawing.
 - [All Parts](https://titaniumcncmachining.com/parts/): Index of every part family and product page.
+
+## Materials
+
+- [Titanium Grades for CNC Machining](https://titaniumcncmachining.com/materials/): Selection guide for Grade 2, Grade 5, Grade 7 and Grade 9 — mechanical properties, corrosion behaviour, machining notes and a side-by-side comparison matrix.
+- [Grade 2](https://titaniumcncmachining.com/materials/grade-2/): Commercially pure titanium — the most formable grade, strong corrosion resistance in mildly aggressive media.
+- [Grade 5 / Ti-6Al-4V](https://titaniumcncmachining.com/materials/grade-5-ti-6al-4v/): The default structural titanium alloy — high specific strength with good corrosion resistance.
+- [Grade 7](https://titaniumcncmachining.com/materials/grade-7/): Ti-6Al-4V with niobium — the crevice-corrosion upgrade for reducing acid service.
+- [Grade 9 / Ti-3Al-2.5V](https://titaniumcncmachining.com/materials/grade-9/): Cold-formable alpha-beta alloy for pressure and spring applications.
+
+## Industries
+
+- [Industry Applications](https://titaniumcncmachining.com/industries/): Which failure mode each service environment produces, and the grade and part family that answer it.
+- [Chemical Processing](https://titaniumcncmachining.com/industries/chemical-processing/): Wetted flanges, manifold blocks, housings and covers for chemical process skids and pipework.
+- [Electroplating Equipment](https://titaniumcncmachining.com/industries/electroplating/): Immersed racks, carriers, brackets and covers for plating lines and anodising baths.
+- [Industrial Automation and Robotics](https://titaniumcncmachining.com/industries/industrial-automation/): Lightweight robot bases, gripper hardware, locating blocks and brackets for automation cells.
 
 ## Company
 

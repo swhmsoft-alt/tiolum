@@ -100,6 +100,10 @@ const ROLE_RULES = {
     minWords: 600,
   },
   'parts-hub': { required: ['toleranceNum', 'materialGrade', 'batch', 'inspection'], minWords: 500 },
+  'materials-hub': { required: ['toleranceNum', 'materialGrade', 'batch', 'inspection'], minWords: 500 },
+  material: { required: ['toleranceNum', 'materialGrade', 'batch', 'inspection'], minWords: 500 },
+  'industries-hub': { required: ['toleranceNum', 'materialGrade', 'batch', 'inspection'], minWords: 500 },
+  industry: { required: ['toleranceNum', 'materialGrade', 'batch', 'inspection'], minWords: 500 },
   service: { required: ['toleranceNum', 'materialName', 'leadTime', 'inspection'], minWords: 300 },
   rfq: { required: ['responseTime', 'materialName'], minWords: 200 },
   case: { required: ['toleranceNum', 'materialName', 'batch', 'leadTime', 'inspection'], minWords: 400 },
@@ -112,9 +116,16 @@ function roleOf(url) {
   if (/^\/parts\/[^/]+\/[^/]+\/$/.test(url)) return 'product';
   if (/^\/parts\/[^/]+\/$/.test(url)) return 'family';
   if (url === '/parts/') return 'parts-hub';
+  if (url === '/materials/') return 'materials-hub';
+  if (/^\/materials\/[^/]+\/$/.test(url)) return 'material';
+  if (url === '/industries/') return 'industries-hub';
+  if (/^\/industries\/[^/]+\/$/.test(url)) return 'industry';
   if (/^\/case-studies\/[^/]+\/$/.test(url)) return 'case';
   if (url === '/case-studies/') return 'case-hub';
-  if (['/capabilities/', '/how-it-works/', '/quality/'].includes(url)) return 'service';
+  if (
+    ['/capabilities/', '/how-it-works/', '/quality/', '/titanium-cnc-machining-services/'].includes(url)
+  )
+    return 'service';
   if (url === '/rfq/') return 'rfq';
   return 'trust';
 }
